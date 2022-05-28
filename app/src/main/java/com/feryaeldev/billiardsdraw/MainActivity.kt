@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.feryaeldev.billiardsdraw.ui.theme.BilliardsDrawTheme
-import com.feryaeldev.billiardsdraw.ui.view.navigation.BilliardsDrawTopBar
-import com.feryaeldev.billiardsdraw.ui.view.navigation.NavigationManager
+import com.feryaeldev.billiardsdraw.ui.navigation.BilliardsDrawTopBar
+import com.feryaeldev.billiardsdraw.ui.navigation.NavigationManager
 
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {

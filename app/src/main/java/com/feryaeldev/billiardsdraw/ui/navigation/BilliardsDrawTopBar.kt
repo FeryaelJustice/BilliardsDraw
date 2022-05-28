@@ -1,4 +1,4 @@
-package com.feryaeldev.billiardsdraw.ui.view.navigation
+package com.feryaeldev.billiardsdraw.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController

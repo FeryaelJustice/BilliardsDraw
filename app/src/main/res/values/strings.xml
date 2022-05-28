@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">BilliardsDraw</string>
+    <string name="app_name" translatable="false">Billiards Draw</string>
+
+    <string name="welcome">Welcome to</string>
 </resources>
