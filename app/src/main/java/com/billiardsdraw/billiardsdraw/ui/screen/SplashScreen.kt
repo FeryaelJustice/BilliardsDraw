@@ -1,4 +1,4 @@
-package com.feryaeldev.billiardsdraw.ui.screen
+package com.billiardsdraw.billiardsdraw.ui.screen
 
 import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.Animatable
@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
-import com.feryaeldev.billiardsdraw.R
-import com.feryaeldev.billiardsdraw.ui.navigation.Routes
+import com.billiardsdraw.billiardsdraw.R
+import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import kotlinx.coroutines.delay
 
 @Composable

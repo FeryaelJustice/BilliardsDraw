@@ -1,4 +1,4 @@
-package com.feryaeldev.billiardsdraw
+package com.billiardsdraw.billiardsdraw
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,9 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.feryaeldev.billiardsdraw.ui.theme.BilliardsDrawTheme
-import com.feryaeldev.billiardsdraw.ui.navigation.BilliardsDrawTopBar
-import com.feryaeldev.billiardsdraw.ui.navigation.NavigationManager
+import com.billiardsdraw.billiardsdraw.ui.theme.BilliardsDrawTheme
+import com.billiardsdraw.billiardsdraw.ui.navigation.BilliardsDrawTopBar
+import com.billiardsdraw.billiardsdraw.ui.navigation.NavigationManager
 
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {

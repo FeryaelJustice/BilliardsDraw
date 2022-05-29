@@ -1,4 +1,4 @@
-package com.feryaeldev.billiardsdraw.ui.theme
+package com.billiardsdraw.billiardsdraw.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

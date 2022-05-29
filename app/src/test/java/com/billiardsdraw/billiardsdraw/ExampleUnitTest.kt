@@ -1,4 +1,4 @@
-package com.feryaeldev.billiardsdraw
+package com.billiardsdraw.billiardsdraw
 
 import org.junit.Test
 

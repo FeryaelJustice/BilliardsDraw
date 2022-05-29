@@ -1,4 +1,4 @@
-package com.feryaeldev.billiardsdraw.ui.navigation
+package com.billiardsdraw.billiardsdraw.ui.navigation
 
 sealed class Routes(val route: String) {
     object SplashScreen: Routes("SplashScreen")
