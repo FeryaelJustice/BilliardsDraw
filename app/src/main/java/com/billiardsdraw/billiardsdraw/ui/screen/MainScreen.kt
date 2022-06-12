@@ -65,6 +65,7 @@ fun MainScreen(navController: NavHostController) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = stringResource(id = R.string.welcome) + " " + stringResource(id = R.string.app_name),
+                        color = Color.White,
                         modifier = Modifier
                             .fillMaxWidth(),
                         textAlign = TextAlign.Center,
@@ -95,7 +96,10 @@ fun MainScreen(navController: NavHostController) {
                         modifier = Modifier.background(Color.White)
                     )
                     Spacer(modifier = Modifier.height(1.dp))
-                    Button(onClick = { navController.navigate(Routes.BoardScreen.route) }, modifier = Modifier.width(160.dp)) {
+                    Button(
+                        onClick = { navController.navigate(Routes.BoardScreen.route) },
+                        modifier = Modifier.width(160.dp)
+                    ) {
                         Text(
                             text = "Iniciar sesión"
                         )
@@ -105,6 +109,7 @@ fun MainScreen(navController: NavHostController) {
                         Checkbox(checked = true, onCheckedChange = {})
                         Text(
                             text = "Mantener sesión iniciada",
+                            color = Color.White,
                             modifier = Modifier
                                 .align(Alignment.CenterVertically)
                         )
@@ -115,10 +120,15 @@ fun MainScreen(navController: NavHostController) {
                         Modifier
                             .clickable { }
                             .fillMaxWidth()
-                            .align(Alignment.Start)
+                            .align(Alignment.Start),
+                        color = Color.White
                     )
                     Spacer(modifier = Modifier.height(4.dp))
-                    Text(text = "¿Acabas de llegar?", fontWeight = FontWeight.Bold)
+                    Text(
+                        text = "¿Acabas de llegar?",
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
+                    )
                     Spacer(modifier = Modifier.height(4.dp))
                     Button(onClick = { /*TODO*/ }, modifier = Modifier.width(120.dp)) {
                         Text(
