@@ -1,6 +1,5 @@
 package com.billiardsdraw.billiardsdraw.ui.screen
 
-import android.widget.Space
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,7 +21,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -32,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.billiardsdraw.billiardsdraw.R
+import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 
 @Composable
 fun MainScreen(navController: NavHostController) {
@@ -95,6 +94,12 @@ fun MainScreen(navController: NavHostController) {
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                         modifier = Modifier.background(Color.White)
                     )
+                    Spacer(modifier = Modifier.height(1.dp))
+                    Button(onClick = { navController.navigate(Routes.BoardScreen.route) }, modifier = Modifier.width(160.dp)) {
+                        Text(
+                            text = "Iniciar sesión"
+                        )
+                    }
                     Spacer(modifier = Modifier.height(1.dp))
                     Row() {
                         Checkbox(checked = true, onCheckedChange = {})

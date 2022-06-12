@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.billiardsdraw.billiardsdraw.ui.screen.BoardScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.MainScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.SplashScreen
 
@@ -15,6 +16,9 @@ fun NavigationManager(navController: NavHostController){
         }
         composable(Routes.MainScreen.route){
             MainScreen(navController)
+        }
+        composable(Routes.BoardScreen.route) {
+            BoardScreen(navController)
         }
     }
 }
