@@ -3,7 +3,7 @@ package com.billiardsdraw.billiardsdraw.ui.screen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*;
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.Card
@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -31,9 +32,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
+import com.billiardsdraw.billiardsdraw.ui.util.showToastLong
 
 @Composable
 fun MainScreen(navController: NavHostController) {
+    val context = LocalContext.current
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     Box(modifier = Modifier.fillMaxSize()) {
@@ -97,7 +100,10 @@ fun MainScreen(navController: NavHostController) {
                     )
                     Spacer(modifier = Modifier.height(1.dp))
                     Button(
-                        onClick = { navController.navigate(Routes.BoardScreen.route) },
+                        onClick = {
+                            navController.navigate(Routes.CarambolaScreen.route)
+                            showToastLong(context = context,"Welcome to Billiards Draw!")
+                        },
                         modifier = Modifier.width(160.dp)
                     ) {
                         Text(
@@ -105,7 +111,7 @@ fun MainScreen(navController: NavHostController) {
                         )
                     }
                     Spacer(modifier = Modifier.height(1.dp))
-                    Row() {
+                    Row {
                         Checkbox(checked = true, onCheckedChange = {})
                         Text(
                             text = "Mantener sesión iniciada",
