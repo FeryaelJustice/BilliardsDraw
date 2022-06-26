@@ -1,4 +1,4 @@
-package com.billiardsdraw.billiardsdraw.ui.screen.pool
+package com.billiardsdraw.billiardsdraw.ui.screen.pool.menu
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview

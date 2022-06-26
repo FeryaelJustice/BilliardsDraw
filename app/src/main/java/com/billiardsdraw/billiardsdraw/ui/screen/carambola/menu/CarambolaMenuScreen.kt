@@ -1,10 +1,9 @@
-package com.billiardsdraw.billiardsdraw.ui.screen.carambola
+package com.billiardsdraw.billiardsdraw.ui.screen.carambola.menu
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.billiardsdraw.billiardsdraw.ui.screen.CarambolaScreen
 
 @Composable
 fun CarambolaMenuScreen(navController: NavHostController){
@@ -14,5 +13,5 @@ fun CarambolaMenuScreen(navController: NavHostController){
 @Preview(name = "Carambola Menu Screen")
 @Composable
 fun CarambolaMenuScreenPreview(){
-    CarambolaScreen(navController = rememberNavController())
+    CarambolaMenuScreen(navController = rememberNavController())
 }
