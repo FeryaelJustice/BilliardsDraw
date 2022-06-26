@@ -20,11 +20,38 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+            shrinkResources false
+            debuggable true
+            buildConfigField "String", "MIDTRANS_API", "\"https://app.sandbox.midtrans.com/snap/v1d/debug\""
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            debuggable false
+            buildConfigField "String", "MIDTRANS_API", "\"https://app.sandbox.midtrans.com/snap/v1"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    productFlavors {
+        freeVersion {
+            dimension "version"
+            applicationIdSuffix ".free"
+            versionNameSuffix "-free"
+            buildConfigField 'String', 'URL', '"https://billiardsdraw.com/free"'
+            buildConfigField 'Boolean', 'isPremium', 'false'
+        }
+        premiumVersion {
+            dimension "version"
+            applicationIdSuffix ".premium"
+            versionNameSuffix "-premium"
+            buildConfigField 'String', 'URL', '"https://billiardsdraw.com/premium"'
+            buildConfigField 'Boolean', 'isPremium', 'true'
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
