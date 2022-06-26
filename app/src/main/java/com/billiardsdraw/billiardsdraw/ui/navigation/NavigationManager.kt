@@ -11,6 +11,7 @@ import com.billiardsdraw.billiardsdraw.ui.screen.carambola.menu.CarambolaMenuScr
 import com.billiardsdraw.billiardsdraw.ui.screen.menu.MenuScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.pool.PoolScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.pool.menu.PoolMenuScreen
+import com.billiardsdraw.billiardsdraw.ui.screen.register.RegisterScreen
 
 @Composable
 fun NavigationManager(navController: NavHostController){
@@ -20,6 +21,9 @@ fun NavigationManager(navController: NavHostController){
         }
         composable(Routes.LoginScreen.route){
             LoginScreen(navController)
+        }
+        composable(Routes.RegisterScreen.route) {
+            RegisterScreen(navController)
         }
         composable(Routes.MenuScreen.route){
             MenuScreen(navController)

@@ -1,4 +1,4 @@
-package com.billiardsdraw.billiardsdraw.ui.screen.login
+package com.billiardsdraw.billiardsdraw.ui.screen.register
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -35,10 +35,11 @@ import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.util.showToastLong
 
 @Composable
-fun LoginScreen(navController: NavHostController) {
+fun RegisterScreen(navController: NavHostController) {
     val context = LocalContext.current
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
+    var rememberPassword by rememberSaveable { mutableStateOf("") }
     Box(modifier = Modifier.fillMaxSize()) {
         Card(elevation = 4.dp, modifier = Modifier.fillMaxSize()) {
             Image(
@@ -98,50 +99,24 @@ fun LoginScreen(navController: NavHostController) {
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                         modifier = Modifier.background(Color.White)
                     )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    TextField(
+                        value = rememberPassword,
+                        onValueChange = { rememberPassword = it },
+                        label = { Text("Repeat password", color = Color.Black) },
+                        visualTransformation = PasswordVisualTransformation(),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                        modifier = Modifier.background(Color.White)
+                    )
                     Spacer(modifier = Modifier.height(1.dp))
                     Button(
                         onClick = {
-                            navController.navigate(Routes.MenuScreen.route)
-                            showToastLong(context = context, "Welcome to Billiards Draw!")
+                            navController.navigate(Routes.LoginScreen.route)
                         },
                         modifier = Modifier.width(160.dp)
                     ) {
                         Text(
-                            text = "Iniciar sesión"
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(1.dp))
-                    Row {
-                        Checkbox(checked = true, onCheckedChange = {})
-                        Text(
-                            text = "Mantener sesión iniciada",
-                            color = Color.White,
-                            modifier = Modifier
-                                .align(Alignment.CenterVertically)
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(1.dp))
-                    Text(
-                        text = "¿Has olvidado tu contraseña?",
-                        Modifier
-                            .clickable { }
-                            .fillMaxWidth()
-                            .align(Alignment.Start),
-                        color = Color.White
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = "¿Acabas de llegar?",
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Button(
-                        onClick = { navController.navigate(Routes.RegisterScreen.route) },
-                        modifier = Modifier.width(120.dp)
-                    ) {
-                        Text(
-                            text = "Únete ya"
+                            text = "Registrarse"
                         )
                     }
                 }
@@ -152,6 +127,6 @@ fun LoginScreen(navController: NavHostController) {
 
 @Preview(name = "Main Preview")
 @Composable
-fun LoginScreenPreview() {
-    LoginScreen(navController = rememberNavController())
+fun RegisterScreenPreview() {
+    RegisterScreen(navController = rememberNavController())
 }
