@@ -1,4 +1,4 @@
-package com.billiardsdraw.billiardsdraw.ui.screen
+package com.billiardsdraw.billiardsdraw.ui.screen.splash
 
 import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.Animatable
@@ -31,7 +31,7 @@ fun SplashScreen(navController: NavHostController) {
                 easing = { OvershootInterpolator(2f).getInterpolation(it) })
         )
         delay(1000L)
-        navController.navigate(Routes.MainScreen.route)
+        navController.navigate(Routes.LoginScreen.route)
     }
     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
         Image(

@@ -3,6 +3,7 @@ package com.billiardsdraw.billiardsdraw
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
@@ -16,6 +17,9 @@ import com.billiardsdraw.billiardsdraw.ui.navigation.NavigationManager
 
 @OptIn(ExperimentalMaterial3Api::class)
 class BilliardsDraw : ComponentActivity() {
+
+    val model: BilliardsDrawViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

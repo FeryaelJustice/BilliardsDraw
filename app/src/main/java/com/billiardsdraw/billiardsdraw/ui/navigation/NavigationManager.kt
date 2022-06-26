@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.billiardsdraw.billiardsdraw.ui.screen.CarambolaScreen
-import com.billiardsdraw.billiardsdraw.ui.screen.MainScreen
+import com.billiardsdraw.billiardsdraw.ui.screen.LoginScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.SplashScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.carambola.CarambolaMenuScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.pool.PoolMenuScreen
@@ -17,8 +17,8 @@ fun NavigationManager(navController: NavHostController){
         composable(Routes.SplashScreen.route){
             SplashScreen(navController)
         }
-        composable(Routes.MainScreen.route){
-            MainScreen(navController)
+        composable(Routes.LoginScreen.route){
+            LoginScreen(navController)
         }
         composable(Routes.CarambolaScreen.route) {
             CarambolaScreen(navController)

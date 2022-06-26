@@ -1,4 +1,4 @@
-package com.billiardsdraw.billiardsdraw.ui.screen
+package com.billiardsdraw.billiardsdraw.ui.screen.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -35,7 +35,7 @@ import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.util.showToastLong
 
 @Composable
-fun MainScreen(navController: NavHostController) {
+fun LoginScreen(navController: NavHostController) {
     val context = LocalContext.current
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
@@ -149,6 +149,6 @@ fun MainScreen(navController: NavHostController) {
 
 @Preview(name = "Main Preview")
 @Composable
-fun MainScreenPreview() {
-    MainScreen(navController = rememberNavController())
+fun LoginScreenPreview() {
+    LoginScreen(navController = rememberNavController())
 }
