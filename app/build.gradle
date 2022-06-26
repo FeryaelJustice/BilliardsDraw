@@ -17,6 +17,12 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        // Security for apy key
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
+        buildConfigField "String", "API_KEY", "\"${properties.getProperty("API_KEY")}\""
     }
 
     buildTypes {
@@ -24,30 +30,31 @@ android {
             minifyEnabled false
             shrinkResources false
             debuggable true
-            buildConfigField "String", "MIDTRANS_API", "\"https://app.sandbox.midtrans.com/snap/v1d/debug\""
+            buildConfigField 'String', 'api_url', '"http://localhost:8080/api"'
         }
         release {
             minifyEnabled true
             shrinkResources true
             debuggable false
-            buildConfigField "String", "MIDTRANS_API", "\"https://app.sandbox.midtrans.com/snap/v1"
+            buildConfigField 'String', 'api_url', '"https:/billiardsdraw.com/api"'
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
+    flavorDimensions "version"
     productFlavors {
         freeVersion {
             dimension "version"
             applicationIdSuffix ".free"
             versionNameSuffix "-free"
-            buildConfigField 'String', 'URL', '"https://billiardsdraw.com/free"'
+            buildConfigField 'String', 'free_url', '"https://billiardsdraw.com/free"'
             buildConfigField 'Boolean', 'isPremium', 'false'
         }
         premiumVersion {
             dimension "version"
             applicationIdSuffix ".premium"
             versionNameSuffix "-premium"
-            buildConfigField 'String', 'URL', '"https://billiardsdraw.com/premium"'
+            buildConfigField 'String', 'premium_url', '"https://billiardsdraw.com/premium"'
             buildConfigField 'Boolean', 'isPremium', 'true'
         }
     }
@@ -92,7 +99,13 @@ dependencies {
     // NAVIGATION
     def nav_version = "2.4.2"
     implementation("androidx.navigation:navigation-compose:$nav_version")
+
     // EXTERNAL
     // Color picker
     implementation "com.github.skydoves:colorpicker-compose:1.0.0"
+    // Image Load
+    implementation("io.coil-kt:coil-compose:2.0.0-rc01")
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 }
