@@ -12,8 +12,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun CarambolaRightMenu(width: Dp = 60.dp, navController: NavHostController, context: Context){
-    Column(modifier = Modifier.fillMaxHeight().width(width),verticalArrangement = Arrangement.Center) {
+fun CarambolaRightMenu(modifier: Modifier, navController: NavHostController, context: Context) {
+    Column(modifier = modifier, verticalArrangement = Arrangement.Center) {
         Text(text = "Carambola Right Menu")
     }
 }

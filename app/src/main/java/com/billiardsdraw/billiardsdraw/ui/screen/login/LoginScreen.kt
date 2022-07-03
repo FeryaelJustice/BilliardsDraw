@@ -30,12 +30,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.util.showToastLong
 
 @Composable
-fun LoginScreen(navController: NavHostController) {
+fun LoginScreen(viewModel: BilliardsDrawViewModel, navController: NavHostController) {
     val context = LocalContext.current
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
@@ -148,10 +149,4 @@ fun LoginScreen(navController: NavHostController) {
             }
         }
     }
-}
-
-@Preview(name = "Main Preview")
-@Composable
-fun LoginScreenPreview() {
-    LoginScreen(navController = rememberNavController())
 }

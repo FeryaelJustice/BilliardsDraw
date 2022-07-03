@@ -2,12 +2,10 @@ package com.billiardsdraw.billiardsdraw.ui.screen.register
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.Card
-import androidx.compose.material.Checkbox
 import androidx.compose.material.TextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,12 +28,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
-import com.billiardsdraw.billiardsdraw.ui.util.showToastLong
 
 @Composable
-fun RegisterScreen(navController: NavHostController) {
+fun RegisterScreen(viewModel: BilliardsDrawViewModel, navController: NavHostController) {
     val context = LocalContext.current
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
@@ -123,10 +121,4 @@ fun RegisterScreen(navController: NavHostController) {
             }
         }
     }
-}
-
-@Preview(name = "Main Preview")
-@Composable
-fun RegisterScreenPreview() {
-    RegisterScreen(navController = rememberNavController())
 }

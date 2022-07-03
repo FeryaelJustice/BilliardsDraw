@@ -6,17 +6,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 
 @Composable
-fun CarambolaMenuScreen(navController: NavHostController){
+fun CarambolaMenuScreen(viewModel: BilliardsDrawViewModel, navController: NavHostController){
     Button(onClick = { navController.navigate(Routes.CarambolaScreen.route) }) {
         Text(text = "Ir a la screen de carambola")
     }
-}
-
-@Preview(name = "Carambola Menu Screen")
-@Composable
-fun CarambolaMenuScreenPreview(){
-    CarambolaMenuScreen(navController = rememberNavController())
 }

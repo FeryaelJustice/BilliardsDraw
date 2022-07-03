@@ -9,4 +9,13 @@ sealed class Routes(val route: String) {
     object CarambolaMenuScreen : Routes("CarambolaMenuScreen")
     object PoolScreen : Routes("PoolScreen")
     object PoolMenuScreen : Routes("PoolMenuScreen")
+
+    fun withArgs(vararg args: String): String {
+        return buildString {
+            append(route)
+            args.forEach { arg ->
+                append("/$arg")
+            }
+        }
+    }
 }

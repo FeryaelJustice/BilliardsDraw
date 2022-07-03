@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.ui.screen.splash.SplashScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.login.LoginScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.carambola.CarambolaScreen
@@ -14,31 +15,31 @@ import com.billiardsdraw.billiardsdraw.ui.screen.pool.menu.PoolMenuScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.register.RegisterScreen
 
 @Composable
-fun NavigationManager(navController: NavHostController){
+fun NavigationManager(viewModel: BilliardsDrawViewModel,navController: NavHostController){
     NavHost(navController = navController, startDestination = Routes.SplashScreen.route){
         composable(Routes.SplashScreen.route){
-            SplashScreen(navController)
+            SplashScreen(viewModel,navController)
         }
         composable(Routes.LoginScreen.route){
-            LoginScreen(navController)
+            LoginScreen(viewModel,navController)
         }
         composable(Routes.RegisterScreen.route) {
-            RegisterScreen(navController)
+            RegisterScreen(viewModel,navController)
         }
         composable(Routes.MenuScreen.route){
-            MenuScreen(navController)
+            MenuScreen(viewModel,navController)
         }
         composable(Routes.CarambolaScreen.route) {
-            CarambolaScreen(navController)
+            CarambolaScreen(viewModel,navController)
         }
         composable(Routes.PoolScreen.route) {
-            PoolScreen(navController)
+            PoolScreen(viewModel,navController)
         }
         composable(Routes.CarambolaMenuScreen.route) {
-            CarambolaMenuScreen(navController)
+            CarambolaMenuScreen(viewModel,navController)
         }
         composable(Routes.PoolMenuScreen.route) {
-            PoolMenuScreen(navController)
+            PoolMenuScreen(viewModel,navController)
         }
     }
 }

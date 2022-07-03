@@ -16,11 +16,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 
 @Composable
-fun MenuScreen(navController: NavHostController) {
+fun MenuScreen(viewModel: BilliardsDrawViewModel, navController: NavHostController) {
     Box(modifier = Modifier.fillMaxSize()) {
         Card(elevation = 4.dp, modifier = Modifier.fillMaxSize()) {
             Image(
@@ -68,10 +69,4 @@ fun MenuScreen(navController: NavHostController) {
             }
         }
     }
-}
-
-@Preview(name = "Menu Screen")
-@Composable
-fun MenuScreenPreview() {
-    MenuScreen(navController = rememberNavController())
 }

@@ -15,8 +15,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun PoolRightMenu(width: Dp = 60.dp, navController: NavHostController, context: Context){
-    Column(modifier = Modifier.fillMaxHeight().width(width),verticalArrangement = Arrangement.Center) {
+fun PoolRightMenu(modifier: Modifier, navController: NavHostController, context: Context){
+    Column(modifier = modifier,verticalArrangement = Arrangement.Center) {
         Text(text = "Pool Right Menu")
     }
 }

@@ -7,9 +7,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.util.showToastShort
 import com.github.skydoves.colorpicker.compose.ColorEnvelope
@@ -18,7 +18,8 @@ import com.github.skydoves.colorpicker.compose.HsvColorPicker
 
 @Composable
 fun PoolLeftMenu(
-    width: Dp = 60.dp,
+    viewModel: BilliardsDrawViewModel,
+    modifier: Modifier,
     navController: NavHostController,
     context: Context,
     wheelController: ColorPickerController,
@@ -26,17 +27,15 @@ fun PoolLeftMenu(
     onWheelVisibleClick: () -> Unit
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxHeight()
-            .width(width),
+        modifier = modifier,
         verticalArrangement = Arrangement.Center
     ) {
         if (wheelVisible) {
             HsvColorPicker(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(100.dp)
-                    .width(100.dp)
+                    .height(40.dp)
+                    .width(40.dp)
                     .padding(2.dp),
                 controller = wheelController,
                 onColorChanged = { colorEnvelope: ColorEnvelope ->
@@ -47,6 +46,7 @@ fun PoolLeftMenu(
                     val fromUser: Boolean =
                         colorEnvelope.fromUser // Represents this event is triggered by user or not.
                     showToastShort(context = context, hexCode)
+                    viewModel.selectedPoolCanvasColor = hexCode
                 }
             )
         }

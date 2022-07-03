@@ -1,5 +1,6 @@
 package com.billiardsdraw.billiardsdraw
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,26 +17,33 @@ import com.android.billingclient.api.*
 import com.billiardsdraw.billiardsdraw.ui.theme.BilliardsDrawTheme
 import com.billiardsdraw.billiardsdraw.ui.navigation.BilliardsDrawTopBar
 import com.billiardsdraw.billiardsdraw.ui.navigation.NavigationManager
+import com.billiardsdraw.billiardsdraw.ui.util.LockScreenOrientation
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.ImmutableList
 
 @OptIn(ExperimentalMaterial3Api::class)
 class BilliardsDraw : ComponentActivity() {
 
-    val model: BilliardsDrawViewModel by viewModels()
+    private val model: BilliardsDrawViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
             BilliardsDrawTheme {
-                BilliardsDrawApp(navController)
+                BilliardsDrawApp(model,navController)
             }
         }
     }
 
     @Composable
-    fun BilliardsDrawApp(navController: NavHostController) {
+    fun BilliardsDrawApp(model: BilliardsDrawViewModel,navController: NavHostController) {
+        // This locks orientation in all app, to lock individually just put this line in each screen composable
+        LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+
+        // App
         val context = LocalContext.current
+
+        // Google Play Services (pay)
         val purchasesUpdatedListener =
             PurchasesUpdatedListener { billingResult, purchases ->
                 // To be implemented in a later section.
@@ -78,8 +86,10 @@ class BilliardsDraw : ComponentActivity() {
             }
         )
 
+        // Billiards Draw App UI Structure (here starts the UI)
         Scaffold(modifier = Modifier.fillMaxSize(), {
             BilliardsDrawTopBar(
+                viewModel = model,
                 navController = navController
             )
         }) { innerPadding ->
@@ -90,7 +100,7 @@ class BilliardsDraw : ComponentActivity() {
                     .padding(innerPadding),
                 color = MaterialTheme.colorScheme.background
             ) {
-                NavigationManager(navController = navController)
+                NavigationManager(viewModel = model, navController = navController)
             }
         }
     }
