@@ -62,6 +62,7 @@ fun PoolMenuScreen(viewModel: BilliardsDrawViewModel, navController: NavHostCont
                         contentDescription = "Profile icon",
                         modifier = Modifier.scale(2f).clickable {
                             // Navigate to profile screen
+                            navigateClearingAllBackstack(navController, Routes.UserProfileScreen.route)
                         })
                 }
                 Column(

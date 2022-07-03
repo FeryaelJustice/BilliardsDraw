@@ -68,6 +68,7 @@ fun CarambolaMenuScreen(viewModel: BilliardsDrawViewModel, navController: NavHos
                             .scale(2f)
                             .clickable {
                                 // Navigate to profile screen
+                                navigateClearingAllBackstack(navController, Routes.UserProfileScreen.route)
                             })
                 }
                 Column(

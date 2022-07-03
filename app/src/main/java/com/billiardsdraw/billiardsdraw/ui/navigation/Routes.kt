@@ -10,6 +10,8 @@ sealed class Routes(val route: String) {
     object CarambolaMenuScreen : Routes("CarambolaMenuScreen")
     object PoolScreen : Routes("PoolScreen")
     object PoolMenuScreen : Routes("PoolMenuScreen")
+    object UserProfileScreen : Routes("UserProfileScreen")
+    object UserPremiumScreen : Routes("UserPremiumScreen")
 
     fun withArgs(vararg args: String): String {
         return buildString {

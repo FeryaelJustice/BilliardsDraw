@@ -14,6 +14,8 @@ import com.billiardsdraw.billiardsdraw.ui.screen.pool.PoolScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.pool.menu.PoolMenuScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.recoveraccount.RecoverAccountScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.register.RegisterScreen
+import com.billiardsdraw.billiardsdraw.ui.screen.user.premium.UserPremiumScreen
+import com.billiardsdraw.billiardsdraw.ui.screen.user.profile.UserProfileScreen
 
 @Composable
 fun NavigationManager(viewModel: BilliardsDrawViewModel,navController: NavHostController){
@@ -44,6 +46,12 @@ fun NavigationManager(viewModel: BilliardsDrawViewModel,navController: NavHostCo
         }
         composable(Routes.PoolMenuScreen.route) {
             PoolMenuScreen(viewModel,navController)
+        }
+        composable(Routes.UserProfileScreen.route) {
+            UserProfileScreen(viewModel, navController)
+        }
+        composable(Routes.UserPremiumScreen.route) {
+            UserPremiumScreen(viewModel,navController)
         }
     }
 }
