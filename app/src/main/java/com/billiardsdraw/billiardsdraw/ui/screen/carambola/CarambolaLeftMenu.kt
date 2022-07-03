@@ -65,7 +65,7 @@ fun CarambolaLeftMenu(
     }
 }
 
-fun setWheelController(controller: ColorPickerController) {
+private fun setWheelController(controller: ColorPickerController) {
     controller.setWheelRadius(40.dp) // set the radius size of the wheel.
     controller.setWheelColor(Color.Blue) // set the color of the wheel.
     controller.setWheelAlpha(0.5f) // set the transparency of the wheel.
