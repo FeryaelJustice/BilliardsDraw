@@ -17,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -147,19 +148,17 @@ fun LoginScreen(viewModel: BilliardsDrawViewModel, navController: NavHostControl
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = Modifier.height(4.dp))
-                    Button(
-                        onClick = {
-                            navigate(
-                                navController,
-                                Routes.RegisterScreen.route
-                            )
-                        },
-                        modifier = Modifier.width(120.dp)
-                    ) {
-                        Text(
-                            text = "Únete ya"
-                        )
-                    }
+                    Image(
+                        painter = painterResource(id = R.drawable.button_joinnow),
+                        contentDescription = "Join now",
+                        modifier = Modifier
+                            .scale(2f)
+                            .clickable {
+                                navigate(
+                                    navController,
+                                    Routes.RegisterScreen.route
+                                )
+                            })
                 }
             }
         }
