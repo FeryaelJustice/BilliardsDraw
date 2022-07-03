@@ -31,6 +31,7 @@ import androidx.navigation.compose.rememberNavController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
+import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 
 @Composable
 fun RegisterScreen(viewModel: BilliardsDrawViewModel, navController: NavHostController) {
@@ -109,7 +110,7 @@ fun RegisterScreen(viewModel: BilliardsDrawViewModel, navController: NavHostCont
                     Spacer(modifier = Modifier.height(1.dp))
                     Button(
                         onClick = {
-                            navController.navigate(Routes.LoginScreen.route)
+                            navigateClearingAllBackstack(navController, Routes.LoginScreen.route)
                         },
                         modifier = Modifier.width(160.dp)
                     ) {

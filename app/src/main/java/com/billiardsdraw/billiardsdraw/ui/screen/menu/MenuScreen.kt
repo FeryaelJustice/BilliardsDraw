@@ -19,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
+import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 
 @Composable
 fun MenuScreen(viewModel: BilliardsDrawViewModel, navController: NavHostController) {
@@ -46,7 +47,8 @@ fun MenuScreen(viewModel: BilliardsDrawViewModel, navController: NavHostControll
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.clickable {
-                            navController.navigate(
+                            navigateClearingAllBackstack(
+                                navController,
                                 Routes.CarambolaMenuScreen.route
                             )
                         })
@@ -61,7 +63,8 @@ fun MenuScreen(viewModel: BilliardsDrawViewModel, navController: NavHostControll
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.clickable {
-                            navController.navigate(
+                            navigateClearingAllBackstack(
+                                navController,
                                 Routes.PoolMenuScreen.route
                             )
                         })

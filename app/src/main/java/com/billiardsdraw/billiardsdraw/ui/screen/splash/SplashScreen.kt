@@ -17,6 +17,7 @@ import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
+import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 import kotlinx.coroutines.delay
 
 @Composable
@@ -32,7 +33,7 @@ fun SplashScreen(viewModel: BilliardsDrawViewModel, navController: NavHostContro
                 easing = { OvershootInterpolator(2f).getInterpolation(it) })
         )
         delay(1000L)
-        navController.navigate(Routes.LoginScreen.route)
+        navigateClearingAllBackstack(navController,Routes.LoginScreen.route)
     }
     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
         Image(

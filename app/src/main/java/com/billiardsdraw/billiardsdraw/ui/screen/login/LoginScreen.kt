@@ -33,6 +33,8 @@ import androidx.navigation.compose.rememberNavController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
+import com.billiardsdraw.billiardsdraw.ui.navigation.navigate
+import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 import com.billiardsdraw.billiardsdraw.ui.util.showToastLong
 
 @Composable
@@ -40,6 +42,7 @@ fun LoginScreen(viewModel: BilliardsDrawViewModel, navController: NavHostControl
     val context = LocalContext.current
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
+    var keepSession by rememberSaveable { mutableStateOf(true) }
     Box(modifier = Modifier.fillMaxSize()) {
         Card(elevation = 4.dp, modifier = Modifier.fillMaxSize()) {
             Image(
@@ -102,7 +105,7 @@ fun LoginScreen(viewModel: BilliardsDrawViewModel, navController: NavHostControl
                     Spacer(modifier = Modifier.height(1.dp))
                     Button(
                         onClick = {
-                            navController.navigate(Routes.MenuScreen.route)
+                            navigateClearingAllBackstack(navController, Routes.MenuScreen.route)
                             showToastLong(context = context, "Welcome to Billiards Draw!")
                         },
                         modifier = Modifier.width(160.dp)
@@ -113,7 +116,9 @@ fun LoginScreen(viewModel: BilliardsDrawViewModel, navController: NavHostControl
                     }
                     Spacer(modifier = Modifier.height(1.dp))
                     Row {
-                        Checkbox(checked = true, onCheckedChange = {})
+                        Checkbox(
+                            checked = keepSession,
+                            onCheckedChange = { keepSession = it })
                         Text(
                             text = "Mantener sesión iniciada",
                             color = Color.White,
@@ -125,7 +130,12 @@ fun LoginScreen(viewModel: BilliardsDrawViewModel, navController: NavHostControl
                     Text(
                         text = "¿Has olvidado tu contraseña?",
                         Modifier
-                            .clickable { }
+                            .clickable {
+                                navigate(
+                                    navController,
+                                    Routes.RecoverAccountScreen.route
+                                )
+                            }
                             .fillMaxWidth()
                             .align(Alignment.Start),
                         color = Color.White
@@ -138,7 +148,12 @@ fun LoginScreen(viewModel: BilliardsDrawViewModel, navController: NavHostControl
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Button(
-                        onClick = { navController.navigate(Routes.RegisterScreen.route) },
+                        onClick = {
+                            navigate(
+                                navController,
+                                Routes.RegisterScreen.route
+                            )
+                        },
                         modifier = Modifier.width(120.dp)
                     ) {
                         Text(

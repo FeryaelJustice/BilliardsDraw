@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
+import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 import com.billiardsdraw.billiardsdraw.ui.util.showToastShort
 import com.github.skydoves.colorpicker.compose.ColorEnvelope
 import com.github.skydoves.colorpicker.compose.ColorPickerController
@@ -59,7 +60,12 @@ fun PoolLeftMenu(
                 Text(text = "Open draw wheel color picker")
             }
         }
-        Button(onClick = { navController.navigate(Routes.LoginScreen.route) }) {
+        Button(onClick = {
+            navigateClearingAllBackstack(
+                navController,
+                Routes.LoginScreen.route
+            )
+        }) {
             Text(text = "Go to main screen")
         }
     }

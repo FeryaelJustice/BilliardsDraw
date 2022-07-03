@@ -8,10 +8,16 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
+import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 
 @Composable
-fun CarambolaMenuScreen(viewModel: BilliardsDrawViewModel, navController: NavHostController){
-    Button(onClick = { navController.navigate(Routes.CarambolaScreen.route) }) {
+fun CarambolaMenuScreen(viewModel: BilliardsDrawViewModel, navController: NavHostController) {
+    Button(onClick = {
+        navigateClearingAllBackstack(
+            navController,
+            Routes.CarambolaScreen.route
+        )
+    }) {
         Text(text = "Ir a la screen de carambola")
     }
 }

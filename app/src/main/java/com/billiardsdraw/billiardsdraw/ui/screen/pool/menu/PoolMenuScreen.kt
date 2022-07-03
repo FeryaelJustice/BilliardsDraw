@@ -8,10 +8,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
+import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 
 @Composable
-fun PoolMenuScreen(viewModel: BilliardsDrawViewModel, navController: NavHostController){
-    Button(onClick = { navController.navigate(Routes.PoolScreen.route) }) {
+fun PoolMenuScreen(viewModel: BilliardsDrawViewModel, navController: NavHostController) {
+    Button(onClick = { navigateClearingAllBackstack(navController, Routes.PoolScreen.route) }) {
         Text(text = "Ir a la screen de pool")
     }
 }
