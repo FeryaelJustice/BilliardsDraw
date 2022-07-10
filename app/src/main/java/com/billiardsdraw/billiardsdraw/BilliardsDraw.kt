@@ -79,12 +79,11 @@ class BilliardsDraw : ComponentActivity() {
                 .build()
 
         billingClient.queryProductDetailsAsync(
-            queryProductDetailsParams,
-            ProductDetailsResponseListener { billingResult, productDetailsList ->
-                // check billingResult
-                // process returned productDetailsList
-            }
-        )
+            queryProductDetailsParams
+        ) { billingResult, productDetailsList ->
+            // check billingResult
+            // process returned productDetailsList
+        }
 
         // Billiards Draw App UI Structure (here starts the UI)
         Scaffold(modifier = Modifier.fillMaxSize(), {

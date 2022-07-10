@@ -1,6 +1,6 @@
 package com.billiardsdraw.billiardsdraw.domain.map
 
-import com.billiardsdraw.billiardsdraw.data.model.*;
+import com.billiardsdraw.billiardsdraw.data.model.*
 
 // File that maps: Data model to Domain model
 

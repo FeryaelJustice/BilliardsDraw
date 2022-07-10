@@ -138,7 +138,7 @@ fun RecoverAccountScreen(viewModel: BilliardsDrawViewModel, navController: NavHo
                         onClick = {
                             // Enviar email
                             sendEmail(email)
-                            showToastLong(context,"Email sent",)
+                            showToastLong(context,"Email sent")
                             isEmailSent.value = true
                         },
                         modifier = Modifier.width(160.dp)
@@ -159,6 +159,6 @@ private fun sendEmail(email: String) {
 }
 
 private fun checkRecoverAccountCode(emailCode: String): Boolean {
-    val result = true;
+    val result = true
     return false
 }
