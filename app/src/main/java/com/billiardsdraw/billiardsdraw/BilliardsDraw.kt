@@ -19,8 +19,10 @@ import com.billiardsdraw.billiardsdraw.ui.navigation.BilliardsDrawTopBar
 import com.billiardsdraw.billiardsdraw.ui.navigation.NavigationManager
 import com.billiardsdraw.billiardsdraw.ui.util.LockScreenOrientation
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.ImmutableList
+import dagger.hilt.android.AndroidEntryPoint
 
 @OptIn(ExperimentalMaterial3Api::class)
+@AndroidEntryPoint
 class BilliardsDraw : ComponentActivity() {
 
     private val model: BilliardsDrawViewModel by viewModels()
