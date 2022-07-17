@@ -2,8 +2,11 @@ package com.billiardsdraw.billiardsdraw.data.provider.local
 
 import android.content.Context
 import android.content.SharedPreferences
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class LocalSettings (val context: Context) {
+@Singleton
+class LocalSettings @Inject constructor(context: Context) {
     companion object {
         const val SETTINGS_KEY = "settings"
     }
