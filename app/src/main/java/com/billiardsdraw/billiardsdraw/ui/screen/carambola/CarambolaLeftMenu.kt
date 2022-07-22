@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 import com.billiardsdraw.billiardsdraw.ui.util.showToastShort
@@ -19,7 +18,7 @@ import com.github.skydoves.colorpicker.compose.HsvColorPicker
 
 @Composable
 fun CarambolaLeftMenu(
-    viewModel: BilliardsDrawViewModel,
+    viewModel: CarambolaScreenViewModel,
     modifier: Modifier,
     navController: NavHostController,
     context: Context,

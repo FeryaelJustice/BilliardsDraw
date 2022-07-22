@@ -5,6 +5,6 @@ import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 
 @Composable
-fun BilliardsDrawTopBar(viewModel:BilliardsDrawViewModel,navController: NavHostController){
+fun BilliardsDrawTopBar(viewModel: BilliardsDrawViewModel, navController: NavHostController) {
 
 }

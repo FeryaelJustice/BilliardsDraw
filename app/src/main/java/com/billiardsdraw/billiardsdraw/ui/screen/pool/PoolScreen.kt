@@ -26,12 +26,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
-import com.billiardsdraw.billiardsdraw.ui.util.HexToJetpackColor
+import com.billiardsdraw.billiardsdraw.common.HexToJetpackColor
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun PoolScreen(viewModel: BilliardsDrawViewModel, navController: NavHostController) {
+fun PoolScreen(viewModel: PoolScreenViewModel, navController: NavHostController, appViewModel: BilliardsDrawViewModel) {
 
     // Scale, for zoom
     val scale = remember { mutableStateOf(1f) }

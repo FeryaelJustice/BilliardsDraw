@@ -1,6 +1,7 @@
 package com.billiardsdraw.billiardsdraw.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -18,40 +19,40 @@ import com.billiardsdraw.billiardsdraw.ui.screen.user.premium.UserPremiumScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.user.profile.UserProfileScreen
 
 @Composable
-fun NavigationManager(viewModel: BilliardsDrawViewModel,navController: NavHostController){
-    NavHost(navController = navController, startDestination = Routes.SplashScreen.route){
-        composable(Routes.SplashScreen.route){
-            SplashScreen(viewModel,navController)
+fun NavigationManager(viewModel: BilliardsDrawViewModel, navController: NavHostController) {
+    NavHost(navController = navController, startDestination = Routes.SplashScreen.route) {
+        composable(Routes.SplashScreen.route) {
+            SplashScreen(navController)
         }
-        composable(Routes.LoginScreen.route){
-            LoginScreen(viewModel,navController)
+        composable(Routes.LoginScreen.route) {
+            LoginScreen(hiltViewModel(), navController, viewModel)
         }
         composable(Routes.RegisterScreen.route) {
-            RegisterScreen(viewModel,navController)
+            RegisterScreen(hiltViewModel(), navController, viewModel)
         }
         composable(Routes.RecoverAccountScreen.route) {
-            RecoverAccountScreen(viewModel, navController)
+            RecoverAccountScreen(hiltViewModel(), navController, viewModel)
         }
-        composable(Routes.MenuScreen.route){
-            MenuScreen(viewModel,navController)
+        composable(Routes.MenuScreen.route) {
+            MenuScreen(hiltViewModel(), navController, viewModel)
         }
         composable(Routes.CarambolaScreen.route) {
-            CarambolaScreen(viewModel,navController)
+            CarambolaScreen(hiltViewModel(), navController, viewModel)
         }
         composable(Routes.PoolScreen.route) {
-            PoolScreen(viewModel,navController)
+            PoolScreen(hiltViewModel(), navController, viewModel)
         }
         composable(Routes.CarambolaMenuScreen.route) {
-            CarambolaMenuScreen(viewModel,navController)
+            CarambolaMenuScreen(hiltViewModel(), navController, viewModel)
         }
         composable(Routes.PoolMenuScreen.route) {
-            PoolMenuScreen(viewModel,navController)
+            PoolMenuScreen(hiltViewModel(), navController, viewModel)
         }
         composable(Routes.UserProfileScreen.route) {
-            UserProfileScreen(viewModel, navController)
+            UserProfileScreen(hiltViewModel(), navController, viewModel)
         }
         composable(Routes.UserPremiumScreen.route) {
-            UserPremiumScreen(viewModel,navController)
+            UserPremiumScreen(hiltViewModel(), navController, viewModel)
         }
     }
 }

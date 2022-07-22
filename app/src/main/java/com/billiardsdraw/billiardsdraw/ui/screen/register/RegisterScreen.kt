@@ -32,7 +32,7 @@ import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 
 @Composable
-fun RegisterScreen(viewModel: BilliardsDrawViewModel, navController: NavHostController) {
+fun RegisterScreen(viewModel: RegisterScreenViewModel, navController: NavHostController, appViewModel: BilliardsDrawViewModel) {
     val context = LocalContext.current
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }

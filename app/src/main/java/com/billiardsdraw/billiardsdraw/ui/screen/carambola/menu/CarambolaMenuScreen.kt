@@ -20,7 +20,7 @@ import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstac
 import com.billiardsdraw.billiardsdraw.ui.util.showToastLong
 
 @Composable
-fun CarambolaMenuScreen(viewModel: BilliardsDrawViewModel, navController: NavHostController) {
+fun CarambolaMenuScreen(viewModel: CarambolaMenuScreenViewModel, navController: NavHostController, appViewModel: BilliardsDrawViewModel) {
     val context = LocalContext.current
     Box(modifier = Modifier.fillMaxSize()) {
         Card(elevation = 4.dp, modifier = Modifier.fillMaxSize()) {

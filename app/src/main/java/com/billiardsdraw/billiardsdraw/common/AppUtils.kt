@@ -1,4 +1,4 @@
-package com.billiardsdraw.billiardsdraw.ui.util
+package com.billiardsdraw.billiardsdraw.common
 
 import android.app.Activity
 import android.content.Context

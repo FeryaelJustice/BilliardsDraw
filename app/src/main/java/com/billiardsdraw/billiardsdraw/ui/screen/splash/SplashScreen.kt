@@ -21,7 +21,7 @@ import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstac
 import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen(viewModel: BilliardsDrawViewModel, navController: NavHostController) {
+fun SplashScreen(navController: NavHostController) {
     val scale = remember {
         Animatable(0f)
     }

@@ -20,7 +20,7 @@ import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 
 @Composable
-fun MenuScreen(viewModel: BilliardsDrawViewModel, navController: NavHostController) {
+fun MenuScreen(viewModel: MenuScreenViewModel, navController: NavHostController, appViewModel: BilliardsDrawViewModel) {
     Box(modifier = Modifier.fillMaxSize()) {
         Card(elevation = 4.dp, modifier = Modifier.fillMaxSize()) {
             Image(

@@ -33,7 +33,7 @@ import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstac
 import com.billiardsdraw.billiardsdraw.ui.util.showToastLong
 
 @Composable
-fun RecoverAccountScreen(viewModel: BilliardsDrawViewModel, navController: NavHostController) {
+fun RecoverAccountScreen(viewModel: RecoverAccountScreenViewModel, navController: NavHostController, appViewModel: BilliardsDrawViewModel) {
     val context = LocalContext.current
     val isEmailSent = rememberSaveable { mutableStateOf(false) }
     var email by rememberSaveable { mutableStateOf("") }

@@ -20,7 +20,7 @@ import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstac
 import com.billiardsdraw.billiardsdraw.ui.util.showToastLong
 
 @Composable
-fun PoolMenuScreen(viewModel: BilliardsDrawViewModel, navController: NavHostController) {
+fun PoolMenuScreen(viewModel: PoolMenuScreenViewModel, navController: NavHostController, appViewModel: BilliardsDrawViewModel) {
     val context = LocalContext.current
     Box(modifier = Modifier.fillMaxSize()) {
         Card(elevation = 4.dp, modifier = Modifier.fillMaxSize()) {

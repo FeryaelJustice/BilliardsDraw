@@ -11,21 +11,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.view.size
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.android.billingclient.api.*
-import com.billiardsdraw.billiardsdraw.common.APP_API_KEY
+import com.billiardsdraw.billiardsdraw.common.*
 import com.billiardsdraw.billiardsdraw.ui.navigation.BilliardsDrawTopBar
 import com.billiardsdraw.billiardsdraw.ui.navigation.NavigationManager
 import com.billiardsdraw.billiardsdraw.ui.theme.BilliardsDrawTheme
-import com.billiardsdraw.billiardsdraw.ui.util.*
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.ImmutableList
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.ktx.initialize
 import dagger.hilt.android.AndroidEntryPoint
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,54 +37,24 @@ class BilliardsDraw : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Log.d("api_key", APP_API_KEY)
+        // ViewModel
+        model.onCreate()
 
         // Check build version
         val buildConfig = buildConfig()
         enableAds = buildConfig == "debug" // cambiar a release al subirlo a tienda en prod
 
+        // ADS
         if (enableAds) {
-            // ADS
             // Si hay que obtener consentimiento para mostrar anuncios, hacerlo antes del initialize
             MobileAds.initialize(this) {}
-
             Log.d("a", BANNER_AD_CODE) // Luego quitar
             Log.d("b", INTERSTITIAL_AD_CODE) // Luego quitar
-
-            // Interstitial ad
-            val adRequest = AdRequest.Builder().build()
-            InterstitialAd.load(
-                this,
-                TEST_AD_CODE, // reemplazar por interstitial code en prod
-                adRequest,
-                object : InterstitialAdLoadCallback() {
-                    override fun onAdFailedToLoad(p0: LoadAdError) {
-                        mInterstitialAd = null
-                    }
-
-                    override fun onAdLoaded(ad: InterstitialAd) {
-                        mInterstitialAd = ad
-                        mInterstitialAd?.show(this@BilliardsDraw)
-                    }
-                })
+            createInterstitialAd()
         }
 
-        // APP
-        setContent {
-            val navController = rememberNavController()
-            BilliardsDrawTheme {
-                BilliardsDrawApp(model, navController)
-            }
-        }
-    }
-
-    @Composable
-    fun BilliardsDrawApp(model: BilliardsDrawViewModel, navController: NavHostController) {
-        // This locks orientation in all app, to lock individually just put this line in each screen composable
-        LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-
-        // App
-        val context = LocalContext.current
+        // Firebase
+        Firebase.initialize(this)
 
         // Google Play Services (pay)
         val purchasesUpdatedListener =
@@ -96,7 +64,7 @@ class BilliardsDraw : ComponentActivity() {
                 Log.d("purchasessize", purchases?.size.toString())
             }
 
-        val billingClient = BillingClient.newBuilder(context)
+        val billingClient = BillingClient.newBuilder(applicationContext)
             .setListener(purchasesUpdatedListener)
             .enablePendingPurchases()
             .build()
@@ -104,7 +72,6 @@ class BilliardsDraw : ComponentActivity() {
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingServiceDisconnected() {
                 TODO("Not yet implemented")
-
             }
 
             override fun onBillingSetupFinished(billingResult: BillingResult) {
@@ -112,7 +79,6 @@ class BilliardsDraw : ComponentActivity() {
                     TODO("Not yet implemented")
                 }
             }
-
         })
 
         val queryProductDetailsParams =
@@ -131,8 +97,45 @@ class BilliardsDraw : ComponentActivity() {
             queryProductDetailsParams
         ) { billingResult, productDetailsList ->
             // check billingResult
+            Log.d("billingResult", billingResult.responseCode.toString())
             // process returned productDetailsList
+            Log.d("productDetailsList", productDetailsList.size.toString())
         }
+
+        model.setLoading(false)
+
+        // APP
+        setContent {
+            val navController = rememberNavController()
+            BilliardsDrawTheme {
+                BilliardsDrawApp(model, navController)
+            }
+        }
+    }
+
+    private fun createInterstitialAd() {
+        // Interstitial ad
+        val adRequest = AdRequest.Builder().build()
+        InterstitialAd.load(
+            this,
+            TEST_AD_CODE, // reemplazar por interstitial code en prod
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(p0: LoadAdError) {
+                    mInterstitialAd = null
+                }
+
+                override fun onAdLoaded(ad: InterstitialAd) {
+                    mInterstitialAd = ad
+                    mInterstitialAd?.show(this@BilliardsDraw)
+                }
+            })
+    }
+
+    @Composable
+    fun BilliardsDrawApp(model: BilliardsDrawViewModel, navController: NavHostController) {
+        // This locks orientation in all app, to lock individually just put this line in each screen composable
+        LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
         // Billiards Draw App UI Structure (here starts the UI)
         Scaffold(modifier = Modifier.fillMaxSize(),
@@ -143,9 +146,11 @@ class BilliardsDraw : ComponentActivity() {
                 )
             }, bottomBar = {
                 // Force a crash
+                /*
                 Button(onClick = { throw RuntimeException("Test Crash") }) {
                     Text(text = "Crash")
                 }
+                */
                 // Banner ad (Provoca crash)
                 /*
                 if (enableAds) {

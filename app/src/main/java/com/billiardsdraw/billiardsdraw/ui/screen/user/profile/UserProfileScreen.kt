@@ -20,7 +20,7 @@ import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 
 @Composable
-fun UserProfileScreen(viewModel: BilliardsDrawViewModel, navController: NavHostController) {
+fun UserProfileScreen(viewModel: UserProfileScreenViewModel, navController: NavHostController, appViewModel: BilliardsDrawViewModel) {
     val context = LocalContext.current
     Box(modifier = Modifier.fillMaxSize()) {
         Column(

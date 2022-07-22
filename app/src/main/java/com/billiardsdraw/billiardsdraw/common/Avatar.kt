@@ -1,4 +1,4 @@
-package com.billiardsdraw.billiardsdraw.ui.common
+package com.billiardsdraw.billiardsdraw.common
 
 import android.net.Uri
 import androidx.compose.foundation.layout.size
