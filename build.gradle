@@ -7,8 +7,14 @@ buildscript {
         mavenCentral()
     }
     dependencies {
+        // To benefit from the latest Performance Monitoring plugin features,
+        // update your Android Gradle Plugin dependency to at least v3.4.0
+        classpath 'com.android.tools.build:gradle:3.4.3'
+
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.40.1'
         classpath 'com.google.gms:google-services:4.3.13'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.1'
+        classpath 'com.google.firebase:perf-plugin:1.4.1'
     }
 }
 
