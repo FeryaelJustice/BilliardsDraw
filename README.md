@@ -7,4 +7,4 @@ Structure: MVVM and Dagger Hilt
 Technology: Jetpack Compose with Kotlin
 
 Notes:
-- Data folder with repository and usecase and api_key: only when own backend is completed, meanwhile using firebase
+- Data folder with repository and usecase and api_key: only when own backend is completed, meanwhile using firebase.
