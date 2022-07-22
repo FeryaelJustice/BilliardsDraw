@@ -11,6 +11,7 @@ fun navigateClearingAllBackstack(navController: NavHostController, route: String
         // navController.graph.findStartDestination().id
         popUpTo(Routes.LoginScreen.route) {
             inclusive = true
+            saveState = false
         }
     }
 }

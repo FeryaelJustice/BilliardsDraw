@@ -27,13 +27,6 @@ class BilliardsDrawViewModel @Inject constructor(
         _isLoading.value = loading
     }
 
-    // Logged
-    private var _isLogged: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isLogged: LiveData<Boolean> = _isLogged
-    fun setLogged(logged: Boolean) {
-        _isLogged.value = logged
-    }
-
     // Users
     /*
     private var _users: MutableLiveData<List<User>> = MutableLiveData<List<User>>()
@@ -53,7 +46,6 @@ class BilliardsDrawViewModel @Inject constructor(
                 setLoading(false)
             }
             */
-            _isLogged.value = false
             _isLoading.value = true
             //_users.value = mutableListOf()
         }

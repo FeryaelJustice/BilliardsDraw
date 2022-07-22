@@ -38,6 +38,7 @@ import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigate
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 import com.billiardsdraw.billiardsdraw.ui.util.showToastLong
+import com.billiardsdraw.billiardsdraw.ui.util.showToastShort
 
 @Composable
 fun LoginScreen(
@@ -50,13 +51,6 @@ fun LoginScreen(
     } else {
         val context = LocalContext.current
 
-        if (appViewModel.isLogged.value == true) {
-            navigateClearingAllBackstack(navController, Routes.MenuScreen.route)
-        }
-
-        val email: String? by viewModel.email.observeAsState(null)
-        val password: String? by viewModel.password.observeAsState(null)
-        val keepSession: Boolean? by viewModel.keepSession.observeAsState(null)
         Box(modifier = Modifier.fillMaxSize()) {
             Card(elevation = 4.dp, modifier = Modifier.fillMaxSize()) {
                 Image(
@@ -99,8 +93,8 @@ fun LoginScreen(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         TextField(
-                            value = email ?: "",
-                            onValueChange = { viewModel.setEmail(it) },
+                            value = viewModel.email ?: "",
+                            onValueChange = { viewModel.email = it },
                             label = { Text("Enter email", color = Color.Black) },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                             modifier = Modifier.background(
@@ -109,8 +103,8 @@ fun LoginScreen(
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         TextField(
-                            value = password ?: "",
-                            onValueChange = { viewModel.setPassword(it) },
+                            value = viewModel.password,
+                            onValueChange = { viewModel.password = it },
                             label = { Text("Enter password", color = Color.Black) },
                             visualTransformation = PasswordVisualTransformation(),
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -121,7 +115,9 @@ fun LoginScreen(
                             onClick = {
                                 appViewModel.setLoading(true)
                                 if (viewModel.login()) {
-                                    appViewModel.setLogged(true)
+                                    // ESTO PETA LA APP, NO HACER, USAR sharedPrefs porque si compruebas
+                                    // al iniciar el composable se repinta infinitamente
+                                    // appViewModel.setLogged(true)
                                     navigateClearingAllBackstack(
                                         navController,
                                         Routes.MenuScreen.route
@@ -141,8 +137,8 @@ fun LoginScreen(
                         Spacer(modifier = Modifier.height(1.dp))
                         Row {
                             Checkbox(
-                                checked = keepSession ?: false,
-                                onCheckedChange = { viewModel.setKeepSession(it) })
+                                checked = viewModel.keepSession,
+                                onCheckedChange = { viewModel.keepSession = it })
                             Text(
                                 text = "Mantener sesión iniciada",
                                 color = Color.White,

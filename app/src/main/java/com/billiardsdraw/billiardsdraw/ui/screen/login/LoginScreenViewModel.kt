@@ -12,6 +12,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginScreenViewModel @Inject constructor() : ViewModel(), LifecycleObserver {
+
+    /*
     private var _email: MutableLiveData<String> = MutableLiveData(null)
     val email: LiveData<String> = _email
     fun setEmail(email: String) {
@@ -32,6 +34,18 @@ class LoginScreenViewModel @Inject constructor() : ViewModel(), LifecycleObserve
 
     fun login(): Boolean {
         if ((_email.value?.isNotBlank() == true) && (_password.value?.isNotBlank() == true)){
+            return true
+        }
+    return false
+    }
+    */
+
+    var email: String by mutableStateOf("")
+    var password: String by mutableStateOf("")
+    var keepSession: Boolean by mutableStateOf(false)
+
+    fun login(): Boolean {
+        if (email.isNotBlank() && password.isNotBlank()) {
             return true
         }
         return false
