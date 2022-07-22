@@ -18,7 +18,7 @@ class BilliardsDrawViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel(), LifecycleObserver {
 
-    val isLoading =  MutableLiveData<Boolean>()
+    private val isLoading =  MutableLiveData<Boolean>()
 
     // Carambola Canvas
     var selectedCarambolaCanvasColor by mutableStateOf("")
@@ -27,7 +27,7 @@ class BilliardsDrawViewModel @Inject constructor(
     var selectedPoolCanvasColor by mutableStateOf("")
 
     // Users
-    val users = MutableLiveData<List<User>>()
+    private val users = MutableLiveData<List<User>>()
 
     fun onCreate(){
         viewModelScope.launch {

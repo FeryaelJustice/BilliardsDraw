@@ -3,7 +3,6 @@ package com.billiardsdraw.billiardsdraw.data.provider.network
 import com.billiardsdraw.billiardsdraw.data.model.ApiResponse
 import com.billiardsdraw.billiardsdraw.data.model.HttpResponseCode
 import com.billiardsdraw.billiardsdraw.data.model.User
-import com.billiardsdraw.billiardsdraw.data.provider.network.BilliardsDrawAPIClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

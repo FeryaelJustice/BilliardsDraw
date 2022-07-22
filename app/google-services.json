@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "134895603343",
+    "project_id": "billiardsdraw-c894c",
+    "storage_bucket": "billiardsdraw-c894c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:134895603343:android:0ed95f60b42286acf2aafa",
+        "android_client_info": {
+          "package_name": "com.billiardsdraw.billiardsdraw"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "134895603343-vpv24rhbegi5or0bkevg29cld6t1o04o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.billiardsdraw.billiardsdraw",
+            "certificate_hash": "a5c3deade0144bf0463f79e3a33a4238dfa48083"
+          }
+        },
+        {
+          "client_id": "134895603343-rbu09ofchitu785iencg4qlrv8luaeau.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoMp5D3Qh5ahSEHI16zyE6m5_D2jAGlIM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "134895603343-rbu09ofchitu785iencg4qlrv8luaeau.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
