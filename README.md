@@ -6,4 +6,5 @@ Billiards Draw is a mobile app developed for billiards players on both Android a
 Structure: MVVM and Dagger Hilt
 Technology: Jetpack Compose with Kotlin
 
--Data folder with repository and usecase and api_key: only when own backend is completed, meanwhile using firebase
+Notes:
+- Data folder with repository and usecase and api_key: only when own backend is completed, meanwhile using firebase
