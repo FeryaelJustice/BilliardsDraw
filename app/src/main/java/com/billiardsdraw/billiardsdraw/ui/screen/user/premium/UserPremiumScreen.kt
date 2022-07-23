@@ -3,6 +3,7 @@ package com.billiardsdraw.billiardsdraw.ui.screen.user.premium
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,8 +16,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
+import com.billiardsdraw.billiardsdraw.data.provider.local.LocalSettings
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun UserPremiumScreen(viewModel: UserPremiumScreenViewModel, navController: NavHostController, appViewModel: BilliardsDrawViewModel) {
@@ -104,6 +107,12 @@ fun UserPremiumScreen(viewModel: UserPremiumScreenViewModel, navController: NavH
                         painter = painterResource(id = R.drawable.button_joinnow),
                         contentDescription = "Contact form"
                     )
+                    Button(onClick = {
+                        FirebaseAuth.getInstance().signOut()
+                        navigateClearingAllBackstack(navController, Routes.LoginScreen.route)
+                    }) {
+                        Text(text = "Cerrar sesión")
+                    }
                 }
             }
         }

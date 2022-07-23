@@ -28,11 +28,21 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
+import com.billiardsdraw.billiardsdraw.data.provider.local.LocalSettings
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
+import com.billiardsdraw.billiardsdraw.ui.util.showToastLong
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
-fun RegisterScreen(viewModel: RegisterScreenViewModel, navController: NavHostController, appViewModel: BilliardsDrawViewModel) {
+fun RegisterScreen(
+    viewModel: RegisterScreenViewModel,
+    navController: NavHostController,
+    appViewModel: BilliardsDrawViewModel
+) {
     val context = LocalContext.current
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
@@ -108,7 +118,29 @@ fun RegisterScreen(viewModel: RegisterScreenViewModel, navController: NavHostCon
                     Spacer(modifier = Modifier.height(1.dp))
                     Button(
                         onClick = {
-                            navigateClearingAllBackstack(navController, Routes.LoginScreen.route)
+                            // appViewModel.setLoading(true)
+                            if (viewModel.signIn(context)) {
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    FirebaseAuth.getInstance()
+                                        .createUserWithEmailAndPassword(email, password)
+                                        .addOnSuccessListener { appViewModel.setUser(it.user!!) }
+                                        .addOnCompleteListener {
+                                            if (it.isSuccessful) {
+                                                navigateClearingAllBackstack(
+                                                    navController,
+                                                    Routes.MenuScreen.route
+                                                )
+                                                showToastLong(
+                                                    context = context,
+                                                    "Welcome to Billiards Draw!"
+                                                )
+                                            }
+                                        }
+                                }
+                            } else {
+                                showToastLong(context, "Can't register!")
+                            }
+                            // appViewModel.setLoading(false)
                         },
                         modifier = Modifier.width(160.dp)
                     ) {

@@ -1,7 +1,7 @@
 package com.billiardsdraw.billiardsdraw.data.repository
 
 import com.billiardsdraw.billiardsdraw.data.model.User
-import com.billiardsdraw.billiardsdraw.data.model.UserDao
+import com.billiardsdraw.billiardsdraw.data.provider.local.UserDao
 import com.billiardsdraw.billiardsdraw.data.provider.network.BilliardsDrawAPIService
 import javax.inject.Inject
 

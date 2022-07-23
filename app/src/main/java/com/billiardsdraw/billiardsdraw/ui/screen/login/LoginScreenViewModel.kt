@@ -4,9 +4,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -45,9 +44,10 @@ class LoginScreenViewModel @Inject constructor() : ViewModel(), LifecycleObserve
     var keepSession: Boolean by mutableStateOf(false)
 
     fun login(): Boolean {
+        var success = false
         if (email.isNotBlank() && password.isNotBlank()) {
-            return true
+            success = true
         }
-        return false
+        return success
     }
 }

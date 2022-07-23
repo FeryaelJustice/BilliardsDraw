@@ -1,14 +1,7 @@
 package com.billiardsdraw.billiardsdraw
 
-import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.*
-import com.billiardsdraw.billiardsdraw.common.APP_API_KEY
-import com.billiardsdraw.billiardsdraw.data.model.User
-import com.billiardsdraw.billiardsdraw.domain.usecase.BilliardsDrawUseCase
-import com.billiardsdraw.billiardsdraw.domain.usecase.GetUsersUseCase
+import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,6 +18,13 @@ class BilliardsDrawViewModel @Inject constructor(
     val isLoading: LiveData<Boolean> = _isLoading
     fun setLoading(loading: Boolean) {
         _isLoading.value = loading
+    }
+
+    // Firebase user
+    private var _user: MutableLiveData<FirebaseUser> = MutableLiveData()
+    val user: LiveData<FirebaseUser> = _user
+    fun setUser(user: FirebaseUser){
+        _user.value = user
     }
 
     // Users

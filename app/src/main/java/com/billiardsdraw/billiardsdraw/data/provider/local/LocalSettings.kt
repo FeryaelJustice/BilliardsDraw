@@ -5,8 +5,8 @@ import android.content.SharedPreferences
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class LocalSettings @Inject constructor(context: Context) {
+    // SHARED PREFS
     companion object {
         const val SETTINGS_KEY = "settings"
     }

@@ -16,11 +16,17 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
+import com.billiardsdraw.billiardsdraw.data.provider.local.LocalSettings
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun UserProfileScreen(viewModel: UserProfileScreenViewModel, navController: NavHostController, appViewModel: BilliardsDrawViewModel) {
+fun UserProfileScreen(
+    viewModel: UserProfileScreenViewModel,
+    navController: NavHostController,
+    appViewModel: BilliardsDrawViewModel
+) {
     val context = LocalContext.current
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -91,7 +97,7 @@ fun UserProfileScreen(viewModel: UserProfileScreenViewModel, navController: NavH
                     Spacer(modifier = Modifier.height(20.dp))
                     Text(text = "Full name", color = Color.White)
                     Spacer(modifier = Modifier.height(20.dp))
-                    Text(text = "Email", color = Color.White)
+                    Text(text = "Email: ${appViewModel.user.value?.email}", color = Color.White)
                     Spacer(modifier = Modifier.height(20.dp))
                     Text(text = "Birthday date", color = Color.White)
                     Spacer(modifier = Modifier.height(20.dp))
@@ -111,6 +117,13 @@ fun UserProfileScreen(viewModel: UserProfileScreenViewModel, navController: NavH
                         painter = painterResource(id = R.drawable.logo),
                         contentDescription = "Logo"
                     )
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Button(onClick = {
+                        FirebaseAuth.getInstance().signOut()
+                        navigateClearingAllBackstack(navController, Routes.LoginScreen.route)
+                    }) {
+                        Text(text = "Cerrar sesión")
+                    }
                 }
             }
         }
