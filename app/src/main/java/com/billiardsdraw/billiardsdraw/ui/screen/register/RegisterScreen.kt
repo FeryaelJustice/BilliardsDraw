@@ -44,9 +44,6 @@ fun RegisterScreen(
     appViewModel: BilliardsDrawViewModel
 ) {
     val context = LocalContext.current
-    var email by rememberSaveable { mutableStateOf("") }
-    var password by rememberSaveable { mutableStateOf("") }
-    var rememberPassword by rememberSaveable { mutableStateOf("") }
     Box(modifier = Modifier.fillMaxSize()) {
         Card(elevation = 4.dp, modifier = Modifier.fillMaxSize()) {
             Image(
@@ -89,8 +86,8 @@ fun RegisterScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     TextField(
-                        value = email,
-                        onValueChange = { email = it },
+                        value = viewModel.email,
+                        onValueChange = { viewModel.email = it },
                         label = { Text("Enter email", color = Color.Black) },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                         modifier = Modifier.background(
@@ -99,8 +96,8 @@ fun RegisterScreen(
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     TextField(
-                        value = password,
-                        onValueChange = { password = it },
+                        value = viewModel.password,
+                        onValueChange = { viewModel.password = it },
                         label = { Text("Enter password", color = Color.Black) },
                         visualTransformation = PasswordVisualTransformation(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -108,8 +105,8 @@ fun RegisterScreen(
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     TextField(
-                        value = rememberPassword,
-                        onValueChange = { rememberPassword = it },
+                        value = viewModel.repeatPassword,
+                        onValueChange = { viewModel.repeatPassword = it },
                         label = { Text("Repeat password", color = Color.Black) },
                         visualTransformation = PasswordVisualTransformation(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -122,19 +119,21 @@ fun RegisterScreen(
                             if (viewModel.signIn(context)) {
                                 CoroutineScope(Dispatchers.IO).launch {
                                     FirebaseAuth.getInstance()
-                                        .createUserWithEmailAndPassword(email, password)
+                                        .createUserWithEmailAndPassword(
+                                            viewModel.email,
+                                            viewModel.password
+                                        )
                                         .addOnSuccessListener { appViewModel.setUser(it.user!!) }
                                         .addOnCompleteListener {
-                                            if (it.isSuccessful) {
-                                                navigateClearingAllBackstack(
-                                                    navController,
-                                                    Routes.MenuScreen.route
-                                                )
-                                                showToastLong(
-                                                    context = context,
-                                                    "Welcome to Billiards Draw!"
-                                                )
-                                            }
+                                            navigateClearingAllBackstack(
+                                                navController,
+                                                Routes.MenuScreen.route
+                                            )
+                                            showToastLong(
+                                                context, "Welcome to Billiards Draw!"
+                                            )
+                                        }.addOnFailureListener {
+                                            showToastLong(context, "User already registered")
                                         }
                                 }
                             } else {

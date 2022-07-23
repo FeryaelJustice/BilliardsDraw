@@ -140,14 +140,16 @@ fun LoginScreen(
                                                         Routes.MenuScreen.route
                                                     )
                                                     showToastLong(
-                                                        context = context,
+                                                        context,
                                                         "Welcome to Billiards Draw!"
                                                     )
                                                 }
+                                            }.addOnFailureListener {
+                                                showToastLong(context, "Wrong credentials")
                                             }
                                     }
                                 } else {
-                                    showToastLong(context = context, "Can't login!")
+                                    showToastLong(context, "Can't login!")
                                 }
                                 // appViewModel.setLoading(false)
                             },
