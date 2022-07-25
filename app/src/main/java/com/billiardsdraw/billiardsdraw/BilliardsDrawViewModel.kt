@@ -1,8 +1,7 @@
 package com.billiardsdraw.billiardsdraw
 
-import android.content.SharedPreferences
 import androidx.lifecycle.*
-import com.google.firebase.auth.FirebaseUser
+import com.billiardsdraw.billiardsdraw.domain.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,9 +22,9 @@ class BilliardsDrawViewModel @Inject constructor(
     }
 
     // Firebase user
-    private var _user: MutableLiveData<FirebaseUser> = MutableLiveData()
-    val user: LiveData<FirebaseUser> = _user
-    fun setUser(user: FirebaseUser){
+    private var _user: MutableLiveData<User> = MutableLiveData()
+    val user: LiveData<User> = _user
+    fun setUser(user: User){
         _user.value = user
     }
 

@@ -35,12 +35,14 @@ import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.data.provider.local.LocalSettings
+import com.billiardsdraw.billiardsdraw.domain.map.toUser
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigate
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 import com.billiardsdraw.billiardsdraw.ui.util.showToastLong
 import com.billiardsdraw.billiardsdraw.ui.util.showToastShort
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -102,7 +104,7 @@ fun LoginScreen(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         TextField(
-                            value = viewModel.email ?: "",
+                            value = viewModel.email,
                             onValueChange = { viewModel.email = it },
                             label = { Text("Enter email", color = Color.Black) },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
@@ -123,34 +125,13 @@ fun LoginScreen(
                         Button(
                             onClick = {
                                 // appViewModel.setLoading(true)
-                                if (viewModel.login()) {
-                                    // ESTO PETA LA APP, NO HACER, USAR sharedPrefs porque si compruebas, al iniciar el composable se repinta infinitamente
-                                    // appViewModel.setLogged(true)
-                                    CoroutineScope(Dispatchers.IO).launch {
-                                        FirebaseAuth.getInstance()
-                                            .signInWithEmailAndPassword(
-                                                viewModel.email,
-                                                viewModel.password
-                                            )
-                                            .addOnSuccessListener { appViewModel.setUser(it.user!!) }
-                                            .addOnCompleteListener {
-                                                if (it.isSuccessful) {
-                                                    navigateClearingAllBackstack(
-                                                        navController,
-                                                        Routes.MenuScreen.route
-                                                    )
-                                                    showToastLong(
-                                                        context,
-                                                        "Welcome to Billiards Draw!"
-                                                    )
-                                                }
-                                            }.addOnFailureListener {
-                                                showToastLong(context, "Wrong credentials")
-                                            }
-                                    }
-                                } else {
-                                    showToastLong(context, "Can't login!")
-                                }
+                                viewModel.login(
+                                    viewModel.email,
+                                    viewModel.password,
+                                    appViewModel,
+                                    context,
+                                    navController
+                                )
                                 // appViewModel.setLoading(false)
                             },
                             modifier = Modifier.width(160.dp)

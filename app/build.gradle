@@ -129,6 +129,8 @@ dependencies {
     // Auth
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.android.gms:play-services-auth:20.2.0'
+    // Firestore
+    implementation 'com.google.firebase:firebase-firestore-ktx'
 
     // ADS
     implementation 'com.google.android.gms:play-services-ads:21.1.0'

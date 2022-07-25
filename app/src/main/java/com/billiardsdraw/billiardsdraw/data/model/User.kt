@@ -6,7 +6,8 @@ import java.util.*
 
 @Entity(tableName = "users")
 data class User(
-    @PrimaryKey(autoGenerate = true) var id: Int? = null,
+    @PrimaryKey(autoGenerate = true) var id: Long? = null,
+    var uid: String,
     var username: String,
     var nickname: String,
     var name: String,
@@ -18,7 +19,7 @@ data class User(
     var country: String,
     var carambola_paints: Array<String>,
     var pool_paints: Array<String>,
-    var role: String,
+    var role: String, // Free, premium
     var active: Boolean,
     var deleted: Boolean
 ) {
@@ -29,6 +30,7 @@ data class User(
         other as User
 
         if (id != other.id) return false
+        if (uid != other.uid) return false
         if (username != other.username) return false
         if (nickname != other.nickname) return false
         if (name != other.name) return false
@@ -48,7 +50,8 @@ data class User(
     }
 
     override fun hashCode(): Int {
-        var result = id ?: 0
+        var result = id?.hashCode() ?: 0
+        result = 31 * result + uid.hashCode()
         result = 31 * result + username.hashCode()
         result = 31 * result + nickname.hashCode()
         result = 31 * result + name.hashCode()

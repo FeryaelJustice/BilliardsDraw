@@ -28,11 +28,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
-import com.billiardsdraw.billiardsdraw.data.provider.local.LocalSettings
+import com.billiardsdraw.billiardsdraw.domain.map.toUser
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 import com.billiardsdraw.billiardsdraw.ui.util.showToastLong
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -116,29 +117,14 @@ fun RegisterScreen(
                     Button(
                         onClick = {
                             // appViewModel.setLoading(true)
-                            if (viewModel.signIn(context)) {
-                                CoroutineScope(Dispatchers.IO).launch {
-                                    FirebaseAuth.getInstance()
-                                        .createUserWithEmailAndPassword(
-                                            viewModel.email,
-                                            viewModel.password
-                                        )
-                                        .addOnSuccessListener { appViewModel.setUser(it.user!!) }
-                                        .addOnCompleteListener {
-                                            navigateClearingAllBackstack(
-                                                navController,
-                                                Routes.MenuScreen.route
-                                            )
-                                            showToastLong(
-                                                context, "Welcome to Billiards Draw!"
-                                            )
-                                        }.addOnFailureListener {
-                                            showToastLong(context, "User already registered")
-                                        }
-                                }
-                            } else {
-                                showToastLong(context, "Can't register!")
-                            }
+                            viewModel.signIn(
+                                viewModel.email,
+                                viewModel.password,
+                                viewModel.repeatPassword,
+                                appViewModel,
+                                context,
+                                navController
+                            )
                             // appViewModel.setLoading(false)
                         },
                         modifier = Modifier.width(160.dp)
