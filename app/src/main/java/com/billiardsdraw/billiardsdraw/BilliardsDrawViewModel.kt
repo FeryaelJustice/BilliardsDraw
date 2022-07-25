@@ -1,5 +1,6 @@
 package com.billiardsdraw.billiardsdraw
 
+import android.content.SharedPreferences
 import androidx.lifecycle.*
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -8,6 +9,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BilliardsDrawViewModel @Inject constructor(
+    // private val sharedPreferences: SharedPreferences
     // private val billiardsDrawUseCase: BilliardsDrawUseCase,
     // private val usersUseCase: GetUsersUseCase,
     // private val savedStateHandle: SavedStateHandle
@@ -50,6 +52,14 @@ class BilliardsDrawViewModel @Inject constructor(
             //_users.value = mutableListOf()
         }
     }
+
+    // Shared prefs
+    /*
+    fun sharedPrefsUsage(){
+        sharedPreferences.edit().putString("firstStoredString", "this is the content").apply()
+        val firstStoredString = sharedPreferences.getString("firstStoredString", "")
+    }
+    */
 
     // Users
     /*
