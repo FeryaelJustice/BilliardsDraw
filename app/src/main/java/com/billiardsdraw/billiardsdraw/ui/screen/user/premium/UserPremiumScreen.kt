@@ -47,7 +47,7 @@ fun UserPremiumScreen(
                             .clickable {
                                 navigateClearingAllBackstack(
                                     navController,
-                                    Routes.MenuScreen.route
+                                    Routes.LoggedApp.route
                                 )
                             })
                     Image(

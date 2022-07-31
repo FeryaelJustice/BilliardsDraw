@@ -45,7 +45,7 @@ fun PoolMenuScreen(viewModel: PoolMenuScreenViewModel, navController: NavHostCon
                         modifier = Modifier.scale(2f).clickable {
                             navigateClearingAllBackstack(
                                 navController,
-                                Routes.MenuScreen.route
+                                Routes.LoggedApp.route
                             )
                         })
                     Image(

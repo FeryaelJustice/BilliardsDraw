@@ -28,27 +28,17 @@ class BilliardsDrawViewModel @Inject constructor(
         _user.value = user
     }
 
-    // Users
-    /*
-    private var _users: MutableLiveData<List<User>> = MutableLiveData<List<User>>()
-    val users: LiveData<List<User>> = _users
-    fun setUsers(users: List<User>){
-        _users.value = users
-    }
-    */
-
     fun onCreate() {
         viewModelScope.launch {
+            _isLoading.value = true
             /*
-            setLoading(false)
+            _isLoading.value = true
             val result = billiardsDrawUseCase()
             if (result.users.isNotEmpty()) {
                 users.postValue(result.users)
-                setLoading(false)
+                _isLoading.value = false
             }
             */
-            _isLoading.value = true
-            //_users.value = mutableListOf()
         }
     }
 

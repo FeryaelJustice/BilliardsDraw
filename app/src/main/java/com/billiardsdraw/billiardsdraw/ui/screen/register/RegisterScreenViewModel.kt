@@ -129,7 +129,7 @@ class RegisterScreenViewModel @Inject constructor() : ViewModel(), LifecycleObse
                                 // If user auth was registered, do
                                 navigateClearingAllBackstack(
                                     navController,
-                                    Routes.MenuScreen.route
+                                    Routes.LoggedApp.route
                                 )
                                 showToastLong(
                                     context, "Welcome to Billiards Draw!"

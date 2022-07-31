@@ -46,7 +46,7 @@ fun UserProfileScreen(
                         .clickable {
                             navigateClearingAllBackstack(
                                 navController,
-                                Routes.MenuScreen.route
+                                Routes.LoggedApp.route
                             )
                         })
                 Image(

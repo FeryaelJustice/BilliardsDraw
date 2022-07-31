@@ -126,7 +126,7 @@ class LoginScreenViewModel @Inject constructor() : ViewModel(), LifecycleObserve
                                 // If user auth was logged
                                 navigateClearingAllBackstack(
                                     navController,
-                                    Routes.MenuScreen.route
+                                    Routes.LoggedApp.route
                                 )
                                 showToastLong(
                                     context,

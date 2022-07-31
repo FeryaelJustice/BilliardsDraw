@@ -47,7 +47,7 @@ fun CarambolaMenuScreen(viewModel: CarambolaMenuScreenViewModel, navController: 
                             .clickable {
                                 navigateClearingAllBackstack(
                                     navController,
-                                    Routes.MenuScreen.route
+                                    Routes.LoggedApp.route
                                 )
                             })
                     Image(

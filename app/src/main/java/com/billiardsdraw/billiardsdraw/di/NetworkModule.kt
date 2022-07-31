@@ -23,7 +23,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideQuoteApiClient(retrofit: Retrofit): BilliardsDrawAPIClient {
+    fun provideApiClient(retrofit: Retrofit): BilliardsDrawAPIClient {
         return retrofit.create(BilliardsDrawAPIClient::class.java)
     }
 }

@@ -1,6 +1,9 @@
 package com.billiardsdraw.billiardsdraw.ui.navigation
 
 sealed class Routes(val route: String) {
+    object GeneralApp: Routes("GeneralApp")
+    object LoggedApp: Routes("LoggedApp")
+
     object SplashScreen: Routes("SplashScreen")
     object LoginScreen : Routes("LoginScreen")
     object RegisterScreen : Routes("RegisterScreen")
