@@ -21,6 +21,34 @@ import com.billiardsdraw.billiardsdraw.ui.screen.register.RegisterScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.user.premium.UserPremiumScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.user.profile.UserProfileScreen
 
+// NAVIGATION ROUTES
+sealed class Routes(val route: String) {
+    object GeneralApp: Routes("GeneralApp")
+    object LoggedApp: Routes("LoggedApp")
+
+    object SplashScreen: Routes("SplashScreen")
+    object LoginScreen : Routes("LoginScreen")
+    object RegisterScreen : Routes("RegisterScreen")
+    object RecoverAccountScreen: Routes("RecoverAccountScreen")
+    object MenuScreen : Routes("MenuScreen")
+    object CarambolaScreen : Routes("CarambolaScreen")
+    object CarambolaMenuScreen : Routes("CarambolaMenuScreen")
+    object PoolScreen : Routes("PoolScreen")
+    object PoolMenuScreen : Routes("PoolMenuScreen")
+    object UserProfileScreen : Routes("UserProfileScreen")
+    object UserPremiumScreen : Routes("UserPremiumScreen")
+
+    fun withArgs(vararg args: String): String {
+        return buildString {
+            append(route)
+            args.forEach { arg ->
+                append("/$arg")
+            }
+        }
+    }
+}
+
+// NAVIGATION MANAGER
 @Composable
 fun NavigationManager(viewModel: BilliardsDrawViewModel, navController: NavHostController) {
     NavHost(navController = navController, startDestination = Routes.GeneralApp.route) {
@@ -91,6 +119,21 @@ fun NavigationManager(viewModel: BilliardsDrawViewModel, navController: NavHostC
                 }
                 UserPremiumScreen(hiltViewModel(parentEntry), navController, viewModel)
             }
+        }
+    }
+}
+
+// NAVIGATION ACTIONS
+fun navigate(navController: NavHostController, route: String) {
+    navController.navigate(route)
+}
+
+fun navigateClearingAllBackstack(navController: NavHostController, route: String) {
+    navController.navigate(route) {
+        // navController.graph.findStartDestination().id
+        popUpTo(Routes.LoginScreen.route) {
+            inclusive = true
+            saveState = false
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.billiardsdraw.billiardsdraw.ui.screen.register
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -9,6 +10,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
+import com.billiardsdraw.billiardsdraw.common.md5
+import com.billiardsdraw.billiardsdraw.data.repository.BilliardsDrawRepository
 import com.billiardsdraw.billiardsdraw.domain.map.toUser
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
@@ -20,60 +23,51 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.Exception
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.HashMap
 
 @HiltViewModel
-class RegisterScreenViewModel @Inject constructor() : ViewModel(), LifecycleObserver {
+class RegisterScreenViewModel @Inject constructor(private val repository: BilliardsDrawRepository) :
+    ViewModel(), LifecycleObserver {
     var email: String by mutableStateOf("")
     var password: String by mutableStateOf("")
     var repeatPassword: String by mutableStateOf("")
 
-    fun signIn(
-        emaill: String,
-        passwordd: String,
-        repeatPasswordd: String,
+    fun signUp(
         appViewModel: BilliardsDrawViewModel,
         context: Context,
         navController: NavHostController
     ) {
         try {
             // Check if all fields are not empty
-            if (emaill.isNotBlank() && emaill.isNotBlank() && repeatPasswordd.isNotBlank()) {
-                // Check password and repeat password are equal
-                if (passwordd != repeatPasswordd) {
-                    showToastLong(context, "Passwords don't match!")
-                    return
-                }
-                // Lanzar en corutina de view model en IO para no sobrecargar el main thread
-                viewModelScope.launch(Dispatchers.IO) {
-                    // ESTO PETA LA APP, NO HACER, USAR sharedPrefs porque si compruebas, al iniciar el composable se repinta infinitamente
-                    // appViewModel.setLogged(true)
-
-                    // Create user in auth with email and password
-                    FirebaseAuth.getInstance()
-                        .createUserWithEmailAndPassword(
-                            emaill,
-                            passwordd
-                        )
-                        .addOnSuccessListener { authResult ->
-                            // Set firebase user to mainviewmodel mapping it with user domain
-                            authResult.user?.toUser()
-                                ?.let { usuario ->
-                                    appViewModel.setUser(usuario)
-                                }
+            if (email.isNotBlank() && password.isNotBlank() && repeatPassword.isNotBlank()) {
+                if (password == repeatPassword) {
+                    // Log user in auth with email and password
+                    viewModelScope.launch(Dispatchers.IO) {
+                        val user = repository.signUpWithEmailPassword(email, password)?.toUser()
+                        if (user == null) {
+                            withContext(Dispatchers.Main) {
+                                showToastShort(context, "Ha habido un error interno")
+                                Log.d("error", "error en user register")
+                            }
+                        }
+                        user?.let { userAuth ->
+                            withContext(Dispatchers.Main) {
+                                appViewModel.setUser(userAuth)
+                            }
 
                             // Add user to firestore
                             val userToAdd: MutableMap<String, Any> = HashMap()
-                            userToAdd["uid"] = authResult.user!!.uid
-                            userToAdd["username"] = "username " + authResult.user!!.email
+                            userToAdd["uid"] = userAuth.uid
+                            userToAdd["username"] = "username " + userAuth.email
                             userToAdd["nickname"] = "nickname"
                             userToAdd["name"] = "name"
                             userToAdd["surnames"] = "surnames"
-                            userToAdd["email"] = authResult.user!!.email.toString()
-                            userToAdd["password"] = "hashedpassword"
+                            userToAdd["email"] = userAuth.email
+                            userToAdd["password"] = md5(password)
                             userToAdd["age"] = 18
                             userToAdd["birthdate"] = Date()
                             userToAdd["country"] = "Spain"
@@ -83,68 +77,42 @@ class RegisterScreenViewModel @Inject constructor() : ViewModel(), LifecycleObse
                             userToAdd["active"] = true
                             userToAdd["deleted"] = false
 
-                            FirebaseFirestore.getInstance().collection("users").add(userToAdd)
-                                .addOnCompleteListener {
-                                    showToastShort(context, "User created in db")
-                                }.addOnFailureListener {
-                                    showToastShort(context, "Failed to create user in db")
+                            repository.createUserInFirebaseFirestore(userToAdd) {
+                                if (it) {
+                                    Log.d("register", "User created in db")
+                                } else {
+                                    Log.d("register", "Failed to create user in db")
                                 }
+                            }
 
-                            // Get user from firestore and assign to user domain variable
-                            FirebaseFirestore.getInstance()
-                                .collection("users").document(
-                                    authResult.user!!.uid
-                                ).get()
-                                .addOnCompleteListener { docSnap ->
-                                    val documento = docSnap.result
-                                    appViewModel.user.value?.apply {
-                                        username =
-                                            documento.getString("username")
-                                                .toString()
-                                        nickname =
-                                            documento.getString("nickname")
-                                                .toString()
-                                        name =
-                                            documento.getString("name")
-                                                .toString()
-                                        surnames =
-                                            documento.getString("surnames")
-                                                .toString()
-                                        password =
-                                            documento.getString("password")
-                                                .toString()
-                                        age = documento.getLong("age")
-                                            ?.toInt() ?: 0
-                                        country =
-                                            documento.getString("country")
-                                                .toString()
-                                        role =
-                                            documento.getString("role")
-                                                .toString()
-                                    }
+                            repository.getUserFromFirebaseFirestore(userAuth.uid) { userData ->
+                                // User data retrieved
+                                appViewModel.user.value?.apply {
+                                    username = userData.username
+                                    nickname = userData.nickname
+                                    name = userData.name
+                                    surnames = userData.surnames
+                                    password = userData.password
+                                    age = userData.age
+                                    country = userData.country
+                                    role = userData.role
                                 }
-                        }
-                        .addOnCompleteListener {
-                            if (it.isSuccessful) {
-                                // If user auth was registered, do
+                            }
+
+                            withContext(Dispatchers.Main) {
+                                showToastLong(context, "Welcome to Billiards Draw!")
                                 navigateClearingAllBackstack(
                                     navController,
                                     Routes.LoggedApp.route
                                 )
-                                showToastLong(
-                                    context, "Welcome to Billiards Draw!"
-                                )
-                            } else {
-                                // If user auth was not registered
-                                showToastLong(context, "Password must be longer")
                             }
-                        }.addOnFailureListener {
-                            // If user auth was not registered
-                            showToastLong(context, "User already registered")
                         }
+                    }
+                } else {
+                    showToastShort(context, "Las contraseñas no coinciden")
                 }
             } else {
-                showToastShort(context, "Some field is empty.")
+                showToastShort(context, "Los campos no pueden estar vacíos")
             }
         } catch (e: Exception) {
             e.printStackTrace()

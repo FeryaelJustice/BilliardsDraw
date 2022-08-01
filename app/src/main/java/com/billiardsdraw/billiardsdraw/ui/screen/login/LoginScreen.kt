@@ -12,11 +12,6 @@ import androidx.compose.material.TextField
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -30,22 +25,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Observer
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
-import com.billiardsdraw.billiardsdraw.data.provider.local.LocalSettings
-import com.billiardsdraw.billiardsdraw.domain.map.toUser
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigate
-import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
-import com.billiardsdraw.billiardsdraw.ui.util.showToastLong
-import com.billiardsdraw.billiardsdraw.ui.util.showToastShort
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(
@@ -59,7 +43,7 @@ fun LoginScreen(
         val context = LocalContext.current
 
         // RECUERDA: El autologin con sharedprefs, o con variables hace que pete, se repinta, averiguar manera
-        // NO HACER if(LocalSettings().getBoolean("logged")) { navigate(navController,Routes.MenuScrene.route) }
+        // NO HACER if(LocalSharedPreferences().getBoolean("logged")) { navigate(navController,Routes.MenuScrene.route) }
         // NO HACER if(getIsLogged()) { navigate(navController,Routes.MenuScrene.route) }
 
         Box(modifier = Modifier.fillMaxSize()) {
@@ -125,9 +109,7 @@ fun LoginScreen(
                         Button(
                             onClick = {
                                 // appViewModel.setLoading(true)
-                                viewModel.login(
-                                    viewModel.email,
-                                    viewModel.password,
+                                viewModel.signIn(
                                     appViewModel,
                                     context,
                                     navController

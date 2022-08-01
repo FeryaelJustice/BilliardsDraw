@@ -14,7 +14,7 @@ abstract class LocalDatabase : RoomDatabase() {
     abstract fun getUserDao(): UserDao
 }
 
-public class Converters {
+class Converters {
     @TypeConverter
     fun fromTimestamp(value: Long?): java.util.Date = java.util.Date(value ?: 0)
 

@@ -12,13 +12,33 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.math.BigInteger
+import java.security.MessageDigest
+
+// CONSTANTS
 
 const val TEST_AD_CODE = "ca-app-pub-3940256099942544/6300978111"
 const val INTERSTITIAL_AD_CODE = "a-app-pub-8873908976357821/7203477994"
 const val BANNER_AD_CODE = "ca-app-pub-8873908976357821/7746403479"
 
+// METHODS
+
+// Getters
 fun buildConfig() = BuildConfig.BUILD_TYPE
-fun apiKey() = BuildConfig.API_KEY // Don't use this
+fun apiKey() = BuildConfig.API_KEY
+fun Context.findActivity(): Activity? = when (this) {
+    is Activity -> this
+    is ContextWrapper -> baseContext.findActivity()
+    else -> null
+}
+
+// Security
+fun md5(input:String): String {
+    val md = MessageDigest.getInstance("MD5")
+    return BigInteger(1, md.digest(input.toByteArray())).toString(16).padStart(32, '0')
+}
+
+// COMPOSABLES
 
 @Composable
 fun LockScreenOrientation(orientation: Int) {
@@ -34,15 +54,30 @@ fun LockScreenOrientation(orientation: Int) {
     }
 }
 
-fun Context.findActivity(): Activity? = when (this) {
-    is Activity -> this
-    is ContextWrapper -> baseContext.findActivity()
-    else -> null
-}
+// OBJECT UTILS
 
 // Maps hex color string code to jetpack compose graphics Color object
 object HexToJetpackColor {
     fun getColor(colorString: String): Color {
         return Color(android.graphics.Color.parseColor("#$colorString"))
     }
+}
+
+// Object constants
+object SharedPrefConstants {
+    val LOCAL_SHARED_PREF_SETTINGS = "local_shared_pref_settings"
+    val USER_SESSION = "user_session"
+}
+object RoomConstants {
+    val LOCAL_ROOM = "billiardsdraw_db"
+}
+object FirebaseAuthConstants {
+    val AUTH_UID = ""
+}
+object FirebaseFirestoreConstants{
+    val ROOT = "users"
+}
+object FirebaseStorageConstants {
+    val ROOT_DIRECTORY = "app"
+    val USER_IMAGES = "user"
 }

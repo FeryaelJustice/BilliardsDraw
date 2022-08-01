@@ -117,10 +117,7 @@ fun RegisterScreen(
                     Button(
                         onClick = {
                             // appViewModel.setLoading(true)
-                            viewModel.signIn(
-                                viewModel.email,
-                                viewModel.password,
-                                viewModel.repeatPassword,
+                            viewModel.signUp(
                                 appViewModel,
                                 context,
                                 navController

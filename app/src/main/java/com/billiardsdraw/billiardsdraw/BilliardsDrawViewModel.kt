@@ -1,6 +1,7 @@
 package com.billiardsdraw.billiardsdraw
 
 import androidx.lifecycle.*
+import com.billiardsdraw.billiardsdraw.data.repository.BilliardsDrawRepositoryImp
 import com.billiardsdraw.billiardsdraw.domain.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -8,9 +9,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BilliardsDrawViewModel @Inject constructor(
-    // private val sharedPreferences: SharedPreferences
-    // private val billiardsDrawUseCase: BilliardsDrawUseCase,
-    // private val usersUseCase: GetUsersUseCase,
+private val repository: BilliardsDrawRepositoryImp
     // private val savedStateHandle: SavedStateHandle
 ) : ViewModel(), LifecycleObserver {
 

@@ -1,6 +1,7 @@
 package com.billiardsdraw.billiardsdraw.ui.screen.login
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -9,22 +10,24 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
+import com.billiardsdraw.billiardsdraw.data.model.network.NetworkResponse
+import com.billiardsdraw.billiardsdraw.data.model.User
+import com.billiardsdraw.billiardsdraw.data.repository.BilliardsDrawRepository
 import com.billiardsdraw.billiardsdraw.domain.map.toUser
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 import com.billiardsdraw.billiardsdraw.ui.util.showToastLong
 import com.billiardsdraw.billiardsdraw.ui.util.showToastShort
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginScreenViewModel @Inject constructor() : ViewModel(), LifecycleObserver {
+class LoginScreenViewModel @Inject constructor(private val repository: BilliardsDrawRepository) :
+    ViewModel(), LifecycleObserver {
 
     /*
     private var _email: MutableLiveData<String> = MutableLiveData(null)
@@ -57,92 +60,51 @@ class LoginScreenViewModel @Inject constructor() : ViewModel(), LifecycleObserve
     var password: String by mutableStateOf("")
     var keepSession: Boolean by mutableStateOf(false)
 
-    fun login(
-        emaill: String,
-        passwordd: String,
+    fun signIn(
         appViewModel: BilliardsDrawViewModel,
         context: Context,
         navController: NavHostController
     ) {
         try {
             // Check if all fields are not empty
-            if (emaill.isNotBlank() && emaill.isNotBlank()) {
-                // Lanzar en corutina de view model en IO para no sobrecargar el main thread
+            if (email.isNotBlank() && password.isNotBlank()) {
+                // Log user in auth with email and password
                 viewModelScope.launch(Dispatchers.IO) {
-                    // ESTO PETA LA APP, NO HACER, USAR sharedPrefs porque si compruebas, al iniciar el composable se repinta infinitamente
-                    // appViewModel.setLogged(true)
-
-                    // Log user in auth with email and password
-                    FirebaseAuth.getInstance()
-                        .signInWithEmailAndPassword(
-                            emaill,
-                            passwordd
-                        )
-                        .addOnSuccessListener { authResult ->
-                            // Set firebase user to mainviewmodel mapping it with user domain
-                            authResult.user?.toUser()
-                                ?.let { usuario ->
-                                    appViewModel.setUser(usuario)
-                                }
-                            // showToastLong(context,authResult.user!!.uid)
-
-                            // Get user from firestore and assign to user domain variable
-                            FirebaseFirestore.getInstance()
-                                .collection("users").document(
-                                    authResult.user!!.uid
-                                ).get()
-                                .addOnCompleteListener { docSnap ->
-                                    val documento = docSnap.result
-                                    // Da null pointer al añadir campos birthdate, pool y carambola paints y active y deleted, debe venir a null el docsnap result, arreglar
-                                    appViewModel.user.value?.apply {
-                                        username =
-                                            documento.getString("username")
-                                                .toString()
-                                        nickname =
-                                            documento.getString("nickname")
-                                                .toString()
-                                        name =
-                                            documento.getString("name")
-                                                .toString()
-                                        surnames =
-                                            documento.getString("surnames")
-                                                .toString()
-                                        password =
-                                            documento.getString("password")
-                                                .toString()
-                                        age = documento.getLong("age")
-                                            ?.toInt() ?: 0
-                                        country =
-                                            documento.getString("country")
-                                                .toString()
-                                        role =
-                                            documento.getString("role")
-                                                .toString()
-                                    }
-                                }
+                    val user = repository.signInWithEmailPassword(email, password)?.toUser()
+                    if (user == null){
+                        withContext(Dispatchers.Main){
+                            showToastShort(context,"Ha habido un error interno")
+                            Log.d("error","error en user login")
                         }
-                        .addOnCompleteListener {
-                            if (it.isSuccessful) {
-                                // If user auth was logged
-                                navigateClearingAllBackstack(
-                                    navController,
-                                    Routes.LoggedApp.route
-                                )
-                                showToastLong(
-                                    context,
-                                    "Welcome to Billiards Draw!"
-                                )
-                            } else {
-                                // If user auth was not logged
-                                showToastLong(context, "Wrong credentials")
+                    }
+                    user?.let { userAuth ->
+                        withContext(Dispatchers.Main){
+                            appViewModel.setUser(userAuth)
+                        }
+                        repository.getUserFromFirebaseFirestore(userAuth.uid) { userData ->
+                            // User data retrieved
+                            appViewModel.user.value?.apply {
+                                username = userData.username
+                                nickname = userData.nickname
+                                name = userData.name
+                                surnames = userData.surnames
+                                password = userData.password
+                                age = userData.age
+                                country = userData.country
+                                role = userData.role
                             }
-                        }.addOnFailureListener {
-                            // If user auth was not logged
-                            showToastLong(context, "Wrong credentials, error logging")
                         }
+                        withContext(Dispatchers.Main) {
+                            showToastLong(context, "Welcome to Billiards Draw!")
+                            navigateClearingAllBackstack(
+                                navController,
+                                Routes.LoggedApp.route
+                            )
+                        }
+                    }
                 }
             } else {
-                showToastShort(context, "Some field is empty.")
+                showToastShort(context, "Los campos no pueden estar vacíos")
             }
         } catch (e: Exception) {
             e.printStackTrace()
