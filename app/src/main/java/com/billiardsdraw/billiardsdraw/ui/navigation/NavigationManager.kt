@@ -12,6 +12,7 @@ import com.billiardsdraw.billiardsdraw.ui.screen.splash.SplashScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.login.LoginScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.carambola.CarambolaScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.carambola.menu.CarambolaMenuScreen
+import com.billiardsdraw.billiardsdraw.ui.screen.contact.ContactScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.menu.MenuScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.menu.MenuScreenViewModel
 import com.billiardsdraw.billiardsdraw.ui.screen.pool.PoolScreen
@@ -23,13 +24,13 @@ import com.billiardsdraw.billiardsdraw.ui.screen.user.profile.UserProfileScreen
 
 // NAVIGATION ROUTES
 sealed class Routes(val route: String) {
-    object GeneralApp: Routes("GeneralApp")
-    object LoggedApp: Routes("LoggedApp")
+    object GeneralApp : Routes("GeneralApp")
+    object LoggedApp : Routes("LoggedApp")
 
-    object SplashScreen: Routes("SplashScreen")
+    object SplashScreen : Routes("SplashScreen")
     object LoginScreen : Routes("LoginScreen")
     object RegisterScreen : Routes("RegisterScreen")
-    object RecoverAccountScreen: Routes("RecoverAccountScreen")
+    object RecoverAccountScreen : Routes("RecoverAccountScreen")
     object MenuScreen : Routes("MenuScreen")
     object CarambolaScreen : Routes("CarambolaScreen")
     object CarambolaMenuScreen : Routes("CarambolaMenuScreen")
@@ -37,6 +38,7 @@ sealed class Routes(val route: String) {
     object PoolMenuScreen : Routes("PoolMenuScreen")
     object UserProfileScreen : Routes("UserProfileScreen")
     object UserPremiumScreen : Routes("UserPremiumScreen")
+    object ContactScreen : Routes("ContactScreen")
 
     fun withArgs(vararg args: String): String {
         return buildString {
@@ -118,6 +120,12 @@ fun NavigationManager(viewModel: BilliardsDrawViewModel, navController: NavHostC
                     navController.getBackStackEntry(Routes.LoggedApp.route)
                 }
                 UserPremiumScreen(hiltViewModel(parentEntry), navController, viewModel)
+            }
+            composable(Routes.ContactScreen.route) { navBackStackEntry ->
+                val parentEntry = remember(navBackStackEntry) {
+                    navController.getBackStackEntry(Routes.LoggedApp.route)
+                }
+                ContactScreen(hiltViewModel(parentEntry), navController)
             }
         }
     }

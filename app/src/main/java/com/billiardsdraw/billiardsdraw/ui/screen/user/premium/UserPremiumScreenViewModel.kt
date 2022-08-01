@@ -10,7 +10,6 @@ import com.billiardsdraw.billiardsdraw.data.repository.BilliardsDrawRepository
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,7 +22,7 @@ class UserPremiumScreenViewModel @Inject constructor(
     fun signOut(navController: NavHostController) {
         repository.signOut()
         repository.setSharedPreferencesBoolean(SharedPrefConstants.IS_LOGGED_KEY, false)
-        navigateClearingAllBackstack(navController, Routes.LoginScreen.route)
+        navigateClearingAllBackstack(navController, Routes.GeneralApp.route)
         viewModelScope.launch(dispatchers.io) {
             repository.setSharedPreferencesBoolean(SharedPrefConstants.IS_LOGGED_KEY, false)
         }

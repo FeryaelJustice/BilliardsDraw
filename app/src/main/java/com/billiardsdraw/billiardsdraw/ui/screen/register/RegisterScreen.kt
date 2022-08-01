@@ -28,15 +28,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
-import com.billiardsdraw.billiardsdraw.domain.map.toUser
-import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
-import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
-import com.billiardsdraw.billiardsdraw.ui.util.showToastLong
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @Composable
 fun RegisterScreen(

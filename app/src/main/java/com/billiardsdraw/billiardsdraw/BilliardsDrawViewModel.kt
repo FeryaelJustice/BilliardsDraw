@@ -1,12 +1,9 @@
 package com.billiardsdraw.billiardsdraw
 
 import androidx.lifecycle.*
-import com.billiardsdraw.billiardsdraw.common.SharedPrefConstants
 import com.billiardsdraw.billiardsdraw.data.repository.BilliardsDrawRepositoryImp
 import com.billiardsdraw.billiardsdraw.domain.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel

@@ -29,13 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
-import com.billiardsdraw.billiardsdraw.common.SharedPrefConstants
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigate
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(
@@ -46,6 +42,8 @@ fun LoginScreen(
     if (appViewModel.isLoading.value == true) {
         CircularProgressIndicator()
     } else {
+        viewModel.onCreate()
+
         val context = LocalContext.current
 
         // RECUERDA: El autologin con sharedprefs, o con variables hace que pete, se repinta, averiguar manera

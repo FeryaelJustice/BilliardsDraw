@@ -12,8 +12,6 @@ import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.common.SharedPrefConstants.IS_LOGGED_KEY
 import com.billiardsdraw.billiardsdraw.coroutine.DispatcherProvider
-import com.billiardsdraw.billiardsdraw.data.model.network.NetworkResponse
-import com.billiardsdraw.billiardsdraw.data.model.User
 import com.billiardsdraw.billiardsdraw.data.repository.BilliardsDrawRepository
 import com.billiardsdraw.billiardsdraw.domain.map.toUser
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
@@ -21,7 +19,6 @@ import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstac
 import com.billiardsdraw.billiardsdraw.ui.util.showToastLong
 import com.billiardsdraw.billiardsdraw.ui.util.showToastShort
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.Exception
@@ -65,6 +62,10 @@ class LoginScreenViewModel @Inject constructor(
     var password: String by mutableStateOf("")
     var keepSession: Boolean by mutableStateOf(false)
 
+    fun onCreate() {
+        keepSession = repository.sharedPreferencesBoolean(IS_LOGGED_KEY)
+    }
+
     fun signIn(
         appViewModel: BilliardsDrawViewModel,
         context: Context,
@@ -99,7 +100,9 @@ class LoginScreenViewModel @Inject constructor(
                                 role = userData.role
                             }
                         }
-                        repository.setSharedPreferencesBoolean(IS_LOGGED_KEY, true)
+
+                        // Solo si mantener sesion iniciada is checked
+                        repository.setSharedPreferencesBoolean(IS_LOGGED_KEY, keepSession)
 
                         withContext(dispatchers.main) {
                             showToastLong(context, "Welcome to Billiards Draw!")

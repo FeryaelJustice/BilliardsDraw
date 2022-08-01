@@ -8,15 +8,12 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import com.billiardsdraw.billiardsdraw.BuildConfig
-import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.math.BigInteger
 import java.security.MessageDigest
 
 // CONSTANTS
 
+const val BILLIARDSDRAW_CONTACT_EMAIL = "billiardsdraw@gmail.com"
 const val TEST_AD_CODE = "ca-app-pub-3940256099942544/6300978111"
 const val INTERSTITIAL_AD_CODE = "a-app-pub-8873908976357821/7203477994"
 const val BANNER_AD_CODE = "ca-app-pub-8873908976357821/7746403479"

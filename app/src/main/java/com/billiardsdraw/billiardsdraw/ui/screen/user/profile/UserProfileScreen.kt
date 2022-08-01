@@ -108,8 +108,14 @@ fun UserProfileScreen(
                     Spacer(modifier = Modifier.height(20.dp))
                     Text(text = "Link Facebook account", color = Color.White)
                     Spacer(modifier = Modifier.height(20.dp))
+                    Button(onClick = {
+                        viewModel.signOut(navController)
+                    }) {
+                        Text(text = "Cerrar sesión")
+                    }
+                    Spacer(modifier = Modifier.height(20.dp))
                     Image(
-                        modifier = Modifier.scale(2f),
+                        modifier = Modifier.scale(2f).clickable { viewModel.openContactForm(navController) },
                         painter = painterResource(id = R.drawable.contactform),
                         contentDescription = "Contact form"
                     )
@@ -118,12 +124,6 @@ fun UserProfileScreen(
                         painter = painterResource(id = R.drawable.logo),
                         contentDescription = "Logo"
                     )
-                    Spacer(modifier = Modifier.height(20.dp))
-                    Button(onClick = {
-                        viewModel.signOut(navController)
-                    }) {
-                        Text(text = "Cerrar sesión")
-                    }
                 }
             }
         }

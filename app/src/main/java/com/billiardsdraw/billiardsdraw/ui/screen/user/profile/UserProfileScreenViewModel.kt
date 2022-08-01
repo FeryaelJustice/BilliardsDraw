@@ -8,10 +8,9 @@ import com.billiardsdraw.billiardsdraw.common.SharedPrefConstants
 import com.billiardsdraw.billiardsdraw.coroutine.DispatcherProvider
 import com.billiardsdraw.billiardsdraw.data.repository.BilliardsDrawRepository
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
+import com.billiardsdraw.billiardsdraw.ui.navigation.navigate
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,9 +21,13 @@ class UserProfileScreenViewModel @Inject constructor(
 ) :
     ViewModel(), LifecycleObserver {
 
+    fun openContactForm(navController: NavHostController) {
+        navigate(navController, Routes.ContactScreen.route)
+    }
+
     fun signOut(navController: NavHostController) {
         repository.signOut()
-        navigateClearingAllBackstack(navController, Routes.LoginScreen.route)
+        navigateClearingAllBackstack(navController, Routes.GeneralApp.route)
         viewModelScope.launch(dispatchers.io) {
             repository.setSharedPreferencesBoolean(SharedPrefConstants.IS_LOGGED_KEY, false)
         }
