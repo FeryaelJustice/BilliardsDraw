@@ -12,6 +12,7 @@ import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.common.SharedPrefConstants
 import com.billiardsdraw.billiardsdraw.common.md5
+import com.billiardsdraw.billiardsdraw.coroutine.DispatcherProvider
 import com.billiardsdraw.billiardsdraw.data.repository.BilliardsDrawRepository
 import com.billiardsdraw.billiardsdraw.domain.map.toUser
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
@@ -31,7 +32,10 @@ import javax.inject.Inject
 import kotlin.collections.HashMap
 
 @HiltViewModel
-class RegisterScreenViewModel @Inject constructor(private val repository: BilliardsDrawRepository) :
+class RegisterScreenViewModel @Inject constructor(
+    private val repository: BilliardsDrawRepository,
+    private val dispatchers: DispatcherProvider
+) :
     ViewModel(), LifecycleObserver {
     var email: String by mutableStateOf("")
     var password: String by mutableStateOf("")
@@ -47,16 +51,16 @@ class RegisterScreenViewModel @Inject constructor(private val repository: Billia
             if (email.isNotBlank() && password.isNotBlank() && repeatPassword.isNotBlank()) {
                 if (password == repeatPassword) {
                     // Log user in auth with email and password
-                    viewModelScope.launch(Dispatchers.IO) {
+                    viewModelScope.launch(dispatchers.io) {
                         val user = repository.signUpWithEmailPassword(email, password)?.toUser()
                         if (user == null) {
-                            withContext(Dispatchers.Main) {
+                            withContext(dispatchers.main) {
                                 showToastShort(context, "Ha habido un error interno")
                                 Log.d("error", "error en user register")
                             }
                         }
                         user?.let { userAuth ->
-                            withContext(Dispatchers.Main) {
+                            withContext(dispatchers.main) {
                                 appViewModel.setUser(userAuth)
                             }
 
@@ -100,9 +104,12 @@ class RegisterScreenViewModel @Inject constructor(private val repository: Billia
                                 }
                             }
 
-                            repository.setSharedPreferencesBoolean(SharedPrefConstants.IS_LOGGED_KEY, true)
+                            repository.setSharedPreferencesBoolean(
+                                SharedPrefConstants.IS_LOGGED_KEY,
+                                true
+                            )
 
-                            withContext(Dispatchers.Main) {
+                            withContext(dispatchers.main) {
                                 showToastLong(context, "Welcome to Billiards Draw!")
                                 navigateClearingAllBackstack(
                                     navController,

@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.common.SharedPrefConstants.IS_LOGGED_KEY
+import com.billiardsdraw.billiardsdraw.coroutine.DispatcherProvider
 import com.billiardsdraw.billiardsdraw.data.model.network.NetworkResponse
 import com.billiardsdraw.billiardsdraw.data.model.User
 import com.billiardsdraw.billiardsdraw.data.repository.BilliardsDrawRepository
@@ -27,7 +28,10 @@ import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginScreenViewModel @Inject constructor(private val repository: BilliardsDrawRepository) :
+class LoginScreenViewModel @Inject constructor(
+    private val repository: BilliardsDrawRepository,
+    private val dispatchers: DispatcherProvider
+) :
     ViewModel(), LifecycleObserver {
 
     /*
@@ -70,16 +74,16 @@ class LoginScreenViewModel @Inject constructor(private val repository: Billiards
             // Check if all fields are not empty
             if (email.isNotBlank() && password.isNotBlank()) {
                 // Log user in auth with email and password
-                viewModelScope.launch(Dispatchers.IO) {
+                viewModelScope.launch(dispatchers.io) {
                     val user = repository.signInWithEmailPassword(email, password)?.toUser()
                     if (user == null) {
-                        withContext(Dispatchers.Main) {
+                        withContext(dispatchers.main) {
                             showToastShort(context, "Ha habido un error interno")
                             Log.d("error", "error en user login")
                         }
                     }
                     user?.let { userAuth ->
-                        withContext(Dispatchers.Main) {
+                        withContext(dispatchers.main) {
                             appViewModel.setUser(userAuth)
                         }
                         repository.getUserFromFirebaseFirestore(userAuth.uid) { userData ->
@@ -97,7 +101,7 @@ class LoginScreenViewModel @Inject constructor(private val repository: Billiards
                         }
                         repository.setSharedPreferencesBoolean(IS_LOGGED_KEY, true)
 
-                        withContext(Dispatchers.Main) {
+                        withContext(dispatchers.main) {
                             showToastLong(context, "Welcome to Billiards Draw!")
                             navigateClearingAllBackstack(
                                 navController,

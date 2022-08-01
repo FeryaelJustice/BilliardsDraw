@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.common.SharedPrefConstants
+import com.billiardsdraw.billiardsdraw.coroutine.DispatcherProvider
 import com.billiardsdraw.billiardsdraw.data.repository.BilliardsDrawRepository
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
@@ -15,13 +16,16 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class UserProfileScreenViewModel @Inject constructor(private val repository: BilliardsDrawRepository) :
+class UserProfileScreenViewModel @Inject constructor(
+    private val repository: BilliardsDrawRepository,
+    private val dispatchers: DispatcherProvider
+) :
     ViewModel(), LifecycleObserver {
 
     fun signOut(navController: NavHostController) {
         repository.signOut()
         navigateClearingAllBackstack(navController, Routes.LoginScreen.route)
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatchers.io) {
             repository.setSharedPreferencesBoolean(SharedPrefConstants.IS_LOGGED_KEY, false)
         }
     }

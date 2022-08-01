@@ -72,10 +72,9 @@ object RoomConstants {
     const val LOCAL_ROOM = "billiardsdraw_db"
 }
 object FirebaseFirestoreConstants{
-    const val ROOT_DIRECTORY = "users"
+    const val USERS_DIRECTORY = "users"
 }
 object FirebaseStorageConstants {
-    const val ROOT_DIRECTORY = "root"
     const val USERS = "users"
     const val USERS_IMAGES = "profile_images"
 }

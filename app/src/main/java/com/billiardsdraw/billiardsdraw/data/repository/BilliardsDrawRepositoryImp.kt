@@ -99,7 +99,7 @@ class BilliardsDrawRepositoryImp @Inject constructor(
         userId: String,
         callback: (com.billiardsdraw.billiardsdraw.domain.model.User) -> Unit
     ) {
-        firebaseFirestoreHelper.getUser("users", userId) { user ->
+        firebaseFirestoreHelper.getUser(userId) { user ->
             callback(user)
         }
     }

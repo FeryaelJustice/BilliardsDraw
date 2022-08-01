@@ -1,5 +1,6 @@
 package com.billiardsdraw.billiardsdraw.data.provider.network.firebase
 
+import com.billiardsdraw.billiardsdraw.common.FirebaseFirestoreConstants
 import com.billiardsdraw.billiardsdraw.data.model.User
 import com.billiardsdraw.billiardsdraw.domain.map.toUser
 import com.billiardsdraw.billiardsdraw.ui.util.showToastShort
@@ -14,7 +15,7 @@ class FirebaseFirestoreHelper : BaseFirebaseFirestoreHelper {
         user: MutableMap<String, Any>,
         callback: (Boolean) -> Unit
     ) {
-        FirebaseFirestore.getInstance().collection("users").add(user)
+        FirebaseFirestore.getInstance().collection(FirebaseFirestoreConstants.USERS_DIRECTORY).add(user)
             .addOnCompleteListener {
                 callback(true)
             }.addOnFailureListener {
@@ -23,11 +24,10 @@ class FirebaseFirestoreHelper : BaseFirebaseFirestoreHelper {
     }
 
     override suspend fun getUser(
-        collection: String,
         id: String,
         callback: (com.billiardsdraw.billiardsdraw.domain.model.User) -> Unit
     ) {
-        FirebaseFirestore.getInstance().collection(collection).document(id).get()
+        FirebaseFirestore.getInstance().collection(FirebaseFirestoreConstants.USERS_DIRECTORY).document(id).get()
             .addOnCompleteListener { docSnap ->
                 val document = docSnap.result
                 val userRetrieved = User(

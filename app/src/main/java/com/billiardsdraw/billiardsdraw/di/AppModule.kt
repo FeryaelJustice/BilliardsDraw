@@ -5,6 +5,8 @@ import android.content.SharedPreferences
 import androidx.room.Room
 import com.billiardsdraw.billiardsdraw.common.RoomConstants
 import com.billiardsdraw.billiardsdraw.common.SharedPrefConstants
+import com.billiardsdraw.billiardsdraw.coroutine.DispatcherProvider
+import com.billiardsdraw.billiardsdraw.coroutine.StandardDispatchers
 import com.billiardsdraw.billiardsdraw.data.provider.local.LocalDatabase
 import com.google.gson.Gson
 import dagger.Module
@@ -19,6 +21,8 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class) // ViewModelComponent::class if we want to attach lifecycle to sub nav graph with each view model
 object AppModule {
+
+    // STORAGE
 
     @Provides
     @Singleton // @ViewModelScoped (NEED ViewModelComponent InstallIn in object)
@@ -42,4 +46,9 @@ object AppModule {
     fun provideGson(): Gson {
         return Gson()
     }
+
+    // DISPATCHERS (Coroutines)
+    @Provides
+    @Singleton
+    fun provideDispatcherProvider(): DispatcherProvider = StandardDispatchers()
 }
