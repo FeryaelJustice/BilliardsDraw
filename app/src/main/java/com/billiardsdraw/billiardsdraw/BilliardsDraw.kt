@@ -18,6 +18,8 @@ import com.billiardsdraw.billiardsdraw.common.*
 import com.billiardsdraw.billiardsdraw.ui.navigation.BilliardsDrawTopBar
 import com.billiardsdraw.billiardsdraw.ui.navigation.NavigationManager
 import com.billiardsdraw.billiardsdraw.ui.theme.BilliardsDrawTheme
+import com.billiardsdraw.billiardsdraw.ui.util.showLongToast
+import com.billiardsdraw.billiardsdraw.ui.util.showShortToast
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
@@ -39,6 +41,11 @@ class BilliardsDraw : ComponentActivity() {
 
         // ViewModel
         model.onCreate()
+
+        /*
+        showShortToast("Hello")
+        showLongToast("Welcome")
+         */
 
         // Check build version
         val buildConfig = buildConfig()
