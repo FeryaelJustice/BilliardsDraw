@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
+import com.billiardsdraw.billiardsdraw.common.SharedPrefConstants
 import com.billiardsdraw.billiardsdraw.common.md5
 import com.billiardsdraw.billiardsdraw.data.repository.BilliardsDrawRepository
 import com.billiardsdraw.billiardsdraw.domain.map.toUser
@@ -98,6 +99,8 @@ class RegisterScreenViewModel @Inject constructor(private val repository: Billia
                                     role = userData.role
                                 }
                             }
+
+                            repository.setSharedPreferencesBoolean(SharedPrefConstants.IS_LOGGED_KEY, true)
 
                             withContext(Dispatchers.Main) {
                                 showToastLong(context, "Welcome to Billiards Draw!")

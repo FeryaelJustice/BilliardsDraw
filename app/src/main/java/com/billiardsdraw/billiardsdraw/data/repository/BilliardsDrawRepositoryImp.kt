@@ -31,6 +31,13 @@ class BilliardsDrawRepositoryImp @Inject constructor(
     BilliardsDrawRepository {
 
     // LOCAL
+    override fun sharedPreferencesBoolean(key: String): Boolean =
+        appPreferences.getBoolean(key, false)
+
+    override fun setSharedPreferencesBoolean(key: String, value: Boolean) {
+        appPreferences.edit().putBoolean(key, value).apply()
+    }
+
     override suspend fun getUsersFromLocalDB(): List<User> = userDao.getUsers()
 
     // API

@@ -65,19 +65,17 @@ object HexToJetpackColor {
 
 // Object constants
 object SharedPrefConstants {
-    val LOCAL_SHARED_PREF_SETTINGS = "local_shared_pref_settings"
-    val USER_SESSION = "user_session"
+    const val LOCAL_SHARED_PREF_SETTINGS = "local_shared_pref_settings"
+    const val IS_LOGGED_KEY = "isLogged"
 }
 object RoomConstants {
-    val LOCAL_ROOM = "billiardsdraw_db"
-}
-object FirebaseAuthConstants {
-    val AUTH_UID = ""
+    const val LOCAL_ROOM = "billiardsdraw_db"
 }
 object FirebaseFirestoreConstants{
-    val ROOT = "users"
+    const val ROOT_DIRECTORY = "users"
 }
 object FirebaseStorageConstants {
-    val ROOT_DIRECTORY = "app"
-    val USER_IMAGES = "user"
+    const val ROOT_DIRECTORY = "root"
+    const val USERS = "users"
+    const val USERS_IMAGES = "profile_images"
 }

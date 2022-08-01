@@ -12,6 +12,7 @@ import androidx.compose.material.TextField
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -28,8 +29,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
+import com.billiardsdraw.billiardsdraw.common.SharedPrefConstants
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigate
+import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(
@@ -43,8 +49,11 @@ fun LoginScreen(
         val context = LocalContext.current
 
         // RECUERDA: El autologin con sharedprefs, o con variables hace que pete, se repinta, averiguar manera
-        // NO HACER if(LocalSharedPreferences().getBoolean("logged")) { navigate(navController,Routes.MenuScrene.route) }
-        // NO HACER if(getIsLogged()) { navigate(navController,Routes.MenuScrene.route) }
+        LaunchedEffect(key1 = "isLogged", block = {
+            if (viewModel.isLogged()) {
+                navigateClearingAllBackstack(navController, Routes.LoggedApp.route)
+            }
+        })
 
         Box(modifier = Modifier.fillMaxSize()) {
             Card(elevation = 4.dp, modifier = Modifier.fillMaxSize()) {

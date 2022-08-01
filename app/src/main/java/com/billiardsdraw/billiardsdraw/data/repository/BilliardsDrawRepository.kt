@@ -6,6 +6,8 @@ import com.google.firebase.auth.FirebaseUser
 
 interface BilliardsDrawRepository {
     // LOCAL
+    fun sharedPreferencesBoolean(key:String): Boolean
+    fun setSharedPreferencesBoolean(key:String, value: Boolean)
     suspend fun getUsersFromLocalDB(): List<User>
 
     // API
@@ -18,7 +20,7 @@ interface BilliardsDrawRepository {
     fun getCurrentUser(): FirebaseUser?
     suspend fun sendResetPassword(email: String): Boolean
     suspend fun createUserInFirebaseFirestore(
-        user: MutableMap<String,Any>,
+        user: MutableMap<String, Any>,
         callback: (Boolean) -> Unit
     )
 
