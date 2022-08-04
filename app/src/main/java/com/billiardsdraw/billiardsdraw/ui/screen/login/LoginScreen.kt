@@ -29,9 +29,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
+import com.billiardsdraw.billiardsdraw.common.buildConfig
+import com.billiardsdraw.billiardsdraw.common.enableAds
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigate
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
+import com.billiardsdraw.billiardsdraw.ui.util.CreateBanner
+import com.billiardsdraw.billiardsdraw.ui.util.createInterstitialAd
 
 @Composable
 fun LoginScreen(
@@ -45,6 +49,10 @@ fun LoginScreen(
         viewModel.onCreate()
 
         val context = LocalContext.current
+
+        if (enableAds) {
+            createInterstitialAd(context)
+        }
 
         // RECUERDA: El autologin con sharedprefs, o con variables hace que pete, se repinta, averiguar manera
         LaunchedEffect(key1 = "isLogged", block = {
@@ -174,6 +182,11 @@ fun LoginScreen(
                                     )
                                 }
                         )
+                    }
+
+                    // Banner ad
+                    if (buildConfig() == "debug") {
+                        CreateBanner(context)
                     }
                 }
             }

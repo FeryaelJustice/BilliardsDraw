@@ -17,6 +17,7 @@ enum class BilliardsDrawFontSize(val size: Int) {
     EXTRA_BIG(28)
 }
 
+// FOR COMPOSABLE
 fun showToastShort(context: Context, message: String) {
     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }
@@ -25,6 +26,7 @@ fun showToastLong(context: Context, message: String) {
     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 }
 
+// FOR ACTIVITIES
 fun Activity.showShortToast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
