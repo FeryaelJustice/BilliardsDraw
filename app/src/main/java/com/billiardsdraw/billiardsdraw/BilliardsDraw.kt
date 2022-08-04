@@ -1,5 +1,6 @@
 package com.billiardsdraw.billiardsdraw
 
+import android.content.Context
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
@@ -18,8 +19,6 @@ import com.billiardsdraw.billiardsdraw.common.*
 import com.billiardsdraw.billiardsdraw.ui.navigation.BilliardsDrawTopBar
 import com.billiardsdraw.billiardsdraw.ui.navigation.NavigationManager
 import com.billiardsdraw.billiardsdraw.ui.theme.BilliardsDrawTheme
-import com.billiardsdraw.billiardsdraw.ui.util.showLongToast
-import com.billiardsdraw.billiardsdraw.ui.util.showShortToast
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
@@ -56,8 +55,8 @@ class BilliardsDraw : ComponentActivity() {
             // Si hay que obtener consentimiento para mostrar anuncios, hacerlo antes del initialize
             MobileAds.initialize(this) {}
             Log.d("a", BANNER_AD_CODE) // Luego quitar
-            Log.d("b", INTERSTITIAL_AD_CODE) // Luego quitar
-            createInterstitialAd()
+            Log.d("b", INTERSTITIAL_AD_CODE_LAUNCH) // Luego quitar
+            createInterstitialAd(this)
         }
 
         // Firebase
@@ -120,11 +119,11 @@ class BilliardsDraw : ComponentActivity() {
         }
     }
 
-    private fun createInterstitialAd() {
+    private fun createInterstitialAd(context: Context) {
         // Interstitial ad
         val adRequest = AdRequest.Builder().build()
         InterstitialAd.load(
-            this,
+            context,
             TEST_AD_CODE, // reemplazar por interstitial code en prod
             adRequest,
             object : InterstitialAdLoadCallback() {
@@ -197,6 +196,7 @@ class BilliardsDraw : ComponentActivity() {
                 */
             }, content =
             { innerPadding ->
+
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier

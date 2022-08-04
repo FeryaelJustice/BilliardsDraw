@@ -14,8 +14,8 @@ import java.security.MessageDigest
 // CONSTANTS
 
 const val BILLIARDSDRAW_CONTACT_EMAIL = "billiardsdraw@gmail.com"
-const val TEST_AD_CODE = "ca-app-pub-3940256099942544/6300978111"
-const val INTERSTITIAL_AD_CODE = "a-app-pub-8873908976357821/7203477994"
+const val TEST_AD_CODE = "ca-app-pub-3940256099942544/1033173712"
+const val INTERSTITIAL_AD_CODE_LAUNCH = "ca-app-pub-8873908976357821/2958573660"
 const val BANNER_AD_CODE = "ca-app-pub-8873908976357821/7746403479"
 
 // METHODS

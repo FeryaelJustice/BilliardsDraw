@@ -8,7 +8,7 @@ import com.billiardsdraw.billiardsdraw.data.model.User
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-@Database(entities = [User::class], version = 1, exportSchema = true)
+@Database(entities = [User::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class LocalDatabase : RoomDatabase() {
     abstract fun getUserDao(): UserDao

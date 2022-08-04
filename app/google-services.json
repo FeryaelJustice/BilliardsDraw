@@ -1,15 +1,16 @@
 {
   "project_info": {
     "project_number": "134895603343",
+    "firebase_url": "https://billiardsdraw-c894c-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "billiardsdraw-c894c",
     "storage_bucket": "billiardsdraw-c894c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:134895603343:android:0ed95f60b42286acf2aafa",
+        "mobilesdk_app_id": "1:134895603343:android:e082f276532bdfcaf2aafa",
         "android_client_info": {
-          "package_name": "com.billiardsdraw.billiardsdraw.free"
+          "package_name": "com.billiardsdraw.billiardsdraw"
         }
       },
       "oauth_client": [
@@ -17,7 +18,7 @@
           "client_id": "134895603343-vpv24rhbegi5or0bkevg29cld6t1o04o.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.billiardsdraw.billiardsdraw.free",
+            "package_name": "com.billiardsdraw.billiardsdraw",
             "certificate_hash": "a5c3deade0144bf0463f79e3a33a4238dfa48083"
           }
         },

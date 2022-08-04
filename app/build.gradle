@@ -15,8 +15,8 @@ android {
         applicationId "com.billiardsdraw.billiardsdraw"
         minSdk 21
         targetSdk 32
-        versionCode 2
-        versionName "1.0.1"
+        versionCode 3
+        versionName "1.0.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -49,14 +49,14 @@ android {
     productFlavors {
         freeVersion {
             dimension "version"
-            applicationIdSuffix ".free"
+            applicationIdSuffix ""
             versionNameSuffix "-free"
             buildConfigField 'String', 'free_url', '"https://billiardsdraw.com"'
             buildConfigField 'Boolean', 'isPremium', 'false'
         }
         premiumVersion {
             dimension "version"
-            applicationIdSuffix ".premium"
+            applicationIdSuffix ""
             versionNameSuffix "-premium"
             buildConfigField 'String', 'premium_url', '"https://billiardsdraw.com/premium"'
             buildConfigField 'Boolean', 'isPremium', 'true'
@@ -167,7 +167,7 @@ dependencies {
     implementation("com.android.billingclient:billing-ktx:$billing_version")
 
     // Room database
-    def roomVersion = "2.4.2"
+    def roomVersion = "2.4.3"
     implementation("androidx.room:room-runtime:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
