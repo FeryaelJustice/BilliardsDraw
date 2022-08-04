@@ -12,17 +12,9 @@ import com.google.android.gms.ads.interstitial.InterstitialAd
 import java.math.BigInteger
 import java.security.MessageDigest
 
-// VARIABLES
-var mInterstitialAd: InterstitialAd? = null
-var enableAds: Boolean = false
-
 // CONSTANTS
 
 const val BILLIARDSDRAW_CONTACT_EMAIL = "billiardsdraw@gmail.com"
-const val TEST_AD_CODE_INTERSTITIAL = "ca-app-pub-3940256099942544/1033173712"
-const val TEST_AD_CODE_BANNER= "ca-app-pub-3940256099942544/6300978111"
-const val INTERSTITIAL_AD_CODE_LAUNCH = "ca-app-pub-8873908976357821/2958573660"
-const val BANNER_AD_CODE_LAUNCH = "ca-app-pub-8873908976357821/6221378862"
 
 // METHODS
 

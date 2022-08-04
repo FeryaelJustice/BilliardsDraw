@@ -29,13 +29,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
+import com.billiardsdraw.billiardsdraw.common.ads.CreateBanner
+import com.billiardsdraw.billiardsdraw.common.ads.createInterstitialAd
+import com.billiardsdraw.billiardsdraw.common.ads.enableAds
 import com.billiardsdraw.billiardsdraw.common.buildConfig
-import com.billiardsdraw.billiardsdraw.common.enableAds
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigate
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
-import com.billiardsdraw.billiardsdraw.ui.util.CreateBanner
-import com.billiardsdraw.billiardsdraw.ui.util.createInterstitialAd
 
 @Composable
 fun LoginScreen(

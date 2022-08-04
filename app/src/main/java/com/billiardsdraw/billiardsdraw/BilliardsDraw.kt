@@ -1,6 +1,5 @@
 package com.billiardsdraw.billiardsdraw
 
-import android.content.Context
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
@@ -13,7 +12,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.android.billingclient.api.*
@@ -21,10 +19,7 @@ import com.billiardsdraw.billiardsdraw.common.*
 import com.billiardsdraw.billiardsdraw.ui.navigation.BilliardsDrawTopBar
 import com.billiardsdraw.billiardsdraw.ui.navigation.NavigationManager
 import com.billiardsdraw.billiardsdraw.ui.theme.BilliardsDrawTheme
-import com.billiardsdraw.billiardsdraw.ui.util.createInterstitialAd
 import com.google.android.gms.ads.*
-import com.google.android.gms.ads.interstitial.InterstitialAd
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.ImmutableList
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.ktx.initialize
@@ -41,23 +36,6 @@ class BilliardsDraw : ComponentActivity() {
 
         // ViewModel
         model.onCreate()
-
-        /*
-        showShortToast("Hello")
-        showLongToast("Welcome")
-         */
-
-        // Check build version
-        enableAds = buildConfig() == "debug" // cambiar a release al subirlo a tienda en prod
-
-        // ADS
-        if (enableAds) {
-            // Si hay que obtener consentimiento para mostrar anuncios, hacerlo antes del initialize
-            MobileAds.initialize(this) {}
-        }
-
-        // Firebase
-        Firebase.initialize(this)
 
         // Google Play Services (pay)
         val purchasesUpdatedListener =
