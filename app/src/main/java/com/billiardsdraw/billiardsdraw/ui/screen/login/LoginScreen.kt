@@ -61,7 +61,7 @@ fun LoginScreen(
             Card(elevation = 4.dp, modifier = Modifier.fillMaxSize()) {
                 Image(
                     painter = painterResource(id = R.drawable.fondoinicio),
-                    contentDescription = "Fondo inicio",
+                    contentDescription = "Login background",
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop
                 )
@@ -101,7 +101,18 @@ fun LoginScreen(
                         TextField(
                             value = viewModel.email,
                             onValueChange = { viewModel.email = it },
-                            label = { Text("Enter email", color = Color.Black) },
+                            label = {
+                                Text(
+                                    stringResource(id = R.string.email),
+                                    color = Color.Black
+                                )
+                            },
+                            placeholder = {
+                                Text(
+                                    stringResource(id = R.string.email_hint),
+                                    color = Color.Black
+                                )
+                            },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                             modifier = Modifier.background(
                                 Color.White
@@ -111,7 +122,18 @@ fun LoginScreen(
                         TextField(
                             value = viewModel.password,
                             onValueChange = { viewModel.password = it },
-                            label = { Text("Enter password", color = Color.Black) },
+                            label = {
+                                Text(
+                                    stringResource(id = R.string.password),
+                                    color = Color.Black
+                                )
+                            },
+                            placeholder = {
+                                Text(
+                                    stringResource(id = R.string.password_hint),
+                                    color = Color.Black
+                                )
+                            },
                             visualTransformation = PasswordVisualTransformation(),
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                             modifier = Modifier.background(Color.White)
@@ -130,7 +152,7 @@ fun LoginScreen(
                             modifier = Modifier.width(160.dp)
                         ) {
                             Text(
-                                text = "Iniciar sesión"
+                                text = stringResource(id = R.string.signIn)
                             )
                         }
                         Spacer(modifier = Modifier.height(1.dp))
@@ -139,7 +161,7 @@ fun LoginScreen(
                                 checked = viewModel.keepSession,
                                 onCheckedChange = { viewModel.keepSession = it })
                             Text(
-                                text = "Mantener sesión iniciada",
+                                text = stringResource(id = R.string.keepSession),
                                 color = Color.White,
                                 modifier = Modifier
                                     .align(Alignment.CenterVertically)
@@ -147,7 +169,7 @@ fun LoginScreen(
                         }
                         Spacer(modifier = Modifier.height(1.dp))
                         Text(
-                            text = "¿Has olvidado tu contraseña?",
+                            text = stringResource(id = R.string.forgotPassword),
                             Modifier
                                 .clickable {
                                     navigate(
@@ -161,7 +183,7 @@ fun LoginScreen(
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = "¿Acabas de llegar?",
+                            text = stringResource(id = R.string.justArrived),
                             color = Color.White,
                             fontWeight = FontWeight.Bold
                         )

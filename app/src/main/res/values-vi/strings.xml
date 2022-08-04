@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="welcome">chào mừng bạn đến</string>
+    <string name="email_hint">Hãy điền địa chỉ email của bạn</string>
+    <string name="email">thư</string>
+    <string name="password_hint">Nhập mật khẩu của bạn</string>
+    <string name="repeatpassword_hint">lặp lại mật khẩu</string>
+    <string name="password">Mật khẩu</string>
+    <string name="forgotPassword">Quên mật khẩu</string>
+    <string name="justArrived">Bạn vừa mới đến?</string>
+    <string name="keepSession">Giữ cho tôi đăng nhập</string>
+    <string name="signOut">Đăng xuất</string>
+    <string name="signUp">Đăng ký</string>
+    <string name="signIn">Đăng nhập</string>
 </resources>

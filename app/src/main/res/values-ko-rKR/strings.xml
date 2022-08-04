@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="welcome">에 오신 것을 환영합니다</string>
+    <string name="email_hint">당신의 이메일 주소를 입력하십시오</string>
+    <string name="email">우편</string>
+    <string name="password_hint">비밀번호를 입력하세요</string>
+    <string name="repeatpassword_hint">비밀번호 반복</string>
+    <string name="password">비밀번호</string>
+    <string name="forgotPassword">비밀번호를 잊으 셨나요</string>
+    <string name="justArrived">방금 도착했습니까?</string>
+    <string name="keepSession">로그인을 유지합니다</string>
+    <string name="signOut">로그아웃</string>
+    <string name="signUp">가입하기</string>
+    <string name="signIn">로그인</string>
 </resources>

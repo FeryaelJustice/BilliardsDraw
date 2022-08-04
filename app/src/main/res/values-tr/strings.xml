@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="welcome">Hoşgeldiniz</string>
+    <string name="email_hint">lütfen e-mail adresinizi giriniz</string>
+    <string name="email">posta</string>
+    <string name="password_hint">Şifrenizi girin</string>
+    <string name="repeatpassword_hint">Şifreyi tekrar girin</string>
+    <string name="password">Şifre</string>
+    <string name="forgotPassword">Parolanızı mı unuttunuz</string>
+    <string name="justArrived">Yeni mi geldiniz?</string>
+    <string name="keepSession">Oturumumu açık tut</string>
+    <string name="signOut">oturumu Kapat</string>
+    <string name="signUp">Üye olmak</string>
+    <string name="signIn">Kayıt olmak</string>
 </resources>

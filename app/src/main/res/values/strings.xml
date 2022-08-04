@@ -3,4 +3,15 @@
     <string name="default_image_description" translatable="false">Image description</string>
 
     <string name="welcome">Welcome to</string>
+    <string name="email_hint">Enter email</string>
+    <string name="email">Email</string>
+    <string name="password_hint">Enter password</string>
+    <string name="repeatpassword_hint">Repeat password</string>
+    <string name="password">Password</string>
+    <string name="signIn">Sign in</string>
+    <string name="signUp">Sign up</string>
+    <string name="signOut">Sign out</string>
+    <string name="keepSession">Keep me signed in</string>
+    <string name="forgotPassword">Forgot password?</string>
+    <string name="justArrived">You\'ve just arrived?</string>
 </resources>

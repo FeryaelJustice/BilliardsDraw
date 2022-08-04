@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="welcome">ようこそ</string>
+    <string name="email_hint">メールアドレスを入力してください</string>
+    <string name="email">郵便物</string>
+    <string name="password_hint">パスワードを入力してください</string>
+    <string name="repeatpassword_hint">パスワードを再度入力してください。</string>
+    <string name="password">パスワード</string>
+    <string name="forgotPassword">パスワードをお忘れですか</string>
+    <string name="justArrived">到着したばかりですか？</string>
+    <string name="keepSession">ログイン状態を保持する</string>
+    <string name="signOut">サインアウト</string>
+    <string name="signUp">サインアップ</string>
+    <string name="signIn">ログイン</string>
 </resources>

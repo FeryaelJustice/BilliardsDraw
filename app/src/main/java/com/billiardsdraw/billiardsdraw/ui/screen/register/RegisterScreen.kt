@@ -40,7 +40,7 @@ fun RegisterScreen(
         Card(elevation = 4.dp, modifier = Modifier.fillMaxSize()) {
             Image(
                 painter = painterResource(id = R.drawable.fondoinicio),
-                contentDescription = "Fondo inicio",
+                contentDescription = "Register background",
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
@@ -80,7 +80,18 @@ fun RegisterScreen(
                     TextField(
                         value = viewModel.email,
                         onValueChange = { viewModel.email = it },
-                        label = { Text("Enter email", color = Color.Black) },
+                        label = {
+                            Text(
+                                stringResource(id = R.string.email),
+                                color = Color.Black
+                            )
+                        },
+                        placeholder = {
+                            Text(
+                                stringResource(id = R.string.email_hint),
+                                color = Color.Black
+                            )
+                        },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                         modifier = Modifier.background(
                             Color.White
@@ -90,7 +101,18 @@ fun RegisterScreen(
                     TextField(
                         value = viewModel.password,
                         onValueChange = { viewModel.password = it },
-                        label = { Text("Enter password", color = Color.Black) },
+                        label = {
+                            Text(
+                                stringResource(id = R.string.password),
+                                color = Color.Black
+                            )
+                        },
+                        placeholder = {
+                            Text(
+                                stringResource(id = R.string.password_hint),
+                                color = Color.Black
+                            )
+                        },
                         visualTransformation = PasswordVisualTransformation(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                         modifier = Modifier.background(Color.White)
@@ -99,7 +121,18 @@ fun RegisterScreen(
                     TextField(
                         value = viewModel.repeatPassword,
                         onValueChange = { viewModel.repeatPassword = it },
-                        label = { Text("Repeat password", color = Color.Black) },
+                        label = {
+                            Text(
+                                stringResource(id = R.string.repeatpassword_hint),
+                                color = Color.Black
+                            )
+                        },
+                        placeholder = {
+                            Text(
+                                stringResource(id = R.string.repeatpassword_hint),
+                                color = Color.Black
+                            )
+                        },
                         visualTransformation = PasswordVisualTransformation(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                         modifier = Modifier.background(Color.White)
@@ -118,7 +151,7 @@ fun RegisterScreen(
                         modifier = Modifier.width(160.dp)
                     ) {
                         Text(
-                            text = "Registrarse"
+                            text = stringResource(id = R.string.signUp)
                         )
                     }
                 }

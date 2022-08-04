@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="welcome">Willkommen zu</string>
+    <string name="email_hint">Geben Sie die E-Mail ein</string>
+    <string name="email">Post</string>
+    <string name="password_hint">Geben Sie Ihr Passwort ein</string>
+    <string name="repeatpassword_hint">Passwort wiederholen</string>
+    <string name="password">Passwort</string>
+    <string name="forgotPassword">Passwort vergessen</string>
+    <string name="justArrived">Sie sind gerade angekommen?</string>
+    <string name="keepSession">Halten Sie mich angemeldet</string>
+    <string name="signOut">Ausloggen</string>
+    <string name="signUp">Anmelden</string>
+    <string name="signIn">Einloggen</string>
 </resources>
