@@ -15,6 +15,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
+import com.billiardsdraw.billiardsdraw.common.ads.createInterstitialAd
+import com.billiardsdraw.billiardsdraw.common.ads.enableAds
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 import com.billiardsdraw.billiardsdraw.ui.util.showToastLong
@@ -76,6 +78,9 @@ fun PoolMenuScreen(viewModel: PoolMenuScreenViewModel, navController: NavHostCon
                             painter = painterResource(id = R.drawable.button_draw),
                             contentDescription = "Draw",
                             modifier = Modifier.scale(2f).clickable {
+                                if (enableAds) {
+                                    createInterstitialAd(context)
+                                }
                                 navigateClearingAllBackstack(
                                     navController,
                                     Routes.PoolScreen.route
@@ -87,6 +92,9 @@ fun PoolMenuScreen(viewModel: PoolMenuScreenViewModel, navController: NavHostCon
                             painter = painterResource(id = R.drawable.button_mypositions),
                             contentDescription = "My positions",
                             modifier = Modifier.scale(2f).clickable {
+                                if (enableAds) {
+                                    createInterstitialAd(context)
+                                }
                                 showToastLong(context,"My positions")
                             }
                         )
@@ -95,6 +103,9 @@ fun PoolMenuScreen(viewModel: PoolMenuScreenViewModel, navController: NavHostCon
                             painter = painterResource(id = R.drawable.button_weeklyposition),
                             contentDescription = "Weekly positions",
                             modifier = Modifier.scale(2f).clickable {
+                                if (enableAds) {
+                                    createInterstitialAd(context)
+                                }
                                 showToastLong(context,"Weekly positions")
                             }
                         )

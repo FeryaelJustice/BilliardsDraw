@@ -15,12 +15,18 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
+import com.billiardsdraw.billiardsdraw.common.ads.createInterstitialAd
+import com.billiardsdraw.billiardsdraw.common.ads.enableAds
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 import com.billiardsdraw.billiardsdraw.ui.util.showToastLong
 
 @Composable
-fun CarambolaMenuScreen(viewModel: CarambolaMenuScreenViewModel, navController: NavHostController, appViewModel: BilliardsDrawViewModel) {
+fun CarambolaMenuScreen(
+    viewModel: CarambolaMenuScreenViewModel,
+    navController: NavHostController,
+    appViewModel: BilliardsDrawViewModel
+) {
     val context = LocalContext.current
     Box(modifier = Modifier.fillMaxSize()) {
         Card(elevation = 4.dp, modifier = Modifier.fillMaxSize()) {
@@ -62,7 +68,10 @@ fun CarambolaMenuScreen(viewModel: CarambolaMenuScreenViewModel, navController: 
                             .scale(2f)
                             .clickable {
                                 // Navigate to profile screen
-                                navigateClearingAllBackstack(navController, Routes.UserProfileScreen.route)
+                                navigateClearingAllBackstack(
+                                    navController,
+                                    Routes.UserProfileScreen.route
+                                )
                             })
                 }
                 Column(
@@ -82,6 +91,9 @@ fun CarambolaMenuScreen(viewModel: CarambolaMenuScreenViewModel, navController: 
                             modifier = Modifier
                                 .scale(2f)
                                 .clickable {
+                                    if (enableAds) {
+                                        createInterstitialAd(context)
+                                    }
                                     navigateClearingAllBackstack(
                                         navController,
                                         Routes.CarambolaScreen.route
@@ -95,6 +107,9 @@ fun CarambolaMenuScreen(viewModel: CarambolaMenuScreenViewModel, navController: 
                             modifier = Modifier
                                 .scale(2f)
                                 .clickable {
+                                    if (enableAds) {
+                                        createInterstitialAd(context)
+                                    }
                                     showToastLong(context, "My positions")
                                 }
                         )
@@ -105,6 +120,9 @@ fun CarambolaMenuScreen(viewModel: CarambolaMenuScreenViewModel, navController: 
                             modifier = Modifier
                                 .scale(2f)
                                 .clickable {
+                                    if (enableAds) {
+                                        createInterstitialAd(context)
+                                    }
                                     showToastLong(context, "Weekly positions")
                                 }
                         )

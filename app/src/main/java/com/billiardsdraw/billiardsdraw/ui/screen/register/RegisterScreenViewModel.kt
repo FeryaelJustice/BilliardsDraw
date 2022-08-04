@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
+import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.common.SharedPrefConstants
 import com.billiardsdraw.billiardsdraw.common.md5
 import com.billiardsdraw.billiardsdraw.coroutine.DispatcherProvider
@@ -106,7 +107,10 @@ class RegisterScreenViewModel @Inject constructor(
                             )
 
                             withContext(dispatchers.main) {
-                                showToastLong(context, "Welcome to Billiards Draw!")
+                                showToastLong(
+                                    context,
+                                    context.resources.getString(R.string.welcome) + " Billiards Draw!"
+                                )
                                 navigateClearingAllBackstack(
                                     navController,
                                     Routes.LoggedApp.route

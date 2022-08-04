@@ -50,10 +50,6 @@ fun LoginScreen(
 
         val context = LocalContext.current
 
-        if (enableAds) {
-            createInterstitialAd(context)
-        }
-
         // RECUERDA: El autologin con sharedprefs, o con variables hace que pete, se repinta, averiguar manera
         LaunchedEffect(key1 = "isLogged", block = {
             if (viewModel.isLogged()) {
@@ -185,7 +181,7 @@ fun LoginScreen(
                     }
 
                     // Banner ad
-                    if (buildConfig() == "debug") {
+                    if (enableAds) {
                         CreateBanner(context)
                     }
                 }
