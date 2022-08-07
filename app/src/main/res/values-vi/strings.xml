@@ -14,4 +14,22 @@
     <string name="signIn">Đăng nhập</string>
     <string name="carambola">đại bác</string>
     <string name="pool">hồ bơi</string>
+    <string name="sendEmail">Gửi email</string>
+    <string name="emailSent">Email được gửi đến hộp thư đến của bạn, hãy kiểm tra nó!</string>
+    <string name="sendEmailFail">Không gửi được email khôi phục tài khoản</string>
+    <string name="fieldsCantBeEmpty">Các trường không được để trống</string>
+    <string name="internalError">Đã xảy ra lỗi nội bộ</string>
+    <string name="back" >back</string>
+    <string name="logo" >logo</string>
+    <string name="profileicon" >profile icon</string>
+    <string name="configuration" >back</string>
+    <string name="contact_form">Mâu liên hệ</string>
+    <string name="draw">draw</string>
+    <string name="my_positions">my positions</string>
+    <string name="joinnow">join now</string>
+    <string name="weekly_positions">weekly positions</string>
+    <string name="passwords_dont_match">Mật khẩu không khớp</string>
+    <string name="subject">môn học</string>
+    <string name="text">chữ</string>
+    <string name="send">gửi</string>
 </resources>

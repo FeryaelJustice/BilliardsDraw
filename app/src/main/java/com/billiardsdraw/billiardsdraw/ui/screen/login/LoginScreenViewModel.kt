@@ -82,7 +82,10 @@ class LoginScreenViewModel @Inject constructor(
                     val user = repository.signInWithEmailPassword(email, password)?.toUser()
                     if (user == null) {
                         withContext(dispatchers.main) {
-                            showToastShort(context, "Ha habido un error interno")
+                            showToastShort(
+                                context,
+                                context.resources.getString(R.string.internalError)
+                            )
                             Log.d("error", "error en user login")
                         }
                     }
@@ -110,7 +113,9 @@ class LoginScreenViewModel @Inject constructor(
                         withContext(dispatchers.main) {
                             showToastLong(
                                 context,
-                                context.resources.getString(R.string.welcome) + " Billiards Draw!"
+                                context.resources.getString(R.string.welcome) + " " + context.resources.getString(
+                                    R.string.app_name
+                                )
                             )
                             navigateClearingAllBackstack(
                                 navController,
@@ -120,7 +125,7 @@ class LoginScreenViewModel @Inject constructor(
                     }
                 }
             } else {
-                showToastShort(context, "Los campos no pueden estar vacíos")
+                showToastShort(context, context.resources.getString(R.string.fieldsCantBeEmpty))
             }
         } catch (e: Exception) {
             e.printStackTrace()

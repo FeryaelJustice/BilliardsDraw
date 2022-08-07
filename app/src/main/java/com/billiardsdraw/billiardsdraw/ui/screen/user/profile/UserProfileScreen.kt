@@ -44,7 +44,7 @@ fun UserProfileScreen(
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.back),
-                    contentDescription = "Back",
+                    contentDescription = context.resources.getString(R.string.back),
                     modifier = Modifier
                         .scale(2f)
                         .clickable {
@@ -56,11 +56,11 @@ fun UserProfileScreen(
                 Image(
                     modifier = Modifier.scale(2f),
                     painter = painterResource(id = R.drawable.billiardsdraw),
-                    contentDescription = "Billiards Draw"
+                    contentDescription = context.resources.getString(R.string.app_name)
                 )
                 Image(
                     painter = painterResource(id = R.drawable.config),
-                    contentDescription = "Configuration",
+                    contentDescription = context.resources.getString(R.string.configuration),
                     modifier = Modifier
                         .scale(2f)
                         .clickable {
@@ -104,7 +104,7 @@ fun UserProfileScreen(
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.profileicon),
-                            contentDescription = "Profile icon",
+                            contentDescription = context.resources.getString(R.string.profileicon),
                             modifier = Modifier
                                 .scale(2f)
                         )
@@ -154,12 +154,12 @@ fun UserProfileScreen(
                             .scale(2f)
                             .clickable { viewModel.openContactForm(navController) },
                         painter = painterResource(id = R.drawable.contactform),
-                        contentDescription = "Contact form"
+                        contentDescription = context.resources.getString(R.string.contact_form),
                     )
                     Spacer(modifier = Modifier.height(20.dp))
                     Image(
                         painter = painterResource(id = R.drawable.logo),
-                        contentDescription = "Logo"
+                        contentDescription = context.resources.getString(R.string.logo)
                     )
                 }
             }

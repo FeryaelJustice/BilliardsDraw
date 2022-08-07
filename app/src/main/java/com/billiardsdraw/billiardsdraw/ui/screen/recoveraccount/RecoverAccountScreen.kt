@@ -39,8 +39,8 @@ fun RecoverAccountScreen(
     Box(modifier = Modifier.fillMaxSize()) {
         Card(elevation = 4.dp, modifier = Modifier.fillMaxSize()) {
             Image(
-                painter = painterResource(id = R.drawable.fondoinicio),
-                contentDescription = "Fondo inicio",
+                painter = painterResource(id = R.drawable.backgroundscreen),
+                contentDescription = stringResource(id = R.string.backgroundScreenDescription),
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
@@ -58,7 +58,7 @@ fun RecoverAccountScreen(
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.logo),
-                    contentDescription = "Logo",
+                    contentDescription = context.resources.getString(R.string.logo),
                     modifier = Modifier
                         .width(150.dp)
                         .height(150.dp)
@@ -82,7 +82,18 @@ fun RecoverAccountScreen(
                 TextField(
                     value = viewModel.email,
                     onValueChange = { viewModel.email = it },
-                    label = { Text("Enter email", color = Color.Black) },
+                    label = {
+                        Text(
+                            stringResource(id = R.string.email),
+                            color = Color.Black
+                        )
+                    },
+                    placeholder = {
+                        Text(
+                            stringResource(id = R.string.email_hint),
+                            color = Color.Black
+                        )
+                    },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                     modifier = Modifier.background(
@@ -90,20 +101,22 @@ fun RecoverAccountScreen(
                     )
                 )
                 Spacer(modifier = Modifier.height(1.dp))
+                val sendEmailText = stringResource(id = R.string.sendEmail)
+                val sendEmailFailText = stringResource(id = R.string.sendEmailFail)
                 Button(
                     onClick = {
                         // Enviar email
                         if (sendEmail(viewModel.email)) {
-                            showToastLong(context, "Email sent to your inbox, check it out!")
+                            showToastLong(context, sendEmailText)
                             navigate(navController, Routes.LoginScreen.route)
                         } else {
-                            showToastLong(context, "Failed sending the recover account email")
+                            showToastLong(context, sendEmailFailText)
                         }
                     },
                     modifier = Modifier.width(160.dp)
                 ) {
                     Text(
-                        text = "Enviar email"
+                        text = stringResource(id = R.string.sendEmail)
                     )
                 }
             }

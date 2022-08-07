@@ -14,4 +14,22 @@
     <string name="signIn">로그인</string>
     <string name="carambola">대포</string>
     <string name="pool">수영장</string>
+    <string name="sendEmail">이메일을 보내</string>
+    <string name="emailSent">받은편지함으로 메일이 발송되었으니 확인해보세요!</string>
+    <string name="sendEmailFail">계정 복구 이메일을 보내지 못했습니다.</string>
+    <string name="fieldsCantBeEmpty">필드는 비워둘 수 없습니다.</string>
+    <string name="internalError">내부 오류가 발생했습니다</string>
+    <string name="back" >back</string>
+    <string name="logo" >logo</string>
+    <string name="profileicon" >profile icon</string>
+    <string name="configuration" >configuration</string>
+    <string name="contact_form">문의 양식</string>
+    <string name="draw">draw</string>
+    <string name="my_positions">my positions</string>
+    <string name="joinnow">join now</string>
+    <string name="weekly_positions">weekly positions</string>
+    <string name="passwords_dont_match">비밀번호가 일치하지 않습니다</string>
+    <string name="subject">주제</string>
+    <string name="text">텍스트</string>
+    <string name="send">보내다</string>
 </resources>

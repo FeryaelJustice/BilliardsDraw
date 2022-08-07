@@ -14,4 +14,22 @@
     <string name="signIn">S\'identifier</string>
     <string name="carambola">canon</string>
     <string name="pool">bassin</string>
+    <string name="sendEmail">Envoyer un e-mail</string>
+    <string name="emailSent">E-mail envoyé dans votre boîte de réception, consultez-le !</string>
+    <string name="sendEmailFail">Échec de l\'envoi de l\'e-mail de récupération du compte</string>
+    <string name="fieldsCantBeEmpty">Les champs ne peuvent pas être vides</string>
+    <string name="internalError">Une erreur interne s\'est produite</string>
+    <string name="back" >back</string>
+    <string name="logo" >logo</string>
+    <string name="profileicon" >profile icon</string>
+    <string name="configuration" >configuration</string>
+    <string name="contact_form">formulaire de contact</string>
+    <string name="draw">draw</string>
+    <string name="my_positions">my positions</string>
+    <string name="joinnow">join now</string>
+    <string name="weekly_positions">weekly positions</string>
+    <string name="passwords_dont_match">Les mots de passe ne correspondent pas</string>
+    <string name="subject">matière</string>
+    <string name="text">texte</string>
+    <string name="send">envoyer</string>
 </resources>

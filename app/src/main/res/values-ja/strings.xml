@@ -14,4 +14,22 @@
     <string name="signIn">ログイン</string>
     <string name="carambola">大砲</string>
     <string name="pool">プール</string>
+    <string name="sendEmail">メールを送る</string>
+    <string name="emailSent">受信トレイにメールが送信されました。確認してください。</string>
+    <string name="sendEmailFail">アカウント復旧メールの送信に失敗しました</string>
+    <string name="fieldsCantBeEmpty">フィールドを空にすることはできません</string>
+    <string name="internalError">内部エラーが発生しました</string>
+    <string name="back" >back</string>
+    <string name="logo" >logo</string>
+    <string name="profileicon" >profile icon</string>
+    <string name="configuration" >configuration</string>
+    <string name="contact_form">お問い合わせフォーム</string>
+    <string name="draw">draw</string>
+    <string name="my_positions">my positions</string>
+    <string name="joinnow">join now</string>
+    <string name="weekly_positions">weekly positions</string>
+    <string name="passwords_dont_match">パスワードが一致しません</string>
+    <string name="subject">主題</string>
+    <string name="text">文章</string>
+    <string name="send">送信</string>
 </resources>

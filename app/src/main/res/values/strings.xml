@@ -16,4 +16,23 @@
     <string name="justArrived">You\'ve just arrived?</string>
     <string name="carambola">cannon</string>
     <string name="pool">pool</string>
+    <string name="sendEmail">Send email</string>
+    <string name="emailSent">Email sent to your inbox, check it out!to</string>
+    <string name="sendEmailFail">Failed sending the recover account email</string>
+    <string name="backgroundScreenDescription" translatable="false">Background screen image</string>
+    <string name="fieldsCantBeEmpty">Fields cannot be empty</string>
+    <string name="internalError">There has been an internal error</string>
+    <string name="back">back</string>
+    <string name="logo">logo</string>
+    <string name="profileicon">profile icon</string>
+    <string name="configuration">configuration</string>
+    <string name="contact_form">contact form</string>
+    <string name="draw">draw</string>
+    <string name="my_positions">my positions</string>
+    <string name="joinnow">join now</string>
+    <string name="weekly_positions">weekly positions</string>
+    <string name="passwords_dont_match">Passwords don\'t match</string>
+    <string name="subject">subject</string>
+    <string name="text">text</string>
+    <string name="send">send</string>
 </resources>

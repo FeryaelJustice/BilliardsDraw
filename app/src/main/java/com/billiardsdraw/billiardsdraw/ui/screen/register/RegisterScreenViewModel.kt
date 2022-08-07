@@ -38,6 +38,7 @@ class RegisterScreenViewModel @Inject constructor(
     var password: String by mutableStateOf("")
     var passwordVisible by mutableStateOf(false)
     var repeatPassword: String by mutableStateOf("")
+    var repeatPasswordVisible by mutableStateOf(false)
 
     fun signUp(
         appViewModel: BilliardsDrawViewModel,
@@ -53,7 +54,10 @@ class RegisterScreenViewModel @Inject constructor(
                         val user = repository.signUpWithEmailPassword(email, password)?.toUser()
                         if (user == null) {
                             withContext(dispatchers.main) {
-                                showToastShort(context, "Ha habido un error interno")
+                                showToastShort(
+                                    context,
+                                    context.resources.getString(R.string.internalError)
+                                )
                                 Log.d("error", "error en user register")
                             }
                         }
@@ -110,7 +114,9 @@ class RegisterScreenViewModel @Inject constructor(
                             withContext(dispatchers.main) {
                                 showToastLong(
                                     context,
-                                    context.resources.getString(R.string.welcome) + " Billiards Draw!"
+                                    context.resources.getString(R.string.welcome) + " " + context.resources.getString(
+                                        R.string.app_name
+                                    )
                                 )
                                 navigateClearingAllBackstack(
                                     navController,
@@ -120,10 +126,13 @@ class RegisterScreenViewModel @Inject constructor(
                         }
                     }
                 } else {
-                    showToastShort(context, "Las contraseñas no coinciden")
+                    showToastShort(
+                        context,
+                        context.resources.getString(R.string.passwords_dont_match)
+                    )
                 }
             } else {
-                showToastShort(context, "Los campos no pueden estar vacíos")
+                showToastShort(context, context.resources.getString(R.string.fieldsCantBeEmpty))
             }
         } catch (e: Exception) {
             e.printStackTrace()

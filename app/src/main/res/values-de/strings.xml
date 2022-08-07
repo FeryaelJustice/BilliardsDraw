@@ -14,4 +14,22 @@
     <string name="signIn">Einloggen</string>
     <string name="carambola">Kanone</string>
     <string name="pool">Schwimmbad</string>
+    <string name="sendEmail">E-Mail senden</string>
+    <string name="emailSent">E-Mail an Ihren Posteingang gesendet, check it out!</string>
+    <string name="sendEmailFail">Senden der E-Mail zur Wiederherstellung des Kontos fehlgeschlagen</string>
+    <string name="fieldsCantBeEmpty">Felder dürfen nicht leer sein</string>
+    <string name="internalError">Es ist ein interner Fehler aufgetreten</string>
+    <string name="back" >back</string>
+    <string name="logo" >logo</string>
+    <string name="profileicon" >profile icon</string>
+    <string name="configuration" >configuration</string>
+    <string name="contact_form">Kontakt Formular</string>
+    <string name="draw">draw</string>
+    <string name="my_positions">my positions</string>
+    <string name="joinnow">join now</string>
+    <string name="weekly_positions">weekly positions</string>
+    <string name="passwords_dont_match">Passwörter stimmen nicht überein</string>
+    <string name="subject">Thema</string>
+    <string name="text">text</string>
+    <string name="send">senden</string>
 </resources>

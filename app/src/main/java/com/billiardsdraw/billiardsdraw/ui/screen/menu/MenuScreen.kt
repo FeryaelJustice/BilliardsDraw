@@ -10,7 +10,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -21,11 +23,12 @@ import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstac
 
 @Composable
 fun MenuScreen(viewModel: MenuScreenViewModel, navController: NavHostController, appViewModel: BilliardsDrawViewModel) {
+    val context = LocalContext.current
     Box(modifier = Modifier.fillMaxSize()) {
         Card(elevation = 4.dp, modifier = Modifier.fillMaxSize()) {
             Image(
-                painter = painterResource(id = R.drawable.fondoinicio),
-                contentDescription = "Fondo inicio",
+                painter = painterResource(id = R.drawable.backgroundscreen),
+                contentDescription = stringResource(id = R.string.backgroundScreenDescription),
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
@@ -41,7 +44,7 @@ fun MenuScreen(viewModel: MenuScreenViewModel, navController: NavHostController,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Carambola",
+                        text = context.resources.getString(R.string.carambola),
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.clickable {
@@ -53,11 +56,11 @@ fun MenuScreen(viewModel: MenuScreenViewModel, navController: NavHostController,
                     Spacer(modifier = Modifier.height(40.dp))
                     Image(
                         painter = painterResource(id = R.drawable.logo),
-                        contentDescription = "Logo"
+                        contentDescription = context.resources.getString(R.string.logo)
                     )
                     Spacer(modifier = Modifier.height(40.dp))
                     Text(
-                        text = "Pool",
+                        text = context.resources.getString(R.string.pool),
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.clickable {

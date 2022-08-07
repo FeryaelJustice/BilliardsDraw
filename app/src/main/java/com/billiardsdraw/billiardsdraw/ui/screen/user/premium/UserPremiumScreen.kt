@@ -41,7 +41,7 @@ fun UserPremiumScreen(
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.back),
-                        contentDescription = "Back",
+                        contentDescription = context.resources.getString(R.string.back),
                         modifier = Modifier
                             .scale(2f)
                             .clickable {
@@ -53,11 +53,11 @@ fun UserPremiumScreen(
                     Image(
                         modifier = Modifier.scale(2f),
                         painter = painterResource(id = R.drawable.billiardsdraw),
-                        contentDescription = "Billiards Draw"
+                        contentDescription = context.resources.getString(R.string.app_name)
                     )
                     Image(
                         painter = painterResource(id = R.drawable.profileicon),
-                        contentDescription = "Configuration",
+                        contentDescription = context.resources.getString(R.string.configuration),
                         modifier = Modifier
                             .scale(2f)
                             .clickable {
@@ -112,7 +112,7 @@ fun UserPremiumScreen(
                                     // Become premium function
                                 },
                             painter = painterResource(id = R.drawable.button_joinnow),
-                            contentDescription = "Contact form"
+                            contentDescription = context.resources.getString(R.string.contact_form),
                         )
                         Button(onClick = {
                             viewModel.signOut(navController)

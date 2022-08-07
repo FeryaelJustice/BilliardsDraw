@@ -14,4 +14,22 @@
     <string name="signIn">Iniciar sesión</string>
     <string name="carambola">carambola</string>
     <string name="pool">billar americano</string>
+    <string name="sendEmail">Enviar email</string>
+    <string name="emailSent">Email enviado a tu bandeja de entrada, ¡ve a revisarlo!</string>
+    <string name="sendEmailFail">Error al enviar el correo electrónico de recuperación de la cuenta</string>
+    <string name="fieldsCantBeEmpty">Los campos no pueden estar vacíos</string>
+    <string name="internalError">Ha habido un error interno</string>
+    <string name="back" >back</string>
+    <string name="logo" >logo</string>
+    <string name="profileicon" >profile icon</string>
+    <string name="configuration" >configuration</string>
+    <string name="contact_form">formulario de contacto</string>
+    <string name="draw">draw</string>
+    <string name="my_positions">my positions</string>
+    <string name="joinnow">join now</string>
+    <string name="weekly_positions">weekly positions</string>
+    <string name="passwords_dont_match">Las contraseñas no coinciden</string>
+    <string name="subject">asunto</string>
+    <string name="text">texto</string>
+    <string name="send">send</string>
 </resources>

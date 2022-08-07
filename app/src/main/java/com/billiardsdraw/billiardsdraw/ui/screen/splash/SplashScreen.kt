@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.R
@@ -23,6 +24,7 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(navController: NavHostController) {
+    val context = LocalContext.current
     val scale = remember {
         Animatable(0f)
     }
@@ -44,7 +46,7 @@ fun SplashScreen(navController: NavHostController) {
     ) {
         Image(
             painter = painterResource(id = R.drawable.logo),
-            contentDescription = "Logo",
+            contentDescription = context.resources.getString(R.string.logo),
             modifier = Modifier.scale(scale.value)
         )
     }

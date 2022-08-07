@@ -31,9 +31,7 @@ import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.common.ads.CreateBanner
-import com.billiardsdraw.billiardsdraw.common.ads.createInterstitialAd
 import com.billiardsdraw.billiardsdraw.common.ads.enableAds
-import com.billiardsdraw.billiardsdraw.common.buildConfig
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigate
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
@@ -61,8 +59,8 @@ fun LoginScreen(
         Box(modifier = Modifier.fillMaxSize()) {
             Card(elevation = 4.dp, modifier = Modifier.fillMaxSize()) {
                 Image(
-                    painter = painterResource(id = R.drawable.fondoinicio),
-                    contentDescription = "Login background",
+                    painter = painterResource(id = R.drawable.backgroundscreen),
+                    contentDescription = context.resources.getString(R.string.backgroundScreenDescription),
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop
                 )
@@ -79,7 +77,7 @@ fun LoginScreen(
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.logo),
-                            contentDescription = "Logo",
+                            contentDescription = context.resources.getString(R.string.logo),
                             modifier = Modifier
                                 .width(150.dp)
                                 .height(150.dp)
@@ -208,7 +206,7 @@ fun LoginScreen(
                         Spacer(modifier = Modifier.height(4.dp))
                         Image(
                             painter = painterResource(id = R.drawable.button_joinnow),
-                            contentDescription = "Join now",
+                            contentDescription = context.resources.getString(R.string.joinnow),
                             modifier = Modifier
                                 .scale(2f)
                                 .clickable {

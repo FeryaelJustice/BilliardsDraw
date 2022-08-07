@@ -39,7 +39,7 @@ fun ContactScreen(
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.back),
-                    contentDescription = "Back",
+                    contentDescription = context.resources.getString(R.string.back),
                     modifier = Modifier
                         .scale(2f)
                         .clickable {
@@ -48,7 +48,7 @@ fun ContactScreen(
                 Image(
                     modifier = Modifier.scale(2f),
                     painter = painterResource(id = R.drawable.billiardsdraw),
-                    contentDescription = "Billiards Draw"
+                    contentDescription = context.resources.getString(R.string.app_name)
                 )
             }
             Column(
@@ -63,7 +63,7 @@ fun ContactScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "FORMULARIO DE CONTACTO",
+                        text = context.resources.getString(R.string.contact_form).uppercase(),
                         color = Color.White,
                         // fontSize = BilliardsDrawFontSize.EXTRA_BIG.size
                     )
@@ -74,13 +74,13 @@ fun ContactScreen(
                         label = {
                             Text(
                                 text =
-                                "Subject"
+                                context.resources.getString(R.string.subject)
                             )
                         },
                         placeholder = {
                             Text(
                                 text =
-                                "Subject"
+                                context.resources.getString(R.string.subject)
                             )
                         })
                     Spacer(modifier = Modifier.height(20.dp))
@@ -90,18 +90,18 @@ fun ContactScreen(
                         label = {
                             Text(
                                 text =
-                                "Text"
+                                context.resources.getString(R.string.text)
                             )
                         },
                         placeholder = {
                             Text(
                                 text =
-                                "Text"
+                                context.resources.getString(R.string.text)
                             )
                         })
                     Spacer(modifier = Modifier.height(20.dp))
                     Button(onClick = { viewModel.send(navController, context) }) {
-                        Text(text = "Send")
+                        Text(text = context.resources.getString(R.string.send))
                     }
                 }
             }

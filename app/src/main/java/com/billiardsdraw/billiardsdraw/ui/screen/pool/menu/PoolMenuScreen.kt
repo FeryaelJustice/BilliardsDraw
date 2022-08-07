@@ -12,6 +12,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
@@ -36,7 +37,7 @@ fun PoolMenuScreen(
         Card(elevation = 4.dp, modifier = Modifier.fillMaxSize()) {
             Image(
                 painter = painterResource(id = R.drawable.pool_menu),
-                contentDescription = "Fondo pool menu",
+                contentDescription = stringResource(id = R.string.backgroundScreenDescription),
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
@@ -51,7 +52,7 @@ fun PoolMenuScreen(
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.back),
-                        contentDescription = "Back",
+                        contentDescription = context.resources.getString(R.string.back),
                         modifier = Modifier
                             .scale(2f)
                             .clickable {
@@ -63,11 +64,11 @@ fun PoolMenuScreen(
                     Image(
                         modifier = Modifier.scale(2f),
                         painter = painterResource(id = R.drawable.billiardsdraw),
-                        contentDescription = "Billiards Draw"
+                        contentDescription = context.resources.getString(R.string.app_name)
                     )
                     Image(
                         painter = painterResource(id = R.drawable.profileicon),
-                        contentDescription = "Profile icon",
+                        contentDescription = context.resources.getString(R.string.profileicon),
                         modifier = Modifier
                             .scale(2f)
                             .clickable {
@@ -106,7 +107,7 @@ fun PoolMenuScreen(
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.button_draw),
-                            contentDescription = "Draw",
+                            contentDescription = context.resources.getString(R.string.draw),
                             modifier = Modifier
                                 .scale(2f)
                                 .clickable {
@@ -122,27 +123,27 @@ fun PoolMenuScreen(
                         Spacer(modifier = Modifier.height(20.dp))
                         Image(
                             painter = painterResource(id = R.drawable.button_mypositions),
-                            contentDescription = "My positions",
+                            contentDescription = context.resources.getString(R.string.my_positions),
                             modifier = Modifier
                                 .scale(2f)
                                 .clickable {
                                     if (enableAds) {
                                         createInterstitialAd(context)
                                     }
-                                    showToastLong(context, "My positions")
+                                    showToastLong(context, context.resources.getString(R.string.my_positions))
                                 }
                         )
                         Spacer(modifier = Modifier.height(20.dp))
                         Image(
                             painter = painterResource(id = R.drawable.button_weeklyposition),
-                            contentDescription = "Weekly positions",
+                            contentDescription = context.resources.getString(R.string.weekly_positions),
                             modifier = Modifier
                                 .scale(2f)
                                 .clickable {
                                     if (enableAds) {
                                         createInterstitialAd(context)
                                     }
-                                    showToastLong(context, "Weekly positions")
+                                    showToastLong(context, context.resources.getString(R.string.weekly_positions))
                                 }
                         )
                     }

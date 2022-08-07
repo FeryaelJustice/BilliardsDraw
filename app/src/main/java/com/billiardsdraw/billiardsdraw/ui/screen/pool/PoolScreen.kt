@@ -22,6 +22,7 @@ import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
@@ -73,7 +74,7 @@ fun PoolScreen(viewModel: PoolScreenViewModel, navController: NavHostController,
         ) {
             Image(
                 painter = painterResource(id = R.drawable.pool_blue),
-                contentDescription = "Fondo pool screen",
+                contentDescription = stringResource(id = R.string.backgroundScreenDescription),
                 modifier = Modifier
                     .fillMaxSize(),
                 contentScale = ContentScale.FillBounds

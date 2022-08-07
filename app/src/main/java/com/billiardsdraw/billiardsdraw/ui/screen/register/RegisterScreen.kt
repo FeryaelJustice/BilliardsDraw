@@ -10,10 +10,6 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,8 +37,8 @@ fun RegisterScreen(
     Box(modifier = Modifier.fillMaxSize()) {
         Card(elevation = 4.dp, modifier = Modifier.fillMaxSize()) {
             Image(
-                painter = painterResource(id = R.drawable.fondoinicio),
-                contentDescription = "Register background",
+                painter = painterResource(id = R.drawable.backgroundscreen),
+                contentDescription = context.resources.getString(R.string.backgroundScreenDescription),
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
@@ -59,7 +55,7 @@ fun RegisterScreen(
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.logo),
-                        contentDescription = "Logo",
+                        contentDescription = context.resources.getString(R.string.logo),
                         modifier = Modifier
                             .width(150.dp)
                             .height(150.dp)
@@ -116,10 +112,25 @@ fun RegisterScreen(
                                 color = Color.Black
                             )
                         },
-                        visualTransformation = PasswordVisualTransformation(),
+                        visualTransformation = if (viewModel.passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                        modifier = Modifier.background(Color.White)
+                        modifier = Modifier.background(Color.White),
+                        trailingIcon = {
+                            val image = if (viewModel.passwordVisible)
+                                Icons.Filled.Visibility
+                            else Icons.Filled.VisibilityOff
+
+                            // Please provide localized description for accessibility services
+                            val description =
+                                if (viewModel.passwordVisible) "Hide password" else "Show password"
+
+                            IconButton(onClick = {
+                                viewModel.passwordVisible = !viewModel.passwordVisible
+                            }) {
+                                Icon(imageVector = image, description)
+                            }
+                        }
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     TextField(
@@ -137,21 +148,21 @@ fun RegisterScreen(
                                 color = Color.Black
                             )
                         },
-                        visualTransformation = if (viewModel.passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                        visualTransformation = if (viewModel.repeatPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                         modifier = Modifier.background(Color.White),
                         trailingIcon = {
-                            val image = if (viewModel.passwordVisible)
+                            val image = if (viewModel.repeatPasswordVisible)
                                 Icons.Filled.Visibility
                             else Icons.Filled.VisibilityOff
 
                             // Please provide localized description for accessibility services
                             val description =
-                                if (viewModel.passwordVisible) "Hide password" else "Show password"
+                                if (viewModel.repeatPasswordVisible) "Hide password" else "Show password"
 
                             IconButton(onClick = {
-                                viewModel.passwordVisible = !viewModel.passwordVisible
+                                viewModel.repeatPasswordVisible = !viewModel.repeatPasswordVisible
                             }) {
                                 Icon(imageVector = image, description)
                             }
