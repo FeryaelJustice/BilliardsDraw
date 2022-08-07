@@ -36,6 +36,7 @@ class RegisterScreenViewModel @Inject constructor(
     ViewModel(), LifecycleObserver {
     var email: String by mutableStateOf("")
     var password: String by mutableStateOf("")
+    var passwordVisible by mutableStateOf(false)
     var repeatPassword: String by mutableStateOf("")
 
     fun signUp(

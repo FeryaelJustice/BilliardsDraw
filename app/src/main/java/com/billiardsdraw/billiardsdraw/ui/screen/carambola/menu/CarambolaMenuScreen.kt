@@ -1,5 +1,6 @@
 package com.billiardsdraw.billiardsdraw.ui.screen.carambola.menu
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,14 +13,17 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.common.ads.createInterstitialAd
 import com.billiardsdraw.billiardsdraw.common.ads.enableAds
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
+import com.billiardsdraw.billiardsdraw.ui.navigation.navigate
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 import com.billiardsdraw.billiardsdraw.ui.util.showToastLong
+import com.billiardsdraw.billiardsdraw.ui.util.showToastShort
 
 @Composable
 fun CarambolaMenuScreen(
@@ -68,10 +72,25 @@ fun CarambolaMenuScreen(
                             .scale(2f)
                             .clickable {
                                 // Navigate to profile screen
-                                navigateClearingAllBackstack(
-                                    navController,
-                                    Routes.UserProfileScreen.route
-                                )
+                                try {
+                                    val back: NavBackStackEntry =
+                                        navController.getBackStackEntry(Routes.UserProfileScreen.route)
+                                    Log.d("in_back_stack", back.destination.label.toString())
+                                    navigateClearingAllBackstack(
+                                        navController,
+                                        Routes.UserProfileScreen.route
+                                    )
+                                } catch (ex: IllegalArgumentException) {
+                                    Log.d("in_back_stack", "no_entry")
+                                    showToastShort(
+                                        context,
+                                        "User premium screen is not in backstack"
+                                    )
+                                    navigate(
+                                        navController,
+                                        Routes.UserProfileScreen.route
+                                    )
+                                }
                             })
                 }
                 Column(

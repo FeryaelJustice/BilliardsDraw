@@ -12,4 +12,6 @@
     <string name="signOut">Cerrar sesión</string>
     <string name="signUp">Registrarse</string>
     <string name="signIn">Iniciar sesión</string>
+    <string name="carambola">carambola</string>
+    <string name="pool">billar americano</string>
 </resources>

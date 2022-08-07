@@ -12,4 +12,6 @@
     <string name="signOut">Ausloggen</string>
     <string name="signUp">Anmelden</string>
     <string name="signIn">Einloggen</string>
+    <string name="carambola">Kanone</string>
+    <string name="pool">Schwimmbad</string>
 </resources>

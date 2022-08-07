@@ -83,6 +83,7 @@ fun RecoverAccountScreen(
                     value = viewModel.email,
                     onValueChange = { viewModel.email = it },
                     label = { Text("Enter email", color = Color.Black) },
+                    singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                     modifier = Modifier.background(
                         Color.White

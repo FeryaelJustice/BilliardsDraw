@@ -62,6 +62,7 @@ class LoginScreenViewModel @Inject constructor(
 
     var email: String by mutableStateOf("")
     var password: String by mutableStateOf("")
+    var passwordVisible by mutableStateOf(false)
     var keepSession: Boolean by mutableStateOf(false)
 
     fun onCreate() {

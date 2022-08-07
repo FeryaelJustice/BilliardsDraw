@@ -12,4 +12,6 @@
     <string name="signOut">サインアウト</string>
     <string name="signUp">サインアップ</string>
     <string name="signIn">ログイン</string>
+    <string name="carambola">大砲</string>
+    <string name="pool">プール</string>
 </resources>

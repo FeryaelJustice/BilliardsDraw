@@ -4,9 +4,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.TextField
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -92,6 +94,7 @@ fun RegisterScreen(
                                 color = Color.Black
                             )
                         },
+                        singleLine = true,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                         modifier = Modifier.background(
                             Color.White
@@ -114,6 +117,7 @@ fun RegisterScreen(
                             )
                         },
                         visualTransformation = PasswordVisualTransformation(),
+                        singleLine = true,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                         modifier = Modifier.background(Color.White)
                     )
@@ -133,9 +137,25 @@ fun RegisterScreen(
                                 color = Color.Black
                             )
                         },
-                        visualTransformation = PasswordVisualTransformation(),
+                        visualTransformation = if (viewModel.passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                        singleLine = true,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                        modifier = Modifier.background(Color.White)
+                        modifier = Modifier.background(Color.White),
+                        trailingIcon = {
+                            val image = if (viewModel.passwordVisible)
+                                Icons.Filled.Visibility
+                            else Icons.Filled.VisibilityOff
+
+                            // Please provide localized description for accessibility services
+                            val description =
+                                if (viewModel.passwordVisible) "Hide password" else "Show password"
+
+                            IconButton(onClick = {
+                                viewModel.passwordVisible = !viewModel.passwordVisible
+                            }) {
+                                Icon(imageVector = image, description)
+                            }
+                        }
                     )
                     Spacer(modifier = Modifier.height(1.dp))
                     Button(

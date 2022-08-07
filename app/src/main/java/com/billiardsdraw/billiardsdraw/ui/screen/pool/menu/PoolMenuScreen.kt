@@ -1,5 +1,6 @@
 package com.billiardsdraw.billiardsdraw.ui.screen.pool.menu
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,17 +13,24 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.common.ads.createInterstitialAd
 import com.billiardsdraw.billiardsdraw.common.ads.enableAds
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
+import com.billiardsdraw.billiardsdraw.ui.navigation.navigate
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 import com.billiardsdraw.billiardsdraw.ui.util.showToastLong
+import com.billiardsdraw.billiardsdraw.ui.util.showToastShort
 
 @Composable
-fun PoolMenuScreen(viewModel: PoolMenuScreenViewModel, navController: NavHostController, appViewModel: BilliardsDrawViewModel) {
+fun PoolMenuScreen(
+    viewModel: PoolMenuScreenViewModel,
+    navController: NavHostController,
+    appViewModel: BilliardsDrawViewModel
+) {
     val context = LocalContext.current
     Box(modifier = Modifier.fillMaxSize()) {
         Card(elevation = 4.dp, modifier = Modifier.fillMaxSize()) {
@@ -44,12 +52,14 @@ fun PoolMenuScreen(viewModel: PoolMenuScreenViewModel, navController: NavHostCon
                     Image(
                         painter = painterResource(id = R.drawable.back),
                         contentDescription = "Back",
-                        modifier = Modifier.scale(2f).clickable {
-                            navigateClearingAllBackstack(
-                                navController,
-                                Routes.LoggedApp.route
-                            )
-                        })
+                        modifier = Modifier
+                            .scale(2f)
+                            .clickable {
+                                navigateClearingAllBackstack(
+                                    navController,
+                                    Routes.LoggedApp.route
+                                )
+                            })
                     Image(
                         modifier = Modifier.scale(2f),
                         painter = painterResource(id = R.drawable.billiardsdraw),
@@ -58,10 +68,30 @@ fun PoolMenuScreen(viewModel: PoolMenuScreenViewModel, navController: NavHostCon
                     Image(
                         painter = painterResource(id = R.drawable.profileicon),
                         contentDescription = "Profile icon",
-                        modifier = Modifier.scale(2f).clickable {
-                            // Navigate to profile screen
-                            navigateClearingAllBackstack(navController, Routes.UserProfileScreen.route)
-                        })
+                        modifier = Modifier
+                            .scale(2f)
+                            .clickable {
+                                // Navigate to profile screen
+                                try {
+                                    val back: NavBackStackEntry =
+                                        navController.getBackStackEntry(Routes.UserProfileScreen.route)
+                                    Log.d("in_back_stack", back.destination.label.toString())
+                                    navigateClearingAllBackstack(
+                                        navController,
+                                        Routes.UserProfileScreen.route
+                                    )
+                                } catch (ex: IllegalArgumentException) {
+                                    Log.d("in_back_stack", "no_entry")
+                                    showToastShort(
+                                        context,
+                                        "User premium screen is not in backstack"
+                                    )
+                                    navigate(
+                                        navController,
+                                        Routes.UserProfileScreen.route
+                                    )
+                                }
+                            })
                 }
                 Column(
                     modifier = Modifier
@@ -77,37 +107,43 @@ fun PoolMenuScreen(viewModel: PoolMenuScreenViewModel, navController: NavHostCon
                         Image(
                             painter = painterResource(id = R.drawable.button_draw),
                             contentDescription = "Draw",
-                            modifier = Modifier.scale(2f).clickable {
-                                if (enableAds) {
-                                    createInterstitialAd(context)
+                            modifier = Modifier
+                                .scale(2f)
+                                .clickable {
+                                    if (enableAds) {
+                                        createInterstitialAd(context)
+                                    }
+                                    navigateClearingAllBackstack(
+                                        navController,
+                                        Routes.PoolScreen.route
+                                    )
                                 }
-                                navigateClearingAllBackstack(
-                                    navController,
-                                    Routes.PoolScreen.route
-                                )
-                            }
                         )
                         Spacer(modifier = Modifier.height(20.dp))
                         Image(
                             painter = painterResource(id = R.drawable.button_mypositions),
                             contentDescription = "My positions",
-                            modifier = Modifier.scale(2f).clickable {
-                                if (enableAds) {
-                                    createInterstitialAd(context)
+                            modifier = Modifier
+                                .scale(2f)
+                                .clickable {
+                                    if (enableAds) {
+                                        createInterstitialAd(context)
+                                    }
+                                    showToastLong(context, "My positions")
                                 }
-                                showToastLong(context,"My positions")
-                            }
                         )
                         Spacer(modifier = Modifier.height(20.dp))
                         Image(
                             painter = painterResource(id = R.drawable.button_weeklyposition),
                             contentDescription = "Weekly positions",
-                            modifier = Modifier.scale(2f).clickable {
-                                if (enableAds) {
-                                    createInterstitialAd(context)
+                            modifier = Modifier
+                                .scale(2f)
+                                .clickable {
+                                    if (enableAds) {
+                                        createInterstitialAd(context)
+                                    }
+                                    showToastLong(context, "Weekly positions")
                                 }
-                                showToastLong(context,"Weekly positions")
-                            }
                         )
                     }
                 }

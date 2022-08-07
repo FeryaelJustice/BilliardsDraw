@@ -12,4 +12,6 @@
     <string name="signOut">Déconnexion</string>
     <string name="signUp">S\'inscrire</string>
     <string name="signIn">S\'identifier</string>
+    <string name="carambola">canon</string>
+    <string name="pool">bassin</string>
 </resources>

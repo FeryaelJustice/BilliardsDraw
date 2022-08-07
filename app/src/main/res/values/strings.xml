@@ -14,4 +14,6 @@
     <string name="keepSession">Keep me signed in</string>
     <string name="forgotPassword">Forgot password?</string>
     <string name="justArrived">You\'ve just arrived?</string>
+    <string name="carambola">cannon</string>
+    <string name="pool">pool</string>
 </resources>

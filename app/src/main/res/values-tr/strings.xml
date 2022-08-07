@@ -12,4 +12,6 @@
     <string name="signOut">oturumu Kapat</string>
     <string name="signUp">Üye olmak</string>
     <string name="signIn">Kayıt olmak</string>
+    <string name="carambola">top</string>
+    <string name="pool">havuz</string>
 </resources>
