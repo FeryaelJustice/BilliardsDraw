@@ -17,6 +17,7 @@ import com.billiardsdraw.billiardsdraw.ui.screen.menu.MenuScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.menu.MenuScreenViewModel
 import com.billiardsdraw.billiardsdraw.ui.screen.pool.PoolScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.pool.menu.PoolMenuScreen
+import com.billiardsdraw.billiardsdraw.ui.screen.profile.CompleteProfileScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.recoveraccount.RecoverAccountScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.register.RegisterScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.user.premium.UserPremiumScreen
@@ -30,6 +31,7 @@ sealed class Routes(val route: String) {
     object SplashScreen : Routes("SplashScreen")
     object LoginScreen : Routes("LoginScreen")
     object RegisterScreen : Routes("RegisterScreen")
+    object CompleteProfileScreen : Routes("CompleteProfileScreen")
     object RecoverAccountScreen : Routes("RecoverAccountScreen")
     object MenuScreen : Routes("MenuScreen")
     object CarambolaScreen : Routes("CarambolaScreen")
@@ -70,6 +72,12 @@ fun NavigationManager(viewModel: BilliardsDrawViewModel, navController: NavHostC
                     navController.getBackStackEntry(Routes.GeneralApp.route)
                 }
                 RegisterScreen(hiltViewModel(parentEntry), navController, viewModel)
+            }
+            composable(Routes.CompleteProfileScreen.route) { backStackEntry ->
+                val parentEntry = remember(backStackEntry) {
+                    navController.getBackStackEntry(Routes.GeneralApp.route)
+                }
+                CompleteProfileScreen(hiltViewModel(parentEntry), navController, viewModel)
             }
             composable(Routes.RecoverAccountScreen.route) { backStackEntry ->
                 val parentEntry = remember(backStackEntry) {

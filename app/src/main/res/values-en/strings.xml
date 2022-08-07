@@ -34,4 +34,11 @@
     <string name="send">send</string>
     <string name="linkGoogle">Link Google account</string>
     <string name="linkFacebook">Link Facebook account</string>
+    <string name="username">username</string>
+    <string name="nickname">nickname</string>
+    <string name="name">name</string>
+    <string name="surnames">surnames</string>
+    <string name="country">country</string>
+    <string name="age">age</string>
+    <string name="complete_profile">Complete profile</string>
 </resources>
