@@ -6,8 +6,10 @@ import com.google.firebase.auth.FirebaseUser
 
 interface BilliardsDrawRepository {
     // LOCAL
-    fun sharedPreferencesBoolean(key:String): Boolean
-    fun setSharedPreferencesBoolean(key:String, value: Boolean)
+    fun sharedPreferencesBoolean(key: String): Boolean
+    fun setSharedPreferencesBoolean(key: String, value: Boolean)
+    fun sharedPreferencesString(key: String): String
+    fun setSharedPreferencesString(key: String, value: String)
     suspend fun getUsersFromLocalDB(): List<User>
 
     // API

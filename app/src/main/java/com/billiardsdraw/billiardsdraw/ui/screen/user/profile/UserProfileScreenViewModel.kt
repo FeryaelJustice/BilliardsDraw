@@ -30,6 +30,8 @@ class UserProfileScreenViewModel @Inject constructor(
         navigateClearingAllBackstack(navController, Routes.GeneralApp.route)
         viewModelScope.launch(dispatchers.io) {
             repository.setSharedPreferencesBoolean(SharedPrefConstants.IS_LOGGED_KEY, false)
+            repository.setSharedPreferencesString(SharedPrefConstants.EMAIL_KEY, "")
+            repository.setSharedPreferencesString(SharedPrefConstants.PASSWORD_KEY, "")
         }
     }
 }

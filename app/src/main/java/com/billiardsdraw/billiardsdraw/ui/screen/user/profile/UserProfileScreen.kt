@@ -105,7 +105,7 @@ fun UserProfileScreen(
                                 .scale(2f)
                         )
                         Button(onClick = {}) {
-                            Text(text = appViewModel.user.value?.country!!, color = Color.White)
+                            Text(text = "" + appViewModel.user.value?.country, color = Color.White)
                         }
                     }
                     Row {
@@ -114,7 +114,7 @@ fun UserProfileScreen(
                             color = Color.White
                         )
                         Text(
-                            text = appViewModel.user.value?.username!!,
+                            text = "" + appViewModel.user.value?.username,
                             color = Color.White
                         )
                     }
@@ -125,7 +125,7 @@ fun UserProfileScreen(
                             color = Color.White
                         )
                         Text(
-                            text = appViewModel.user.value?.nickname!!,
+                            text = "" + appViewModel.user.value?.nickname,
                             color = Color.White
                         )
                     }
@@ -136,7 +136,7 @@ fun UserProfileScreen(
                             color = Color.White
                         )
                         Text(
-                            text = appViewModel.user.value?.name!! + " " + appViewModel.user.value?.surnames!!,
+                            text = appViewModel.user.value?.name + " " + appViewModel.user.value?.surnames,
                             color = Color.White
                         )
                     }
@@ -147,7 +147,7 @@ fun UserProfileScreen(
                             color = Color.White
                         )
                         Text(
-                            text = appViewModel.user.value?.email!!,
+                            text = "" + appViewModel.user.value?.email,
                             color = Color.White
                         )
                     }
@@ -158,7 +158,7 @@ fun UserProfileScreen(
                             color = Color.White
                         )
                         Text(
-                            text = appViewModel.user.value?.birthdate.toString(),
+                            text = "" + appViewModel.user.value?.birthdate.toString(),
                             color = Color.White
                         )
                     }
@@ -169,7 +169,7 @@ fun UserProfileScreen(
                             color = Color.White
                         )
                         Text(
-                            text = appViewModel.user.value?.role!!,
+                            text = "" + appViewModel.user.value?.role,
                             color = Color.White
                         )
                     }

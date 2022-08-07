@@ -52,7 +52,9 @@ fun LoginScreen(
         // RECUERDA: El autologin con sharedprefs, o con variables hace que pete, se repinta, averiguar manera
         LaunchedEffect(key1 = "isLogged", block = {
             if (viewModel.isLogged()) {
-                navigateClearingAllBackstack(navController, Routes.LoggedApp.route)
+                appViewModel.setLoading(true)
+                viewModel.signIn(appViewModel, context, navController, true)
+                appViewModel.setLoading(false)
             }
         })
 
@@ -100,6 +102,7 @@ fun LoginScreen(
                         TextField(
                             value = viewModel.email,
                             onValueChange = { viewModel.email = it },
+                            enabled = !viewModel.isLogged(),
                             label = {
                                 Text(
                                     stringResource(id = R.string.email),
@@ -122,6 +125,7 @@ fun LoginScreen(
                         TextField(
                             value = viewModel.password,
                             onValueChange = { viewModel.password = it },
+                            enabled = !viewModel.isLogged(),
                             label = {
                                 Text(
                                     stringResource(id = R.string.password),
@@ -161,7 +165,8 @@ fun LoginScreen(
                                 viewModel.signIn(
                                     appViewModel,
                                     context,
-                                    navController
+                                    navController,
+                                    false
                                 )
                                 // appViewModel.setLoading(false)
                             },

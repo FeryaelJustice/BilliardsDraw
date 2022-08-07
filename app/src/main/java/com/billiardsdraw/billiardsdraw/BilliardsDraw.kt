@@ -98,7 +98,7 @@ class BilliardsDraw : ComponentActivity() {
     fun BilliardsDrawApp(model: BilliardsDrawViewModel, navController: NavHostController) {
         // This locks orientation in all app, to lock individually just put this line in each screen composable
         LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-        val context = LocalContext.current
+        // val context = LocalContext.current
 
         // Billiards Draw App UI Structure (here starts the UI)
         Scaffold(modifier = Modifier.fillMaxSize(),

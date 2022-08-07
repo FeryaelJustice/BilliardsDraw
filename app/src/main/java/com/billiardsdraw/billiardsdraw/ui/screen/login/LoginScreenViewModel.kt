@@ -12,7 +12,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
+import com.billiardsdraw.billiardsdraw.common.SharedPrefConstants.EMAIL_KEY
 import com.billiardsdraw.billiardsdraw.common.SharedPrefConstants.IS_LOGGED_KEY
+import com.billiardsdraw.billiardsdraw.common.SharedPrefConstants.PASSWORD_KEY
 import com.billiardsdraw.billiardsdraw.coroutine.DispatcherProvider
 import com.billiardsdraw.billiardsdraw.data.repository.BilliardsDrawRepository
 import com.billiardsdraw.billiardsdraw.domain.map.toUser
@@ -33,33 +35,6 @@ class LoginScreenViewModel @Inject constructor(
 ) :
     ViewModel(), LifecycleObserver {
 
-    /*
-    private var _email: MutableLiveData<String> = MutableLiveData(null)
-    val email: LiveData<String> = _email
-    fun setEmail(email: String) {
-        _email.value = email
-    }
-
-    private var _password: MutableLiveData<String> = MutableLiveData(null)
-    val password: LiveData<String> = _password
-    fun setPassword(password: String) {
-        _password.value = password
-    }
-
-    private var _keepSession: MutableLiveData<Boolean> = MutableLiveData(null)
-    val keepSession: LiveData<Boolean> = _keepSession
-    fun setKeepSession(keepSession: Boolean) {
-        _keepSession.value = keepSession
-    }
-
-    fun login(): Boolean {
-        if ((_email.value?.isNotBlank() == true) && (_password.value?.isNotBlank() == true)){
-            return true
-        }
-    return false
-    }
-    */
-
     var email: String by mutableStateOf("")
     var password: String by mutableStateOf("")
     var passwordVisible by mutableStateOf(false)
@@ -67,70 +42,93 @@ class LoginScreenViewModel @Inject constructor(
 
     fun onCreate() {
         keepSession = repository.sharedPreferencesBoolean(IS_LOGGED_KEY)
+        email = repository.sharedPreferencesString(EMAIL_KEY)
+        password = repository.sharedPreferencesString(PASSWORD_KEY)
     }
+
+    fun isLogged() = repository.sharedPreferencesBoolean(IS_LOGGED_KEY)
 
     fun signIn(
         appViewModel: BilliardsDrawViewModel,
         context: Context,
-        navController: NavHostController
+        navController: NavHostController,
+        isLogged: Boolean
     ) {
         try {
-            // Check if all fields are not empty
-            if (email.isNotBlank() && password.isNotBlank()) {
-                // Log user in auth with email and password
-                viewModelScope.launch(dispatchers.io) {
-                    val user = repository.signInWithEmailPassword(email, password)?.toUser()
-                    if (user == null) {
-                        withContext(dispatchers.main) {
-                            showToastShort(
-                                context,
-                                context.resources.getString(R.string.internalError)
-                            )
-                            Log.d("error", "error en user login")
-                        }
-                    }
-                    user?.let { userAuth ->
-                        withContext(dispatchers.main) {
-                            appViewModel.setUser(userAuth)
-                        }
-                        repository.getUserFromFirebaseFirestore(userAuth.uid) { userData ->
-                            // User data retrieved
-                            appViewModel.user.value?.apply {
-                                username = userData.username
-                                nickname = userData.nickname
-                                name = userData.name
-                                surnames = userData.surnames
-                                password = userData.password
-                                age = userData.age
-                                country = userData.country
-                                role = userData.role
-                            }
-                        }
-
-                        // Solo si mantener sesion iniciada is checked
-                        repository.setSharedPreferencesBoolean(IS_LOGGED_KEY, keepSession)
-
-                        withContext(dispatchers.main) {
-                            showToastLong(
-                                context,
-                                context.resources.getString(R.string.welcome) + " " + context.resources.getString(
-                                    R.string.app_name
-                                )
-                            )
-                            navigateClearingAllBackstack(
-                                navController,
-                                Routes.LoggedApp.route
-                            )
-                        }
-                    }
+            if (!isLogged) {
+                // Check if all fields are not empty
+                if (email.isNotBlank() && password.isNotBlank()) {
+                    // Log user in auth with email and password
+                    login(appViewModel, context, navController, false)
+                } else {
+                    showToastShort(context, context.resources.getString(R.string.fieldsCantBeEmpty))
                 }
             } else {
-                showToastShort(context, context.resources.getString(R.string.fieldsCantBeEmpty))
+                // Log user in auth with email and password
+                login(appViewModel, context, navController, true)
             }
         } catch (e: Exception) {
             e.printStackTrace()
+            appViewModel.setLoading(false)
         }
     }
 
-    suspend fun isLogged() = repository.sharedPreferencesBoolean(IS_LOGGED_KEY)
+    private fun login(
+        appViewModel: BilliardsDrawViewModel,
+        context: Context,
+        navController: NavHostController,
+        isLogged: Boolean
+    ) {
+        // Log user in auth with email and password
+        viewModelScope.launch(dispatchers.io) {
+            val user = repository.signInWithEmailPassword(email, password)?.toUser()
+            if (user == null) {
+                withContext(dispatchers.main) {
+                    showToastShort(
+                        context,
+                        context.resources.getString(R.string.internalError)
+                    )
+                    Log.d("error", "error en user login")
+                }
+            }
+            user?.let { userAuth ->
+                withContext(dispatchers.main) {
+                    appViewModel.setUser(userAuth)
+                }
+                repository.getUserFromFirebaseFirestore(userAuth.uid) { userData ->
+                    // User data retrieved
+                    appViewModel.user.value?.apply {
+                        username = userData.username
+                        nickname = userData.nickname
+                        name = userData.name
+                        surnames = userData.surnames
+                        password = userData.password
+                        age = userData.age
+                        country = userData.country
+                        role = userData.role
+                    }
+                }
+                if (!isLogged) {
+                    // Solo si mantener sesion iniciada is checked
+                    repository.setSharedPreferencesBoolean(IS_LOGGED_KEY, keepSession)
+                    repository.setSharedPreferencesString(EMAIL_KEY, email)
+                    repository.setSharedPreferencesString(PASSWORD_KEY, password)
+                }
+                withContext(dispatchers.main) {
+                    if (!isLogged) {
+                        showToastLong(
+                            context,
+                            context.resources.getString(R.string.welcome) + " " + context.resources.getString(
+                                R.string.app_name
+                            )
+                        )
+                    }
+                    navigateClearingAllBackstack(
+                        navController,
+                        Routes.LoggedApp.route
+                    )
+                }
+            }
+        }
+    }
 }

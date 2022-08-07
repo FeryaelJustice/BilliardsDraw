@@ -62,6 +62,8 @@ object HexToJetpackColor {
 object SharedPrefConstants {
     const val LOCAL_SHARED_PREF_SETTINGS = "local_shared_pref_settings"
     const val IS_LOGGED_KEY = "isLogged"
+    const val EMAIL_KEY = "email"
+    const val PASSWORD_KEY = "password"
 }
 object RoomConstants {
     const val LOCAL_ROOM = "billiardsdraw_db"

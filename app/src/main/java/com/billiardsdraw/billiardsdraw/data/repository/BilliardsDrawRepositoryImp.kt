@@ -38,6 +38,13 @@ class BilliardsDrawRepositoryImp @Inject constructor(
         appPreferences.edit().putBoolean(key, value).apply()
     }
 
+    override fun sharedPreferencesString(key: String): String =
+        appPreferences.getString(key, "").toString()
+
+    override fun setSharedPreferencesString(key: String, value: String) {
+        appPreferences.edit().putString(key, value).apply()
+    }
+
     override suspend fun getUsersFromLocalDB(): List<User> = userDao.getUsers()
 
     // API
