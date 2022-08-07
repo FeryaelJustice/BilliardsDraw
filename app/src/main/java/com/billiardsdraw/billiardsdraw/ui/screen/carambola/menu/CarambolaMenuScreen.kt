@@ -83,10 +83,6 @@ fun CarambolaMenuScreen(
                                     )
                                 } catch (ex: IllegalArgumentException) {
                                     Log.d("in_back_stack", "no_entry")
-                                    showToastShort(
-                                        context,
-                                        "User premium screen is not in backstack"
-                                    )
                                     navigate(
                                         navController,
                                         Routes.UserProfileScreen.route
@@ -146,7 +142,10 @@ fun CarambolaMenuScreen(
                                     if (enableAds) {
                                         createInterstitialAd(context)
                                     }
-                                    showToastLong(context, context.resources.getString(R.string.my_positions))
+                                    showToastLong(
+                                        context,
+                                        context.resources.getString(R.string.weekly_positions)
+                                    )
                                 }
                         )
                     }

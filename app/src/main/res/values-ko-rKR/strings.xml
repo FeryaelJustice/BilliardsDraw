@@ -32,4 +32,6 @@
     <string name="subject">주제</string>
     <string name="text">텍스트</string>
     <string name="send">보내다</string>
+    <string name="linkGoogle">Link Google account</string>
+    <string name="linkFacebook">Link Facebook account</string>
 </resources>

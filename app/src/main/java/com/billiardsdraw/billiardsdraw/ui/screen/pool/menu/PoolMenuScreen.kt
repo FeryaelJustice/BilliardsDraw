@@ -83,10 +83,6 @@ fun PoolMenuScreen(
                                     )
                                 } catch (ex: IllegalArgumentException) {
                                     Log.d("in_back_stack", "no_entry")
-                                    showToastShort(
-                                        context,
-                                        "User premium screen is not in backstack"
-                                    )
                                     navigate(
                                         navController,
                                         Routes.UserProfileScreen.route

@@ -32,4 +32,6 @@
     <string name="subject">môn học</string>
     <string name="text">chữ</string>
     <string name="send">gửi</string>
+    <string name="linkGoogle">Link Google account</string>
+    <string name="linkFacebook">Link Facebook account</string>
 </resources>

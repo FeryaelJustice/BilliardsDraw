@@ -32,4 +32,6 @@
     <string name="subject">主題</string>
     <string name="text">文章</string>
     <string name="send">送信</string>
+    <string name="linkGoogle">Link Google account</string>
+    <string name="linkFacebook">Link Facebook account</string>
 </resources>

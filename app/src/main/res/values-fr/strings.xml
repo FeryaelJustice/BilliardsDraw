@@ -32,4 +32,6 @@
     <string name="subject">matière</string>
     <string name="text">texte</string>
     <string name="send">envoyer</string>
+    <string name="linkGoogle">Link Google account</string>
+    <string name="linkFacebook">Link Facebook account</string>
 </resources>

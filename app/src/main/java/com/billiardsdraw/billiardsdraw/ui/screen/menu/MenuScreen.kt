@@ -22,7 +22,11 @@ import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 
 @Composable
-fun MenuScreen(viewModel: MenuScreenViewModel, navController: NavHostController, appViewModel: BilliardsDrawViewModel) {
+fun MenuScreen(
+    viewModel: MenuScreenViewModel,
+    navController: NavHostController,
+    appViewModel: BilliardsDrawViewModel
+) {
     val context = LocalContext.current
     Box(modifier = Modifier.fillMaxSize()) {
         Card(elevation = 4.dp, modifier = Modifier.fillMaxSize()) {
@@ -44,7 +48,8 @@ fun MenuScreen(viewModel: MenuScreenViewModel, navController: NavHostController,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = context.resources.getString(R.string.carambola),
+                        text = context.resources.getString(R.string.carambola)
+                            .replaceFirstChar { it.uppercase() },
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.clickable {
@@ -60,7 +65,8 @@ fun MenuScreen(viewModel: MenuScreenViewModel, navController: NavHostController,
                     )
                     Spacer(modifier = Modifier.height(40.dp))
                     Text(
-                        text = context.resources.getString(R.string.pool),
+                        text = context.resources.getString(R.string.pool)
+                            .replaceFirstChar { it.uppercase() },
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.clickable {

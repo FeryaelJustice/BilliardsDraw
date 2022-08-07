@@ -76,10 +76,6 @@ fun UserProfileScreen(
                                 )
                             } catch (ex: IllegalArgumentException) {
                                 Log.d("in_back_stack", "no_entry")
-                                showToastShort(
-                                    context,
-                                    "User premium screen is not in backstack"
-                                )
                                 navigate(
                                     navController,
                                     Routes.UserPremiumScreen.route
@@ -109,39 +105,78 @@ fun UserProfileScreen(
                                 .scale(2f)
                         )
                         Button(onClick = {}) {
-                            Text(text = "COUNTRY", color = Color.White)
+                            Text(text = appViewModel.user.value?.country!!, color = Color.White)
                         }
                     }
-                    Text(
-                        text = "Username: ${appViewModel.user.value?.username}",
-                        color = Color.White
-                    )
+                    Row {
+                        Text(
+                            text = "Username: ",
+                            color = Color.White
+                        )
+                        Text(
+                            text = appViewModel.user.value?.username!!,
+                            color = Color.White
+                        )
+                    }
                     Spacer(modifier = Modifier.height(20.dp))
-                    Text(
-                        text = "Nickname: ${appViewModel.user.value?.nickname}",
-                        color = Color.White
-                    )
+                    Row {
+                        Text(
+                            text = "Nickname: ",
+                            color = Color.White
+                        )
+                        Text(
+                            text = appViewModel.user.value?.nickname!!,
+                            color = Color.White
+                        )
+                    }
                     Spacer(modifier = Modifier.height(20.dp))
-                    Text(
-                        text = "Full name: ${appViewModel.user.value?.name} ${appViewModel.user.value?.surnames}",
-                        color = Color.White
-                    )
+                    Row {
+                        Text(
+                            text = "Full name: ",
+                            color = Color.White
+                        )
+                        Text(
+                            text = appViewModel.user.value?.name!! + " " + appViewModel.user.value?.surnames!!,
+                            color = Color.White
+                        )
+                    }
                     Spacer(modifier = Modifier.height(20.dp))
-                    Text(text = "Email: ${appViewModel.user.value?.email}", color = Color.White)
+                    Row {
+                        Text(
+                            text = "Email: ",
+                            color = Color.White
+                        )
+                        Text(
+                            text = appViewModel.user.value?.email!!,
+                            color = Color.White
+                        )
+                    }
                     Spacer(modifier = Modifier.height(20.dp))
-                    Text(
-                        text = "Birthday date ${appViewModel.user.value?.birthdate.toString()}",
-                        color = Color.White
-                    )
+                    Row {
+                        Text(
+                            text = "Birthday date: ",
+                            color = Color.White
+                        )
+                        Text(
+                            text = appViewModel.user.value?.birthdate.toString(),
+                            color = Color.White
+                        )
+                    }
                     Spacer(modifier = Modifier.height(20.dp))
-                    Text(
-                        text = "Subscription state: ${appViewModel.user.value?.role}",
-                        color = Color.White
-                    )
+                    Row {
+                        Text(
+                            text = "Subscription state: ",
+                            color = Color.White
+                        )
+                        Text(
+                            text = appViewModel.user.value?.role!!,
+                            color = Color.White
+                        )
+                    }
                     Spacer(modifier = Modifier.height(20.dp))
-                    Text(text = "Link Google account", color = Color.White)
+                    Text(text = stringResource(R.string.linkGoogle), color = Color.White)
                     Spacer(modifier = Modifier.height(20.dp))
-                    Text(text = "Link Facebook account", color = Color.White)
+                    Text(text = stringResource(R.string.linkFacebook), color = Color.White)
                     Spacer(modifier = Modifier.height(20.dp))
                     Button(onClick = {
                         viewModel.signOut(navController)
