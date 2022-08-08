@@ -73,12 +73,6 @@ fun NavigationManager(viewModel: BilliardsDrawViewModel, navController: NavHostC
                 }
                 RegisterScreen(hiltViewModel(parentEntry), navController, viewModel)
             }
-            composable(Routes.CompleteProfileScreen.route) { backStackEntry ->
-                val parentEntry = remember(backStackEntry) {
-                    navController.getBackStackEntry(Routes.GeneralApp.route)
-                }
-                CompleteProfileScreen(hiltViewModel(parentEntry), navController, viewModel)
-            }
             composable(Routes.RecoverAccountScreen.route) { backStackEntry ->
                 val parentEntry = remember(backStackEntry) {
                     navController.getBackStackEntry(Routes.GeneralApp.route)
@@ -87,6 +81,12 @@ fun NavigationManager(viewModel: BilliardsDrawViewModel, navController: NavHostC
             }
         }
         navigation(startDestination = Routes.MenuScreen.route, route = Routes.LoggedApp.route) {
+            composable(Routes.CompleteProfileScreen.route) { backStackEntry ->
+                val parentEntry = remember(backStackEntry) {
+                    navController.getBackStackEntry(Routes.GeneralApp.route)
+                }
+                CompleteProfileScreen(hiltViewModel(parentEntry), navController, viewModel)
+            }
             composable(Routes.MenuScreen.route) { backStackEntry ->
                 val parentEntry = remember(backStackEntry) {
                     navController.getBackStackEntry(Routes.LoggedApp.route)

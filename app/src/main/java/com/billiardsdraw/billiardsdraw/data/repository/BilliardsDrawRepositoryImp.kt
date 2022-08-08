@@ -83,10 +83,21 @@ class BilliardsDrawRepositoryImp @Inject constructor(
     }
 
     override suspend fun createUserInFirebaseFirestore(
+        userId: String,
         user: MutableMap<String, Any>,
         callback: (Boolean) -> Unit
     ) {
-        firebaseFirestoreHelper.createUserInFirebaseFirestore(user) {
+        firebaseFirestoreHelper.createUserInFirebaseFirestore(userId, user) {
+            callback(it)
+        }
+    }
+
+    override suspend fun updateUserInFirebaseFirestore(
+        userid: String,
+        user: MutableMap<String, Any>,
+        callback: (Boolean) -> Unit
+    ) {
+        firebaseFirestoreHelper.updateUserInFirebaseFirestore(userid, user) {
             callback(it)
         }
     }

@@ -1,5 +1,7 @@
 package com.billiardsdraw.billiardsdraw.ui.screen.profile
 
+import android.app.DatePickerDialog
+import android.widget.DatePicker
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -10,6 +12,8 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
+import java.util.*
 
 @Composable
 fun CompleteProfileScreen(
@@ -31,7 +36,26 @@ fun CompleteProfileScreen(
     navController: NavHostController,
     appViewModel: BilliardsDrawViewModel
 ) {
+    // Context
     val context = LocalContext.current
+
+    // For date picker
+    val mYear: Int
+    val mMonth: Int
+    val mDay: Int
+    val mCalendar = Calendar.getInstance()
+    mYear = mCalendar.get(Calendar.YEAR)
+    mMonth = mCalendar.get(Calendar.MONTH)
+    mDay = mCalendar.get(Calendar.DAY_OF_MONTH)
+    mCalendar.time = Date()
+    val mDatePickerDialog = DatePickerDialog(
+        context,
+        { _: DatePicker, myYear: Int, myMonth: Int, myDayOfMonth: Int ->
+            viewModel.birthdate = "$myDayOfMonth/${myMonth + 1}/$myYear"
+        }, mYear, mMonth, mDay
+    )
+
+    // UI
     Box(modifier = Modifier.fillMaxSize()) {
         Card(elevation = 4.dp, modifier = Modifier.fillMaxSize()) {
             Image(
@@ -62,7 +86,7 @@ fun CompleteProfileScreen(
                         },
                         placeholder = {
                             Text(
-                                stringResource(id = R.string.username) + "(can't edit this afterwards)",
+                                stringResource(id = R.string.username) + "(can't edit afterwards)",
                                 color = Color.Black
                             )
                         },
@@ -169,9 +193,26 @@ fun CompleteProfileScreen(
                             )
                         },
                         singleLine = true,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         modifier = Modifier.background(Color.White)
                     )
+                    Spacer(modifier = Modifier.height(1.dp))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Button(
+                            onClick = {
+                                mDatePickerDialog.show()
+                            },
+                            colors = ButtonDefaults.buttonColors(backgroundColor = Color(0XFF0F9D58))
+                        ) {
+                            Text(
+                                text = context.resources.getString(R.string.birthdate),
+                                color = Color.White
+                            )
+                        }
+                        Text(text = "" + viewModel.birthdate)
+                    }
                     Spacer(modifier = Modifier.height(1.dp))
                     Button(
                         onClick = {

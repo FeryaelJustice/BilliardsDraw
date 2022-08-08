@@ -12,11 +12,27 @@ import java.util.*
 class FirebaseFirestoreHelper : BaseFirebaseFirestoreHelper {
 
     override suspend fun createUserInFirebaseFirestore(
+        userId: String,
         user: MutableMap<String, Any>,
         callback: (Boolean) -> Unit
     ) {
-        FirebaseFirestore.getInstance().collection(FirebaseFirestoreConstants.USERS_DIRECTORY).add(user)
+        FirebaseFirestore.getInstance().collection(FirebaseFirestoreConstants.USERS_DIRECTORY)
+            .document(userId)
+            .set(user)
             .addOnCompleteListener {
+                callback(true)
+            }.addOnFailureListener {
+                callback(false)
+            }
+    }
+
+    override suspend fun updateUserInFirebaseFirestore(
+        userId: String,
+        data: MutableMap<String, Any>,
+        callback: (Boolean) -> Unit
+    ) {
+        FirebaseFirestore.getInstance().collection(FirebaseFirestoreConstants.USERS_DIRECTORY)
+            .document(userId).update(data).addOnCompleteListener {
                 callback(true)
             }.addOnFailureListener {
                 callback(false)
@@ -27,7 +43,8 @@ class FirebaseFirestoreHelper : BaseFirebaseFirestoreHelper {
         id: String,
         callback: (com.billiardsdraw.billiardsdraw.domain.model.User) -> Unit
     ) {
-        FirebaseFirestore.getInstance().collection(FirebaseFirestoreConstants.USERS_DIRECTORY).document(id).get()
+        FirebaseFirestore.getInstance().collection(FirebaseFirestoreConstants.USERS_DIRECTORY)
+            .document(id).get()
             .addOnCompleteListener { docSnap ->
                 val document = docSnap.result
                 val userRetrieved = User(
@@ -49,7 +66,7 @@ class FirebaseFirestoreHelper : BaseFirebaseFirestoreHelper {
                     password =
                     document.getString("password")
                         .toString(),
-                    age = document.getLong("age")
+                    age = document.getString("age")
                         ?.toInt() ?: 0,
                     birthdate = Date(),
                     country =

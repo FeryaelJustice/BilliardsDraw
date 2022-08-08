@@ -32,6 +32,7 @@ class UserProfileScreenViewModel @Inject constructor(
             repository.setSharedPreferencesBoolean(SharedPrefConstants.IS_LOGGED_KEY, false)
             repository.setSharedPreferencesString(SharedPrefConstants.EMAIL_KEY, "")
             repository.setSharedPreferencesString(SharedPrefConstants.PASSWORD_KEY, "")
+            repository.setSharedPreferencesString(SharedPrefConstants.USER_ID_KEY, "")
         }
     }
 }

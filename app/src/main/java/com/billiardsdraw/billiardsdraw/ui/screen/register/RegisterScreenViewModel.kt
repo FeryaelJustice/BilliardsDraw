@@ -75,7 +75,7 @@ class RegisterScreenViewModel @Inject constructor(
                             userToAdd["surnames"] = "surnames"
                             userToAdd["email"] = userAuth.email
                             userToAdd["password"] = md5(password)
-                            userToAdd["age"] = 18
+                            userToAdd["age"] = "0"
                             userToAdd["birthdate"] = Date()
                             userToAdd["country"] = "Spain"
                             userToAdd["carambola_paints"] = arrayListOf("1,2")
@@ -84,7 +84,7 @@ class RegisterScreenViewModel @Inject constructor(
                             userToAdd["active"] = true
                             userToAdd["deleted"] = false
 
-                            repository.createUserInFirebaseFirestore(userToAdd) {
+                            repository.createUserInFirebaseFirestore(userAuth.uid, userToAdd) {
                                 if (it) {
                                     Log.d("register", "User created in db")
                                 } else {
@@ -110,6 +110,18 @@ class RegisterScreenViewModel @Inject constructor(
                                 SharedPrefConstants.IS_LOGGED_KEY,
                                 true
                             )
+                            repository.setSharedPreferencesString(
+                                SharedPrefConstants.USER_ID_KEY,
+                                userAuth.uid
+                            )
+                            repository.setSharedPreferencesString(
+                                SharedPrefConstants.EMAIL_KEY,
+                                email
+                            )
+                            repository.setSharedPreferencesString(
+                                SharedPrefConstants.PASSWORD_KEY,
+                                password
+                            )
 
                             withContext(dispatchers.main) {
                                 showToastLong(
@@ -120,7 +132,7 @@ class RegisterScreenViewModel @Inject constructor(
                                 )
                                 navigateClearingAllBackstack(
                                     navController,
-                                    Routes.LoggedApp.route
+                                    Routes.CompleteProfileScreen.route
                                 )
                             }
                         }

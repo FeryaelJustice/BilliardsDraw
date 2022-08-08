@@ -1,8 +1,10 @@
 package com.billiardsdraw.billiardsdraw.ui.screen.contact
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -13,6 +15,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
@@ -82,7 +85,13 @@ fun ContactScreen(
                                 text =
                                 context.resources.getString(R.string.subject)
                             )
-                        })
+                        },
+                        singleLine = true,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                        modifier = Modifier.background(
+                            Color.White
+                        )
+                    )
                     Spacer(modifier = Modifier.height(20.dp))
                     TextField(
                         value = viewModel.text,
@@ -98,7 +107,13 @@ fun ContactScreen(
                                 text =
                                 context.resources.getString(R.string.text)
                             )
-                        })
+                        },
+                        maxLines = 40,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                        modifier = Modifier.background(
+                            Color.White
+                        )
+                    )
                     Spacer(modifier = Modifier.height(20.dp))
                     Button(onClick = { viewModel.send(navController, context) }) {
                         Text(text = context.resources.getString(R.string.send))

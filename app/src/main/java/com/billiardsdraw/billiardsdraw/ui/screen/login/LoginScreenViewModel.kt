@@ -15,6 +15,7 @@ import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.common.SharedPrefConstants.EMAIL_KEY
 import com.billiardsdraw.billiardsdraw.common.SharedPrefConstants.IS_LOGGED_KEY
 import com.billiardsdraw.billiardsdraw.common.SharedPrefConstants.PASSWORD_KEY
+import com.billiardsdraw.billiardsdraw.common.SharedPrefConstants.USER_ID_KEY
 import com.billiardsdraw.billiardsdraw.coroutine.DispatcherProvider
 import com.billiardsdraw.billiardsdraw.data.repository.BilliardsDrawRepository
 import com.billiardsdraw.billiardsdraw.domain.map.toUser
@@ -113,6 +114,7 @@ class LoginScreenViewModel @Inject constructor(
                     repository.setSharedPreferencesBoolean(IS_LOGGED_KEY, keepSession)
                     repository.setSharedPreferencesString(EMAIL_KEY, email)
                     repository.setSharedPreferencesString(PASSWORD_KEY, password)
+                    repository.setSharedPreferencesString(USER_ID_KEY, userAuth.uid)
                 }
                 withContext(dispatchers.main) {
                     if (!isLogged) {

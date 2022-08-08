@@ -22,6 +22,13 @@ interface BilliardsDrawRepository {
     fun getCurrentUser(): FirebaseUser?
     suspend fun sendResetPassword(email: String): Boolean
     suspend fun createUserInFirebaseFirestore(
+        userId: String,
+        user: MutableMap<String, Any>,
+        callback: (Boolean) -> Unit
+    )
+
+    suspend fun updateUserInFirebaseFirestore(
+        userid: String,
         user: MutableMap<String, Any>,
         callback: (Boolean) -> Unit
     )

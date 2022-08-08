@@ -7,7 +7,14 @@ interface BaseFirebaseFirestoreHelper {
     )
 
     suspend fun createUserInFirebaseFirestore(
+        userId: String,
         user: MutableMap<String, Any>,
+        callback: (Boolean) -> Unit
+    )
+
+    suspend fun updateUserInFirebaseFirestore(
+        userId: String,
+        data: MutableMap<String, Any>,
         callback: (Boolean) -> Unit
     )
 }
