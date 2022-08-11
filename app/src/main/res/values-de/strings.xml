@@ -42,4 +42,5 @@
     <string name="age">age</string>
     <string name="complete_profile">Complete profile</string>
     <string name="birthdate">birth date</string>
+    <string name="txt_connect_with_facebook">Sign in with Facebook</string>
 </resources>

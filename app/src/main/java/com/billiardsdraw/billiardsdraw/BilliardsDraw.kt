@@ -1,5 +1,6 @@
 package com.billiardsdraw.billiardsdraw
 
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
@@ -16,10 +17,15 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.android.billingclient.api.*
 import com.billiardsdraw.billiardsdraw.common.*
+import com.billiardsdraw.billiardsdraw.ui.components.login.FacebookUtil
+import com.billiardsdraw.billiardsdraw.ui.components.login.FacebookUtil.callbackManager
 import com.billiardsdraw.billiardsdraw.ui.navigation.BilliardsDrawTopBar
 import com.billiardsdraw.billiardsdraw.ui.navigation.NavigationManager
 import com.billiardsdraw.billiardsdraw.ui.theme.BilliardsDrawTheme
 import com.google.android.gms.ads.*
+import com.google.android.gms.auth.api.identity.Identity
+import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.ImmutableList
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.ktx.initialize
@@ -127,5 +133,15 @@ class BilliardsDraw : ComponentActivity() {
                     NavigationManager(viewModel = model, navController = navController)
                 }
             })
+    }
+
+    // DEPRECTATED, REPLACE
+    @Deprecated("Use contracts")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        // FACEBOOK
+        // Pass the activity result back to the Facebook SDK
+        callbackManager.onActivityResult(requestCode, resultCode, data)
     }
 }

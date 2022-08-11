@@ -1,5 +1,9 @@
 package com.billiardsdraw.billiardsdraw.ui.screen.login
 
+import android.app.Activity
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,6 +17,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -32,9 +37,16 @@ import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.common.ads.CreateBanner
 import com.billiardsdraw.billiardsdraw.common.ads.enableAds
+import com.billiardsdraw.billiardsdraw.ui.components.CustomGoogleButton
+import com.billiardsdraw.billiardsdraw.ui.components.login.CustomFacebookButton
+import com.billiardsdraw.billiardsdraw.ui.components.login.FacebookUtil
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigate
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
+import com.billiardsdraw.billiardsdraw.ui.util.showToastShort
+import com.facebook.CallbackManager
+import com.google.android.gms.auth.api.identity.Identity
+import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(
@@ -57,6 +69,57 @@ fun LoginScreen(
                 appViewModel.setLoading(false)
             }
         })
+
+        // Google sign in
+        val launcherGoogle = rememberLauncherForActivityResult(
+            ActivityResultContracts.StartIntentSenderForResult()
+        ) { result ->
+            if (result.resultCode != Activity.RESULT_OK) {
+                // The user cancelled the login, was it due to an Exception?
+                if (result.data?.action == ActivityResultContracts.StartIntentSenderForResult.ACTION_INTENT_SENDER_REQUEST) {
+                    val exception: Exception? = result.data?.getSerializableExtra(
+                        ActivityResultContracts.StartIntentSenderForResult.EXTRA_SEND_INTENT_EXCEPTION
+                    ) as Exception?
+                    Log.e("LOG", "Couldn't start One Tap UI: ${exception?.localizedMessage}")
+                }
+                return@rememberLauncherForActivityResult
+            }
+            val oneTapClient = Identity.getSignInClient(context)
+            val credential = oneTapClient.getSignInCredentialFromIntent(result.data)
+            val idToken = credential.googleIdToken
+            if (idToken != null) {
+                // Got an ID token from Google. Use it to authenticate
+                // with your backend.
+                showToastShort(context, "Google Auth ID: ${idToken.toString()}")
+                Log.d("LOG", idToken)
+            } else {
+                Log.d("LOG", "Null Token")
+            }
+        }
+
+        // Facebook sign in (still have to implement)
+        /*
+        val launcherFacebook = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.StartIntentSenderForResult(),
+            onResult = { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    if (result.data?.action == ActivityResultContracts.StartIntentSenderForResult.ACTION_INTENT_SENDER_REQUEST) {
+                        val exception: Exception? = result.data?.getSerializableExtra(
+                            ActivityResultContracts.StartIntentSenderForResult.EXTRA_SEND_INTENT_EXCEPTION
+                        ) as Exception?
+                        Log.e("LOG", "Couldn't start One Tap UI: ${exception?.localizedMessage}")
+                        return@rememberLauncherForActivityResult
+                    }
+                }
+                val credential = FacebookUtil.callbackManager
+                if (credential != null) {
+                    Log.d("LOG", credential.toString())
+                } else {
+                    Log.d("LOG", "Null Token")
+                }
+            }
+        )
+        */
 
         Box(modifier = Modifier.fillMaxSize()) {
             Card(elevation = 4.dp, modifier = Modifier.fillMaxSize()) {
@@ -176,6 +239,37 @@ fun LoginScreen(
                                 text = stringResource(id = R.string.signIn)
                             )
                         }
+                        Spacer(modifier = Modifier.height(1.dp))
+                        // Create a scope that is automatically cancelled
+                        // if the user closes your app while async work is
+                        // happening
+                        val scope = rememberCoroutineScope()
+                        CustomGoogleButton(
+                            onClicked = {
+                                scope.launch {
+                                    viewModel.handleGoogleSignIn(
+                                        context = context,
+                                        launcher = launcherGoogle
+                                    )
+                                }
+                            }
+                        )
+                        Spacer(modifier = Modifier.height(1.dp))
+                        CustomFacebookButton(
+                            onSuccess = {
+                                viewModel.handleFacebookAccessToken(
+                                    it.accessToken,
+                                    context,
+                                    appViewModel,
+                                    navController
+                                )
+                            },
+                            onCancel = {},
+                            onError = {
+                                if (it != null) {
+                                    Log.d("facebook", "facebook error: ${it.message}")
+                                }
+                            })
                         Spacer(modifier = Modifier.height(1.dp))
                         Row {
                             Checkbox(

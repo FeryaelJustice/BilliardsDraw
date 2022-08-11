@@ -125,10 +125,6 @@ dependencies {
     // Hilt ViewModel
     // implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_viewmodel_version"
 
-    // Play Services
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$play_services_version"
-    implementation "com.google.android.gms:play-services-auth:$play_services_auth_version"
-
     // COROUTINES
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version")
@@ -156,17 +152,23 @@ dependencies {
     // Firestore
     implementation 'com.google.firebase:firebase-firestore-ktx'
 
-    //Accompanist
+    // Accompanist
     implementation "com.google.accompanist:accompanist-navigation-animation:$accompanist_version"
+
+    // LOGIN
+    // Google
+    implementation "com.google.android.gms:play-services-auth:$play_services_auth_version"
+    // Facebook
+    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
 
     // ADS
     implementation "com.google.android.gms:play-services-ads:$google_ads_version"
     implementation "com.google.firebase:firebase-ads:$google_ads_version"
 
     // NAVIGATION
+    // Compose
     def nav_version = "2.5.1"
     implementation("androidx.navigation:navigation-compose:$nav_version")
-
     // Navigation component
     implementation "androidx.navigation:navigation-ui-ktx:$navigation_component_version"
 

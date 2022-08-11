@@ -14,6 +14,13 @@ import java.security.MessageDigest
 import java.text.SimpleDateFormat
 import java.util.*
 
+// TYPES
+enum class PROVIDER_TYPE {
+    BASIC,
+    GOOGLE,
+    FACEBOOK
+}
+
 // CONSTANTS
 
 const val BILLIARDSDRAW_CONTACT_EMAIL = "billiardsdraw@gmail.com"

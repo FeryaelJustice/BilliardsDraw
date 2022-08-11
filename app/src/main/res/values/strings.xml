@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">Billiards Draw</string>
     <string name="default_image_description" translatable="false">Image description</string>
+    <string name="google_ads_app_id" translatable="false">ca-app-pub-8873908976357821~6706532397</string>
+    <string name="facebook_app_id" translatable="false">a</string>
 
     <string name="welcome">Welcome to</string>
     <string name="email_hint">Enter email</string>
@@ -45,4 +47,5 @@
     <string name="age">age</string>
     <string name="complete_profile">Complete profile</string>
     <string name="birthdate">birth date</string>
+    <string name="txt_connect_with_facebook">Sign in with Facebook</string>
 </resources>

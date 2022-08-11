@@ -19,11 +19,14 @@
         android:theme="@style/Theme.BilliardsDraw"
         android:hardwareAccelerated="true"
         tools:targetApi="31">
-        <!-- GOOGLE ADS -->
+        <!-- GOOGLE -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-8873908976357821~6706532397"/>
-        <!-- Solo usar hardwareaccelerated en las apps que usen anuncios -->
+            android:value="@string/google_ads_app_id"/>
+        <!-- FACEBOOK -->
+        <meta-data android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+        <!-- Only use Hardware Accelerated in apps which use ads -->
         <activity
             android:name="com.billiardsdraw.billiardsdraw.BilliardsDraw"
             android:exported="true"
