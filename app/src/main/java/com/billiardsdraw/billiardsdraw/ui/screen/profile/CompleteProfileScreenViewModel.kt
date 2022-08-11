@@ -1,6 +1,11 @@
 package com.billiardsdraw.billiardsdraw.ui.screen.profile
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +30,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.HashMap
 
 @HiltViewModel
 class CompleteProfileScreenViewModel @Inject constructor(
@@ -32,6 +38,7 @@ class CompleteProfileScreenViewModel @Inject constructor(
     private val dispatchers: DispatcherProvider
 ) : ViewModel(), LifecycleObserver {
 
+    var profilePicture: Uri? by mutableStateOf(null)
     var age: String by mutableStateOf("")
     var birthdate: String by mutableStateOf("") // Calendar picker
     var country: String by mutableStateOf("")
@@ -49,7 +56,7 @@ class CompleteProfileScreenViewModel @Inject constructor(
         navController: NavHostController
     ) {
         if (areAllFieldsNotEmpty()) {
-            // Add user to firestoreHelper
+            // Add user to fire store Helper
             val userToAdd: MutableMap<String, Any> = HashMap()
             userToAdd["uid"] = repository.sharedPreferencesString(SharedPrefConstants.USER_ID_KEY)
             userToAdd["username"] = username
@@ -69,6 +76,7 @@ class CompleteProfileScreenViewModel @Inject constructor(
             userToAdd["deleted"] = false
 
             viewModelScope.launch(dispatchers.io) {
+                // Update user
                 repository.updateUserInFirebaseFirestore(
                     repository.sharedPreferencesString(
                         SharedPrefConstants.USER_ID_KEY
@@ -80,6 +88,19 @@ class CompleteProfileScreenViewModel @Inject constructor(
                         Log.d("register", "Failed to update user in db")
                     }
                 }
+
+                if (repository.uploadUserProfilePicture(
+                        repository.sharedPreferencesString(
+                            SharedPrefConstants.USER_ID_KEY
+                        ), profilePicture
+                    )
+                ) {
+                    withContext(dispatchers.main) {
+                        showToastShort(context, "Profile picture created")
+                    }
+                }
+
+                // Retrieve user data
                 repository.getUserFromFirebaseFirestore(
                     repository.sharedPreferencesString(
                         SharedPrefConstants.USER_ID_KEY
@@ -97,6 +118,8 @@ class CompleteProfileScreenViewModel @Inject constructor(
                         role = userData.role
                     }
                 }
+
+                // Navigate
                 withContext(dispatchers.main) {
                     navigateClearingAllBackstack(navController, Routes.LoggedApp.route)
                 }

@@ -1,8 +1,10 @@
 package com.billiardsdraw.billiardsdraw.data.repository
 
+import android.net.Uri
 import com.billiardsdraw.billiardsdraw.data.model.network.NetworkResponse
-import com.billiardsdraw.billiardsdraw.data.model.User
+import com.billiardsdraw.billiardsdraw.data.model.user.User
 import com.google.firebase.auth.FirebaseUser
+import java.io.File
 
 interface BilliardsDrawRepository {
     // LOCAL
@@ -16,11 +18,14 @@ interface BilliardsDrawRepository {
     suspend fun getUserFromApi(): NetworkResponse<Any>
 
     // FIREBASE
+    // Auth
     suspend fun signInWithEmailPassword(email: String, password: String): FirebaseUser?
     suspend fun signUpWithEmailPassword(email: String, password: String): FirebaseUser?
     fun signOut(): FirebaseUser?
     fun getCurrentUser(): FirebaseUser?
     suspend fun sendResetPassword(email: String): Boolean
+
+    // Firestore
     suspend fun createUserInFirebaseFirestore(
         userId: String,
         user: MutableMap<String, Any>,
@@ -37,4 +42,9 @@ interface BilliardsDrawRepository {
         userId: String,
         callback: (com.billiardsdraw.billiardsdraw.domain.model.User) -> Unit
     )
+
+    // Storage
+    // suspend fun getUserProfilePicture(userId: String): ByteArray?
+    suspend fun getUserProfilePicture(userId: String, callback: (File) -> Unit): Uri?
+    suspend fun uploadUserProfilePicture(userId: String, data: Uri?): Boolean
 }

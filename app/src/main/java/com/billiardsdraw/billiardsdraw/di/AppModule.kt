@@ -3,6 +3,7 @@ package com.billiardsdraw.billiardsdraw.di
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
+import coil.ImageLoader
 import com.billiardsdraw.billiardsdraw.common.RoomConstants
 import com.billiardsdraw.billiardsdraw.common.SharedPrefConstants
 import com.billiardsdraw.billiardsdraw.coroutine.DispatcherProvider
@@ -23,7 +24,6 @@ import javax.inject.Singleton
 object AppModule {
 
     // STORAGE
-
     @Provides
     @Singleton // @ViewModelScoped (NEED ViewModelComponent InstallIn in object)
     fun provideDatabase(@ApplicationContext context: Context) =
@@ -51,4 +51,9 @@ object AppModule {
     @Provides
     @Singleton
     fun provideDispatcherProvider(): DispatcherProvider = StandardDispatchers()
+
+    // Coil image loader
+    @Provides
+    @Singleton
+    fun provideImageLoader(@ApplicationContext context: Context): ImageLoader = ImageLoader(context)
 }

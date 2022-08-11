@@ -46,6 +46,7 @@ import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstac
 import com.billiardsdraw.billiardsdraw.ui.util.showToastShort
 import com.facebook.CallbackManager
 import com.google.android.gms.auth.api.identity.Identity
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 
 @Composable

@@ -1,6 +1,6 @@
 package com.billiardsdraw.billiardsdraw.domain.map
 
-import com.billiardsdraw.billiardsdraw.data.model.*
+import com.billiardsdraw.billiardsdraw.data.model.user.User
 import com.google.firebase.auth.FirebaseUser
 import java.util.*
 

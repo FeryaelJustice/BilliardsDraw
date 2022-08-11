@@ -1,12 +1,17 @@
 package com.billiardsdraw.billiardsdraw.ui.screen.user.profile
 
+import android.net.Uri
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -19,6 +24,7 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
+import com.billiardsdraw.billiardsdraw.ui.components.UserProfilePicture
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigate
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
@@ -31,7 +37,23 @@ fun UserProfileScreen(
     navController: NavHostController,
     appViewModel: BilliardsDrawViewModel
 ) {
+    // Context
     val context = LocalContext.current
+
+    // To execute it one time, if not, it's executed infinite times
+    LaunchedEffect(Unit) {
+        viewModel.onCreate(appViewModel, context)
+    }
+
+    // Select image profile picture
+    val launcher = rememberLauncherForActivityResult(
+        contract =
+        ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        viewModel.profilePicture = uri
+    }
+
+    // UI
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
@@ -65,7 +87,7 @@ fun UserProfileScreen(
                         .scale(2f)
                         .clickable {
                             // Navigate to config user screen
-                            // De momento, vamos a la pantalla premium
+                            // For the moment, we navigate to premium user screen
                             try {
                                 val back: NavBackStackEntry =
                                     navController.getBackStackEntry(Routes.UserPremiumScreen.route)
@@ -107,6 +129,9 @@ fun UserProfileScreen(
                         Button(onClick = {}) {
                             Text(text = "" + appViewModel.user.value?.country, color = Color.White)
                         }
+                    }
+                    UserProfilePicture(imageURL = viewModel.profilePicture) {
+                        launcher.launch("image/*")
                     }
                     Row {
                         Text(

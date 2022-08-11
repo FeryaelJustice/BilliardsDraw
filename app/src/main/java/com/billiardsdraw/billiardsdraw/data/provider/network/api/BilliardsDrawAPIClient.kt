@@ -1,6 +1,6 @@
 package com.billiardsdraw.billiardsdraw.data.provider.network.api
 
-import com.billiardsdraw.billiardsdraw.data.model.User
+import com.billiardsdraw.billiardsdraw.data.model.user.User
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers

@@ -2,8 +2,7 @@ package com.billiardsdraw.billiardsdraw.data.provider.network.api
 
 import com.billiardsdraw.billiardsdraw.common.apiKey
 import com.billiardsdraw.billiardsdraw.coroutine.DispatcherProvider
-import com.billiardsdraw.billiardsdraw.data.model.User
-import kotlinx.coroutines.Dispatchers
+import com.billiardsdraw.billiardsdraw.data.model.user.User
 import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject

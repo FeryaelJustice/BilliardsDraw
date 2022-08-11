@@ -1,4 +1,4 @@
-package com.billiardsdraw.billiardsdraw.data.model
+package com.billiardsdraw.billiardsdraw.data.model.user
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

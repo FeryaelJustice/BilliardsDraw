@@ -5,6 +5,7 @@ import com.billiardsdraw.billiardsdraw.data.provider.local.UserDao
 import com.billiardsdraw.billiardsdraw.data.provider.network.api.BilliardsDrawAPIService
 import com.billiardsdraw.billiardsdraw.data.provider.network.firebase.BaseFirebaseAuthenticator
 import com.billiardsdraw.billiardsdraw.data.provider.network.firebase.BaseFirebaseFirestoreHelper
+import com.billiardsdraw.billiardsdraw.data.provider.network.firebase.BaseFirebaseStorageHelper
 import com.billiardsdraw.billiardsdraw.data.repository.BilliardsDrawRepository
 import com.billiardsdraw.billiardsdraw.data.repository.BilliardsDrawRepositoryImp
 import com.google.firebase.auth.FirebaseAuth
@@ -27,6 +28,7 @@ object RepositoryModule {
         userDao: UserDao,
         firebaseAuthenticator : BaseFirebaseAuthenticator,
         firebaseFirestore: BaseFirebaseFirestoreHelper,
+        firebaseStorage: BaseFirebaseStorageHelper,
         appPreferences: SharedPreferences,
         gson: Gson
     ): BilliardsDrawRepository =
@@ -35,6 +37,7 @@ object RepositoryModule {
             userDao,
             firebaseAuthenticator,
             firebaseFirestore,
+            firebaseStorage,
             appPreferences,
             gson
         )

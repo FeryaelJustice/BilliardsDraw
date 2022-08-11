@@ -1,12 +1,9 @@
 package com.billiardsdraw.billiardsdraw.data.provider.network.firebase
 
 import com.billiardsdraw.billiardsdraw.common.FirebaseFirestoreConstants
-import com.billiardsdraw.billiardsdraw.data.model.User
+import com.billiardsdraw.billiardsdraw.data.model.user.User
 import com.billiardsdraw.billiardsdraw.domain.map.toUser
-import com.billiardsdraw.billiardsdraw.ui.util.showToastShort
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.tasks.await
 import java.util.*
 
 class FirebaseFirestoreHelper : BaseFirebaseFirestoreHelper {

@@ -1,7 +1,13 @@
 package com.billiardsdraw.billiardsdraw.ui.screen.profile
 
 import android.app.DatePickerDialog
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
 import android.widget.DatePicker
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -28,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
+import com.billiardsdraw.billiardsdraw.ui.components.UserProfilePicture
 import java.util.*
 
 @Composable
@@ -55,6 +62,14 @@ fun CompleteProfileScreen(
         }, mYear, mMonth, mDay
     )
 
+    // Select image profile picture
+    val launcher = rememberLauncherForActivityResult(
+        contract =
+        ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        viewModel.profilePicture = uri
+    }
+
     // UI
     Box(modifier = Modifier.fillMaxSize()) {
         Card(elevation = 4.dp, modifier = Modifier.fillMaxSize()) {
@@ -75,6 +90,10 @@ fun CompleteProfileScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    UserProfilePicture(imageURL = viewModel.profilePicture) {
+                        launcher.launch("image/*")
+                    }
+                    Spacer(modifier = Modifier.height(4.dp))
                     TextField(
                         value = viewModel.username,
                         onValueChange = { viewModel.username = it },

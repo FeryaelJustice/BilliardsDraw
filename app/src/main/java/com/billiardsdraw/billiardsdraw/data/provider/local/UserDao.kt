@@ -2,7 +2,7 @@ package com.billiardsdraw.billiardsdraw.data.provider.local
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.billiardsdraw.billiardsdraw.data.model.User
+import com.billiardsdraw.billiardsdraw.data.model.user.User
 
 @Dao
 interface UserDao {

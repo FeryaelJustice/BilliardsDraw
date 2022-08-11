@@ -1,10 +1,7 @@
 package com.billiardsdraw.billiardsdraw.di
 
-import com.billiardsdraw.billiardsdraw.data.provider.network.firebase.BaseFirebaseAuthenticator
 import com.billiardsdraw.billiardsdraw.data.provider.network.api.BilliardsDrawAPIClient
-import com.billiardsdraw.billiardsdraw.data.provider.network.firebase.BaseFirebaseFirestoreHelper
-import com.billiardsdraw.billiardsdraw.data.provider.network.firebase.FirebaseAuthenticator
-import com.billiardsdraw.billiardsdraw.data.provider.network.firebase.FirebaseFirestoreHelper
+import com.billiardsdraw.billiardsdraw.data.provider.network.firebase.*
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
@@ -42,6 +39,10 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideFirestoreHelper(): BaseFirebaseFirestoreHelper = FirebaseFirestoreHelper()
+
+    @Singleton
+    @Provides
+    fun provideFirebaseStorageHelper(): BaseFirebaseStorageHelper = FirebaseStorageHelper()
 
     /*
     @Provides

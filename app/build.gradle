@@ -151,6 +151,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
     // Firestore
     implementation 'com.google.firebase:firebase-firestore-ktx'
+    // Cloud store
+    implementation 'com.google.firebase:firebase-storage-ktx'
 
     // Accompanist
     implementation "com.google.accompanist:accompanist-navigation-animation:$accompanist_version"
