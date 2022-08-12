@@ -93,6 +93,7 @@ class BilliardsDraw : ComponentActivity() {
 
         // APP
         setContent {
+            // Navigation
             val navController = rememberNavController()
             BilliardsDrawTheme {
                 BilliardsDrawApp(model, navController)

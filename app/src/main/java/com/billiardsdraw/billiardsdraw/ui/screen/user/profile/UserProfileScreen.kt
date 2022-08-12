@@ -120,22 +120,18 @@ fun UserProfileScreen(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center
                     ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.profileicon),
-                            contentDescription = context.resources.getString(R.string.profileicon),
-                            modifier = Modifier
-                                .scale(2f)
-                        )
+                        UserProfilePicture(imageURL = viewModel.profilePicture) {
+                            launcher.launch("image/*")
+                        }
+                        Spacer(modifier = Modifier.width(10.dp))
                         Button(onClick = {}) {
                             Text(text = "" + appViewModel.user.value?.country, color = Color.White)
                         }
                     }
-                    UserProfilePicture(imageURL = viewModel.profilePicture) {
-                        launcher.launch("image/*")
-                    }
+                    Spacer(modifier = Modifier.height(10.dp))
                     Row {
                         Text(
-                            text = "Username: ",
+                            text = stringResource(id = R.string.username) + ": ",
                             color = Color.White
                         )
                         Text(
@@ -146,7 +142,7 @@ fun UserProfileScreen(
                     Spacer(modifier = Modifier.height(20.dp))
                     Row {
                         Text(
-                            text = "Nickname: ",
+                            text = stringResource(id = R.string.nickname) + ": ",
                             color = Color.White
                         )
                         Text(
@@ -157,7 +153,7 @@ fun UserProfileScreen(
                     Spacer(modifier = Modifier.height(20.dp))
                     Row {
                         Text(
-                            text = "Full name: ",
+                            text = stringResource(id = R.string.name) + " " + stringResource(id = R.string.surnames) + ": ",
                             color = Color.White
                         )
                         Text(
@@ -168,7 +164,7 @@ fun UserProfileScreen(
                     Spacer(modifier = Modifier.height(20.dp))
                     Row {
                         Text(
-                            text = "Email: ",
+                            text = stringResource(id = R.string.email) + ": ",
                             color = Color.White
                         )
                         Text(
@@ -179,7 +175,7 @@ fun UserProfileScreen(
                     Spacer(modifier = Modifier.height(20.dp))
                     Row {
                         Text(
-                            text = "Birthday date: ",
+                            text = stringResource(id = R.string.birthdate) + ": ",
                             color = Color.White
                         )
                         Text(
@@ -190,7 +186,7 @@ fun UserProfileScreen(
                     Spacer(modifier = Modifier.height(20.dp))
                     Row {
                         Text(
-                            text = "Subscription state: ",
+                            text = stringResource(id = R.string.subscription_state) + ": ",
                             color = Color.White
                         )
                         Text(

@@ -34,4 +34,5 @@ class BilliardsDrawApp : Application() {
         // Firebase
         Firebase.initialize(this)
     }
+
 }
