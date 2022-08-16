@@ -5,9 +5,7 @@ import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
@@ -33,7 +31,7 @@ class RegisterScreenViewModel @Inject constructor(
     private val repository: BilliardsDrawRepository,
     private val dispatchers: DispatcherProvider
 ) :
-    ViewModel(), LifecycleObserver {
+    ViewModel(), DefaultLifecycleObserver, LifecycleEventObserver {
     var email: String by mutableStateOf("")
     var password: String by mutableStateOf("")
     var passwordVisible by mutableStateOf(false)
@@ -149,5 +147,9 @@ class RegisterScreenViewModel @Inject constructor(
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+        Log.d("Lifecycle", "onStateChanged")
     }
 }

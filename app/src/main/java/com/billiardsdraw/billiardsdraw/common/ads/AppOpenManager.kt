@@ -3,8 +3,8 @@ package com.billiardsdraw.billiardsdraw.common.ads
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.ProcessLifecycleOwner
+import android.util.Log
+import androidx.lifecycle.*
 import com.billiardsdraw.BilliardsDrawApp
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
@@ -17,7 +17,8 @@ import java.util.*
 
 // ANUNCIOS DE INICIO APP
 /** Prefetches App Open Ads.  */
-class AppOpenManager(myApplication: BilliardsDrawApp) : Application.ActivityLifecycleCallbacks, LifecycleObserver {
+class AppOpenManager(myApplication: BilliardsDrawApp) : Application.ActivityLifecycleCallbacks,
+    DefaultLifecycleObserver, LifecycleEventObserver {
     private var appOpenAd: AppOpenAd? = null
     private var loadCallback: AppOpenAdLoadCallback? = null
     private val myApplication: BilliardsDrawApp
@@ -33,8 +34,8 @@ class AppOpenManager(myApplication: BilliardsDrawApp) : Application.ActivityLife
     /** Constructor  */
     init {
         this.myApplication = myApplication
-        this.myApplication.registerActivityLifecycleCallbacks(this);
-        ProcessLifecycleOwner.get().lifecycle.addObserver(this);
+        this.myApplication.registerActivityLifecycleCallbacks(this)
+        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     }
 
     /** Creates and returns ad request.  */
@@ -47,7 +48,7 @@ class AppOpenManager(myApplication: BilliardsDrawApp) : Application.ActivityLife
     /** Request an ad  */
     fun fetchAd() {
         if (isAdAvailable()) {
-            return;
+            return
         }
         loadCallback = object : AppOpenAdLoadCallback() {
             /**
@@ -81,11 +82,11 @@ class AppOpenManager(myApplication: BilliardsDrawApp) : Application.ActivityLife
     }
 
     override fun onActivityStarted(activity: Activity) {
-        currentActivity = activity;
+        currentActivity = activity
     }
 
     override fun onActivityResumed(activity: Activity) {
-        currentActivity = activity;
+        currentActivity = activity
     }
 
     override fun onActivityPaused(p0: Activity) {
@@ -101,7 +102,7 @@ class AppOpenManager(myApplication: BilliardsDrawApp) : Application.ActivityLife
     }
 
     override fun onActivityDestroyed(p0: Activity) {
-        currentActivity = null;
+        currentActivity = null
     }
 
     /** Shows the ad if one isn't already showing.  */
@@ -140,5 +141,9 @@ class AppOpenManager(myApplication: BilliardsDrawApp) : Application.ActivityLife
 
     fun onStart() {
         showAdIfAvailable()
+    }
+
+    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+        Log.d("Lifecycle", "onStateChanged")
     }
 }

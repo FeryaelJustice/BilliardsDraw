@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -28,10 +29,15 @@ import com.billiardsdraw.billiardsdraw.ui.util.showToastShort
 
 @Composable
 fun CarambolaMenuScreen(
-    viewModel: CarambolaMenuScreenViewModel,
     navController: NavHostController,
     appViewModel: BilliardsDrawViewModel
 ) {
+    // Check is Logged
+    LaunchedEffect(key1 = "loginCheck", block = {
+        if (!appViewModel.isLogged()) {
+            navigateClearingAllBackstack(navController, Routes.GeneralApp.route)
+        }
+    })
     val context = LocalContext.current
     Box(modifier = Modifier.fillMaxSize()) {
         Card(elevation = 4.dp, modifier = Modifier.fillMaxSize()) {
@@ -77,7 +83,7 @@ fun CarambolaMenuScreen(
                                     val back: NavBackStackEntry =
                                         navController.getBackStackEntry(Routes.UserProfileScreen.route)
                                     Log.d("in_back_stack", back.destination.label.toString())
-                                    navigateClearingAllBackstack(
+                                    navigate(
                                         navController,
                                         Routes.UserProfileScreen.route
                                     )
@@ -110,7 +116,7 @@ fun CarambolaMenuScreen(
                                     if (enableAds) {
                                         createInterstitialAd(context)
                                     }
-                                    navigateClearingAllBackstack(
+                                    navigate(
                                         navController,
                                         Routes.CarambolaScreen.route
                                     )

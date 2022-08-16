@@ -24,15 +24,14 @@ import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
-import com.billiardsdraw.billiardsdraw.ui.navigation.navigate
+import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 import com.billiardsdraw.billiardsdraw.ui.util.showToastLong
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun RecoverAccountScreen(
     viewModel: RecoverAccountScreenViewModel,
-    navController: NavHostController,
-    appViewModel: BilliardsDrawViewModel
+    navController: NavHostController
 ) {
     val context = LocalContext.current
 
@@ -108,7 +107,7 @@ fun RecoverAccountScreen(
                         // Enviar email
                         if (sendEmail(viewModel.email)) {
                             showToastLong(context, sendEmailText)
-                            navigate(navController, Routes.LoginScreen.route)
+                            navigateClearingAllBackstack(navController, Routes.LoginScreen.route)
                         } else {
                             showToastLong(context, sendEmailFailText)
                         }

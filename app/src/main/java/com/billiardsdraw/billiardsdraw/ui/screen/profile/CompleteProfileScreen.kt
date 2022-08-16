@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -35,6 +36,8 @@ import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.ui.components.UserProfilePicture
+import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
+import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 import java.util.*
 
 @Composable
@@ -43,6 +46,14 @@ fun CompleteProfileScreen(
     navController: NavHostController,
     appViewModel: BilliardsDrawViewModel
 ) {
+
+    // Check is Logged
+    LaunchedEffect(key1 = "loginCheck", block = {
+        if (!appViewModel.isLogged()) {
+            navigateClearingAllBackstack(navController, Routes.GeneralApp.route)
+        }
+    })
+
     // Context
     val context = LocalContext.current
 

@@ -6,10 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -28,6 +25,8 @@ import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.common.HexToJetpackColor
+import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
+import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -37,6 +36,13 @@ fun CarambolaScreen(
     navController: NavHostController,
     appViewModel: BilliardsDrawViewModel
 ) {
+
+    // Check is Logged
+    LaunchedEffect(key1 = "loginCheck", block = {
+        if (!appViewModel.isLogged()) {
+            navigateClearingAllBackstack(navController, Routes.GeneralApp.route)
+        }
+    })
 
     // Scale, for zoom
     val scale = remember { mutableStateOf(1f) }

@@ -64,14 +64,15 @@ fun LoginScreen(
 
         // RECUERDA: El autologin con sharedprefs, o con variables hace que pete, se repinta, averiguar manera
         LaunchedEffect(key1 = "isLogged", block = {
-            if (viewModel.isLogged()) {
+            if (appViewModel.isLogged()) {
                 appViewModel.setLoading(true)
                 viewModel.signIn(appViewModel, context, navController, true)
                 appViewModel.setLoading(false)
             }
         })
 
-        // Google sign in
+        // Google sign in (still have to implement)
+        /*
         val launcherGoogle = rememberLauncherForActivityResult(
             ActivityResultContracts.StartIntentSenderForResult()
         ) { result ->
@@ -97,8 +98,9 @@ fun LoginScreen(
                 Log.d("LOG", "Null Token")
             }
         }
+        */
 
-        // Facebook sign in (still have to implement)
+        // Facebook sign in (still have to implement, this is not the way, upwards the google way is correct)
         /*
         val launcherFacebook = rememberLauncherForActivityResult(
             contract = ActivityResultContracts.StartIntentSenderForResult(),
@@ -166,7 +168,7 @@ fun LoginScreen(
                         TextField(
                             value = viewModel.email,
                             onValueChange = { viewModel.email = it },
-                            enabled = !viewModel.isLogged(),
+                            enabled = !appViewModel.isLogged(),
                             label = {
                                 Text(
                                     stringResource(id = R.string.email),
@@ -189,7 +191,7 @@ fun LoginScreen(
                         TextField(
                             value = viewModel.password,
                             onValueChange = { viewModel.password = it },
-                            enabled = !viewModel.isLogged(),
+                            enabled = !appViewModel.isLogged(),
                             label = {
                                 Text(
                                     stringResource(id = R.string.password),
@@ -241,6 +243,7 @@ fun LoginScreen(
                             )
                         }
                         Spacer(modifier = Modifier.height(1.dp))
+                        /*
                         // Create a scope that is automatically cancelled
                         // if the user closes your app while async work is
                         // happening
@@ -272,6 +275,7 @@ fun LoginScreen(
                                 }
                             })
                         Spacer(modifier = Modifier.height(1.dp))
+                        */
                         Row {
                             Checkbox(
                                 checked = viewModel.keepSession,

@@ -15,7 +15,6 @@ import com.billiardsdraw.billiardsdraw.ui.screen.carambola.CarambolaScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.carambola.menu.CarambolaMenuScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.contact.ContactScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.menu.MenuScreen
-import com.billiardsdraw.billiardsdraw.ui.screen.menu.MenuScreenViewModel
 import com.billiardsdraw.billiardsdraw.ui.screen.pool.PoolScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.pool.menu.PoolMenuScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.profile.CompleteProfileScreen
@@ -87,7 +86,7 @@ fun NavGraphBuilder.generalApp(
             val parentEntry = remember(backStackEntry) {
                 navController.getBackStackEntry(Routes.GeneralApp.route)
             }
-            RecoverAccountScreen(hiltViewModel(parentEntry), navController, viewModel)
+            RecoverAccountScreen(hiltViewModel(parentEntry), navController)
         }
     }
 }
@@ -100,11 +99,8 @@ fun NavGraphBuilder.loggedApp(navController: NavHostController, viewModel: Billi
             }
             CompleteProfileScreen(hiltViewModel(parentEntry), navController, viewModel)
         }
-        composable(Routes.MenuScreen.route) { backStackEntry ->
-            val parentEntry = remember(backStackEntry) {
-                navController.getBackStackEntry(Routes.LoggedApp.route)
-            }
-            MenuScreen(hiltViewModel(parentEntry), navController, viewModel)
+        composable(Routes.MenuScreen.route) {
+            MenuScreen(navController, viewModel)
         }
         composable(Routes.CarambolaScreen.route) { backStackEntry ->
             val parentEntry = remember(backStackEntry) {
@@ -118,17 +114,11 @@ fun NavGraphBuilder.loggedApp(navController: NavHostController, viewModel: Billi
             }
             PoolScreen(hiltViewModel(parentEntry), navController, viewModel)
         }
-        composable(Routes.CarambolaMenuScreen.route) { backStackEntry ->
-            val parentEntry = remember(backStackEntry) {
-                navController.getBackStackEntry(Routes.LoggedApp.route)
-            }
-            CarambolaMenuScreen(hiltViewModel(parentEntry), navController, viewModel)
+        composable(Routes.CarambolaMenuScreen.route) {
+            CarambolaMenuScreen(navController, viewModel)
         }
-        composable(Routes.PoolMenuScreen.route) { backStackEntry ->
-            val parentEntry = remember(backStackEntry) {
-                navController.getBackStackEntry(Routes.LoggedApp.route)
-            }
-            PoolMenuScreen(hiltViewModel(parentEntry), navController, viewModel)
+        composable(Routes.PoolMenuScreen.route) {
+            PoolMenuScreen(navController, viewModel)
         }
         composable(Routes.UserProfileScreen.route) { backStackEntry ->
             val parentEntry = remember(backStackEntry) {
@@ -157,11 +147,17 @@ fun navigate(navController: NavHostController, route: String) {
 }
 
 fun navigateClearingAllBackstack(navController: NavHostController, route: String) {
+    navigationPopBackstack(navController) // Remove backstack
     navController.navigate(route) {
-        // navController.graph.findStartDestination().id
-        popUpTo(Routes.LoginScreen.route) {
+        // Will pop from SplashScreen to parameter route destination, popping SplashScreen included and up
+        popUpTo(Routes.SplashScreen.route) {
             inclusive = true
-            saveState = false
+            // saveState = false
         }
     }
+}
+
+// Go back and pop back stack
+private fun navigationPopBackstack(navController: NavHostController) {
+    navController.popBackStack()
 }

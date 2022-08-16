@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -19,6 +20,7 @@ import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
+import com.billiardsdraw.billiardsdraw.ui.util.showToastShort
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
@@ -27,8 +29,16 @@ fun UserPremiumScreen(
     navController: NavHostController,
     appViewModel: BilliardsDrawViewModel
 ) {
+    // Check is Logged
+    LaunchedEffect(key1 = "loginCheck", block = {
+        if (!appViewModel.isLogged()) {
+            navigateClearingAllBackstack(navController, Routes.GeneralApp.route)
+        }
+    })
+
+    val context = LocalContext.current
+
     if (appViewModel.user.value?.role == "premium") {
-        val context = LocalContext.current
         Box(modifier = Modifier.fillMaxSize()) {
             Column(
                 modifier = Modifier
@@ -124,6 +134,7 @@ fun UserPremiumScreen(
             }
         }
     } else {
-        navController.popBackStack()
+        navigateClearingAllBackstack(navController, Routes.LoggedApp.route)
+        showToastShort(context, stringResource(id = R.string.user_is_not_premium))
     }
 }

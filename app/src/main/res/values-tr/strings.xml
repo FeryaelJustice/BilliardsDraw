@@ -44,4 +44,5 @@
     <string name="birthdate">birth date</string>
     <string name="txt_connect_with_facebook">Facebook ile giriş</string>
     <string name="subscription_state">Abonelik durumu</string>
+    <string name="user_is_not_premium">You are not a premium user</string>
 </resources>

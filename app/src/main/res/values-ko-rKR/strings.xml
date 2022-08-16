@@ -44,4 +44,5 @@
     <string name="birthdate">birth date</string>
     <string name="txt_connect_with_facebook">페이스북으로 로그인</string>
     <string name="subscription_state">구독 상태</string>
+    <string name="user_is_not_premium">You are not a premium user</string>
 </resources>

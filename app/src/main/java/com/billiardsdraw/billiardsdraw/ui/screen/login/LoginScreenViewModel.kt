@@ -59,11 +59,9 @@ class LoginScreenViewModel @Inject constructor(
         password = repository.sharedPreferencesString(PASSWORD_KEY)
 
         // Check if user is signed in (non-null) and update UI accordingly (google recommended way)
-        val currentUser = auth.currentUser
+        // val currentUser = auth.currentUser
         // updateUI(currentUser)
     }
-
-    fun isLogged() = repository.sharedPreferencesBoolean(IS_LOGGED_KEY)
 
     fun signIn(
         appViewModel: BilliardsDrawViewModel,

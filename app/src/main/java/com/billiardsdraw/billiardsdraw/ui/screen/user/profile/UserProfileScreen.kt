@@ -37,12 +37,19 @@ fun UserProfileScreen(
     navController: NavHostController,
     appViewModel: BilliardsDrawViewModel
 ) {
+    // Check is Logged
+    LaunchedEffect(key1 = "loginCheck", block = {
+        if (!appViewModel.isLogged()) {
+            navigateClearingAllBackstack(navController, Routes.GeneralApp.route)
+        }
+    })
+
     // Context
     val context = LocalContext.current
 
     // To execute it one time, if not, it's executed infinite times
     LaunchedEffect(Unit) {
-        viewModel.onCreate(appViewModel, context)
+        viewModel.onCreate(appViewModel)
     }
 
     // Select image profile picture
@@ -92,7 +99,7 @@ fun UserProfileScreen(
                                 val back: NavBackStackEntry =
                                     navController.getBackStackEntry(Routes.UserPremiumScreen.route)
                                 Log.d("in_back_stack", back.destination.label.toString())
-                                navigateClearingAllBackstack(
+                                navigate(
                                     navController,
                                     Routes.UserPremiumScreen.route
                                 )

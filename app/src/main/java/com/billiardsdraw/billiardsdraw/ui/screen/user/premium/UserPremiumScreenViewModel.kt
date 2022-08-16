@@ -1,8 +1,7 @@
 package com.billiardsdraw.billiardsdraw.ui.screen.user.premium
 
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.util.Log
+import androidx.lifecycle.*
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.common.SharedPrefConstants
 import com.billiardsdraw.billiardsdraw.coroutine.DispatcherProvider
@@ -17,7 +16,7 @@ import javax.inject.Inject
 class UserPremiumScreenViewModel @Inject constructor(
     private val repository: BilliardsDrawRepository,
     private val dispatchers: DispatcherProvider
-) : ViewModel(), LifecycleObserver {
+) : ViewModel(), DefaultLifecycleObserver, LifecycleEventObserver {
 
     fun signOut(navController: NavHostController) {
         repository.signOut()
@@ -26,5 +25,9 @@ class UserPremiumScreenViewModel @Inject constructor(
         viewModelScope.launch(dispatchers.io) {
             repository.setSharedPreferencesBoolean(SharedPrefConstants.IS_LOGGED_KEY, false)
         }
+    }
+
+    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+        Log.d("Lifecycle", "onStateChanged")
     }
 }

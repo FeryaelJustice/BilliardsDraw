@@ -4,19 +4,21 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.common.BILLIARDSDRAW_CONTACT_EMAIL
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
-import com.billiardsdraw.billiardsdraw.ui.navigation.navigate
+import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ContactScreenViewModel @Inject constructor() : ViewModel() {
+class ContactScreenViewModel @Inject constructor() : ViewModel(), DefaultLifecycleObserver,
+    LifecycleEventObserver {
     //var email: String by mutableStateOf("")
     var subject: String by mutableStateOf("")
     var text: String by mutableStateOf("")
@@ -37,6 +39,10 @@ class ContactScreenViewModel @Inject constructor() : ViewModel() {
         }
          */
         context.startActivity(intent)
-        navigate(navController, Routes.LoggedApp.route)
+        navigateClearingAllBackstack(navController, Routes.LoggedApp.route)
+    }
+
+    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+        Log.d("Lifecycle", "onStateChanged")
     }
 }

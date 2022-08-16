@@ -11,9 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
@@ -36,7 +34,7 @@ import kotlin.collections.HashMap
 class CompleteProfileScreenViewModel @Inject constructor(
     private val repository: BilliardsDrawRepository,
     private val dispatchers: DispatcherProvider
-) : ViewModel(), LifecycleObserver {
+) : ViewModel(), DefaultLifecycleObserver, LifecycleEventObserver {
 
     var profilePicture: Uri? by mutableStateOf(null)
     var age: String by mutableStateOf("")
@@ -128,5 +126,9 @@ class CompleteProfileScreenViewModel @Inject constructor(
             showToastShort(context, context.resources.getString(R.string.fieldsCantBeEmpty))
         }
 
+    }
+
+    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+        Log.d("Lifecycle", "onStateChanged")
     }
 }

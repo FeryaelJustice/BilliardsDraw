@@ -6,28 +6,19 @@ import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.navigation.NavHostController
 import coil.ImageLoader
-import coil.request.ImageRequest
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.common.SharedPrefConstants
 import com.billiardsdraw.billiardsdraw.common.getImageUriFromBitmap
 import com.billiardsdraw.billiardsdraw.common.toBitmap
 import com.billiardsdraw.billiardsdraw.coroutine.DispatcherProvider
 import com.billiardsdraw.billiardsdraw.data.repository.BilliardsDrawRepository
-import com.billiardsdraw.billiardsdraw.domain.model.User
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
-import com.billiardsdraw.billiardsdraw.ui.navigation.navigate
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
-import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,24 +27,24 @@ class UserProfileScreenViewModel @Inject constructor(
     private val dispatchers: DispatcherProvider,
     private val imageLoader: ImageLoader
 ) :
-    ViewModel() {
+    ViewModel(), DefaultLifecycleObserver, LifecycleEventObserver {
 
     var profilePicture: Uri? by mutableStateOf(null)
 
-    fun onCreate(appViewModel: BilliardsDrawViewModel, context: Context) {
+    fun onCreate(appViewModel: BilliardsDrawViewModel) {
         viewModelScope.launch(dispatchers.io) {
-            appViewModel.user.value?.uid?.let { getUserProfilePicture(it, context) }
+            appViewModel.user.value?.uid?.let { getUserProfilePicture(it) }
         }
     }
 
-    private suspend fun getUserProfilePicture(userId: String, context: Context) {
+    private suspend fun getUserProfilePicture(userId: String) {
         repository.getUserProfilePicture(userId) {
             profilePicture = Uri.fromFile(it)
         }
     }
 
     fun openContactForm(navController: NavHostController) {
-        navigate(navController, Routes.ContactScreen.route)
+        navigateClearingAllBackstack(navController, Routes.ContactScreen.route)
     }
 
     fun signOut(navController: NavHostController) {
@@ -65,5 +56,9 @@ class UserProfileScreenViewModel @Inject constructor(
             repository.setSharedPreferencesString(SharedPrefConstants.PASSWORD_KEY, "")
             repository.setSharedPreferencesString(SharedPrefConstants.USER_ID_KEY, "")
         }
+    }
+
+    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+        Log.d("Lifecycle", "onStateChanged")
     }
 }

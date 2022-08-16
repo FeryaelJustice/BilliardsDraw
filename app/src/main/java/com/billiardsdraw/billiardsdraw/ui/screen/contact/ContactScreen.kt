@@ -18,11 +18,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
-import com.billiardsdraw.billiardsdraw.ui.util.BilliardsDrawFontSize
 
 @Composable
 fun ContactScreen(
@@ -46,7 +44,7 @@ fun ContactScreen(
                     modifier = Modifier
                         .scale(2f)
                         .clickable {
-                            navController.popBackStack()
+                            navigateClearingAllBackstack(navController, Routes.LoggedApp.route)
                         })
                 Image(
                     modifier = Modifier.scale(2f),

@@ -44,4 +44,5 @@
     <string name="birthdate">Fecha de nacimiento</string>
     <string name="txt_connect_with_facebook">Iniciar sesión con Facebook</string>
     <string name="subscription_state">Estado de suscripción</string>
+    <string name="user_is_not_premium">No eres un usuario premium</string>
 </resources>
