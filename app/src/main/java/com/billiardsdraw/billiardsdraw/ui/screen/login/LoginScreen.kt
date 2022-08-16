@@ -324,7 +324,7 @@ fun LoginScreen(
 
                     // Banner ad
                     if (enableAds) {
-                        CreateBanner(context)
+                        CreateBanner()
                     }
                 }
             }

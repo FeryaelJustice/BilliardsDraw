@@ -136,7 +136,7 @@ class BilliardsDraw : ComponentActivity() {
             })
     }
 
-    // DEPRECTATED, REPLACE
+    // DEPRECATED, REPLACE
     @Deprecated("Use contracts")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

@@ -29,7 +29,7 @@ fun createInterstitialAd(context: Context) {
     val adRequest = AdRequest.Builder().build()
     InterstitialAd.load(
         context,
-        TEST_AD_CODE_INTERSTITIAL, // reemplazar por interstitial code launch ad en prod
+        TEST_AD_CODE_INTERSTITIAL, // replace por interstitial code launch ad en prod
         adRequest,
         object : InterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(p0: LoadAdError) {
@@ -45,11 +45,11 @@ fun createInterstitialAd(context: Context) {
 
 // COMPOSABLE
 @Composable
-fun CreateBanner(context: Context) {
+fun CreateBanner() {
     AndroidView(factory = {
         AdView(it).apply {
             setAdSize(AdSize.BANNER)
-            adUnitId = TEST_AD_CODE_BANNER
+            adUnitId = TEST_AD_CODE_BANNER // replace por banner code launch ad en prod
             loadAd(AdRequest.Builder().build())
         }
     })
