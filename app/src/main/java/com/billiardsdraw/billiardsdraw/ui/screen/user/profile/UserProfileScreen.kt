@@ -11,7 +11,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -24,19 +23,21 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
+import com.billiardsdraw.billiardsdraw.domain.model.SignInMethod
 import com.billiardsdraw.billiardsdraw.ui.components.UserProfilePicture
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigate
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
-import com.billiardsdraw.billiardsdraw.ui.util.showToastShort
-import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun UserProfileScreen(
     viewModel: UserProfileScreenViewModel,
     navController: NavHostController,
-    appViewModel: BilliardsDrawViewModel
+    appViewModel: BilliardsDrawViewModel,
+    onSignOut: (navController: NavHostController) -> Unit
 ) {
+    val currentUser = appViewModel.currentUser
+
     // Check is Logged
     LaunchedEffect(key1 = "loginCheck", block = {
         if (!appViewModel.isLogged()) {
@@ -206,11 +207,29 @@ fun UserProfileScreen(
                     Spacer(modifier = Modifier.height(20.dp))
                     Text(text = stringResource(R.string.linkFacebook), color = Color.White)
                     Spacer(modifier = Modifier.height(20.dp))
-                    Button(onClick = {
-                        viewModel.signOut(navController)
-                    }) {
-                        Text(text = stringResource(id = R.string.signOut))
+                    // START SIGN OUT
+                    when (appViewModel.getSignInMethodSharedPrefs()) {
+                        SignInMethod.Custom -> {
+                            // Own sign out
+                            Button(onClick = {
+                                viewModel.signOut(navController)
+                                onSignOut(navController)
+                            }) {
+                                Text(text = stringResource(id = R.string.signOut))
+                            }
+                        }
+                        SignInMethod.Google -> {
+                            // Google sign out
+                            if (currentUser.value != null) {
+                                Column(modifier = Modifier.padding(16.dp)) {
+                                    Button(onClick = { onSignOut(navController) }) {
+                                        androidx.compose.material3.Text(text = "Sign out")
+                                    }
+                                }
+                            }
+                        }
                     }
+                    // END SIGN OUT
                     Spacer(modifier = Modifier.height(20.dp))
                     Image(
                         modifier = Modifier

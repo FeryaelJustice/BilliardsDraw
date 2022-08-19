@@ -1,47 +1,61 @@
 package com.billiardsdraw.billiardsdraw
 
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.android.billingclient.api.*
 import com.billiardsdraw.billiardsdraw.common.*
-import com.billiardsdraw.billiardsdraw.ui.components.login.FacebookUtil
-import com.billiardsdraw.billiardsdraw.ui.components.login.FacebookUtil.callbackManager
-import com.billiardsdraw.billiardsdraw.ui.navigation.BilliardsDrawTopBar
-import com.billiardsdraw.billiardsdraw.ui.navigation.NavigationManager
+import com.billiardsdraw.billiardsdraw.domain.map.toUser
+import com.billiardsdraw.billiardsdraw.domain.model.SignInMethod
+import com.billiardsdraw.billiardsdraw.ui.navigation.*
 import com.billiardsdraw.billiardsdraw.ui.theme.BilliardsDrawTheme
-import com.google.android.gms.ads.*
-import com.google.android.gms.auth.api.identity.Identity
-import com.google.android.gms.auth.api.identity.SignInClient
+import com.billiardsdraw.billiardsdraw.ui.util.showToastLong
+import com.billiardsdraw.billiardsdraw.ui.util.showToastShort
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.firebase.analytics.FirebaseAnalytics.Event.LOGIN
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.ImmutableList
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.ktx.initialize
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @AndroidEntryPoint
 class BilliardsDraw : ComponentActivity() {
 
-    private val model: BilliardsDrawViewModel by viewModels()
+    // APP VIEW MODEL
+    private val viewModel: BilliardsDrawViewModel by viewModels()
+
+    // AUTH
+    private val auth: FirebaseAuth = Firebase.auth
+    private lateinit var googleSignInClient: GoogleSignInClient
+    private lateinit var authResultLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // ViewModel
-        model.onCreate()
 
         // Google Play Services (pay)
         val purchasesUpdatedListener =
@@ -50,12 +64,10 @@ class BilliardsDraw : ComponentActivity() {
                 Log.d("billingresultcode", billingResult.responseCode.toString())
                 Log.d("purchasessize", purchases?.size.toString())
             }
-
         val billingClient = BillingClient.newBuilder(applicationContext)
             .setListener(purchasesUpdatedListener)
             .enablePendingPurchases()
             .build()
-
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingServiceDisconnected() {
                 TODO("Not yet implemented")
@@ -67,7 +79,6 @@ class BilliardsDraw : ComponentActivity() {
                 }
             }
         })
-
         val queryProductDetailsParams =
             QueryProductDetailsParams.newBuilder()
                 .setProductList(
@@ -79,7 +90,6 @@ class BilliardsDraw : ComponentActivity() {
                     )
                 )
                 .build()
-
         billingClient.queryProductDetailsAsync(
             queryProductDetailsParams
         ) { billingResult, productDetailsList ->
@@ -89,20 +99,84 @@ class BilliardsDraw : ComponentActivity() {
             Log.d("productDetailsList", productDetailsList.size.toString())
         }
 
-        model.setLoading(false)
+        // AUTHENTICATION
+        auth.addAuthStateListener { auth ->
+            Log.d("auth", "addAuthStateListener: ${auth.currentUser}")
+            viewModel.setCurrentUser(auth.currentUser)
+        }
+
+        // R.string.default_web_client_id is created automatically as per google-services.json
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
+        authResultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                // There are no request codes
+                val data: Intent? = result.data
+                val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+                try {
+                    // Google Sign In was successful, authenticate with Firebase
+                    val account = task.getResult(ApiException::class.java)!!
+                    Log.d("auth", "firebaseAuthWithGoogle:" + account.id)
+                    viewModel.navController.value?.let { navController ->
+                        viewModel.firebaseAuthWithGoogle(
+                            this,
+                            auth,
+                            account.idToken!!,
+                            navController,
+                            this
+                        )
+                    }
+                } catch (e: ApiException) {
+                    // Google Sign In failed, update UI appropriately
+                    Log.w(e.toString(), "Google sign in failed")
+                }
+            }
 
         // APP
         setContent {
             // Navigation
             val navController = rememberNavController()
+            viewModel.setNavController(navController)
             BilliardsDrawTheme {
-                BilliardsDrawApp(model, navController)
+                BilliardsDrawApp(viewModel, navController)
             }
         }
     }
 
+    // AUTH Main Methods
+    fun signIn(
+        signInMethod: SignInMethod,
+        context: Context,
+        navController: NavHostController,
+        emailStr: String?,
+        passwordStr: String?,
+        keepSession: Boolean?
+    ) {
+        viewModel.signIn(
+            signInMethod,
+            context,
+            navController,
+            emailStr,
+            passwordStr,
+            keepSession,
+            googleSignInClient,
+            authResultLauncher
+        )
+    }
+
+    private fun signOut(navController: NavHostController) {
+        viewModel.signOut(navController)
+    }
+
+    // APP UI
     @Composable
-    fun BilliardsDrawApp(model: BilliardsDrawViewModel, navController: NavHostController) {
+    fun BilliardsDrawApp(
+        model: BilliardsDrawViewModel,
+        navController: NavHostController
+    ) {
         // This locks orientation in all app, to lock individually just put this line in each screen composable
         LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         // val context = LocalContext.current
@@ -123,7 +197,6 @@ class BilliardsDraw : ComponentActivity() {
                 */
             }, content =
             { innerPadding ->
-
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier
@@ -131,18 +204,29 @@ class BilliardsDraw : ComponentActivity() {
                         .padding(innerPadding),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    NavigationManager(viewModel = model, navController = navController)
+                    NavigationManager(
+                        viewModel = model,
+                        navController = navController,
+                        onSignIn = { signInMethod, context, navController, emailStr, passwordStr, keepSession ->
+                            signIn(
+                                signInMethod,
+                                context,
+                                navController,
+                                emailStr,
+                                passwordStr,
+                                keepSession
+                            )
+                        },
+                        onSignOut = { navHostController -> signOut(navHostController) }
+                    )
                 }
             })
     }
 
-    // DEPRECATED, REPLACE
-    @Deprecated("Use contracts")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        // FACEBOOK
-        // Pass the activity result back to the Facebook SDK
-        callbackManager.onActivityResult(requestCode, resultCode, data)
+    override fun onDestroy() {
+        if (!viewModel.isKeepSession()) {
+            viewModel.onlySignOut()
+        }
+        super.onDestroy()
     }
 }

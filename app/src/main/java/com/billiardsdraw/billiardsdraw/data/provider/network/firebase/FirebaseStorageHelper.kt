@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import coil.Coil
+import com.billiardsdraw.billiardsdraw.common.FirebaseStorageConstants
 import com.google.firebase.FirebaseException
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -24,7 +25,8 @@ class FirebaseStorageHelper : BaseFirebaseStorageHelper {
                     localFile.deleteOnExit()
                     val storageRef = Firebase.storage.reference
                     val profilePictureReference =
-                        storageRef.child("users").child("profile_pictures/$userId")
+                        storageRef.child(FirebaseStorageConstants.USERS)
+                            .child("${FirebaseStorageConstants.USERS_PROFILE_PICTURES}/$userId")
 
                     // With byteArray
                     /*
@@ -60,7 +62,8 @@ class FirebaseStorageHelper : BaseFirebaseStorageHelper {
         try {
             val storageRef = Firebase.storage.reference
             val profilePicturesReference =
-                storageRef.child("users").child("profile_pictures/$userId")
+                storageRef.child(FirebaseStorageConstants.USERS)
+                    .child("${FirebaseStorageConstants.USERS_PROFILE_PICTURES}/$userId")
 
             data?.let { uri ->
                 profilePicturesReference.putFile(uri).addOnSuccessListener {

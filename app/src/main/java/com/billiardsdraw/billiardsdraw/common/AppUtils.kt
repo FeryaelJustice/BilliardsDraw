@@ -15,7 +15,6 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import com.billiardsdraw.billiardsdraw.BuildConfig
-import com.google.android.gms.ads.interstitial.InterstitialAd
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
 import java.math.BigInteger
@@ -54,8 +53,8 @@ fun Context.findActivity(): Activity? = when (this) {
 fun getImageUriFromBitmap(context: Context, bitmap: Bitmap): Uri? {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         val filename = "IMG_${System.currentTimeMillis()}.jpg"
-        var fos: OutputStream? = null
-        var imageUri: Uri? = null
+        var fos: OutputStream?
+        var imageUri: Uri?
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
             put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
@@ -90,7 +89,7 @@ fun md5(input: String): String {
     return BigInteger(1, md.digest(input.toByteArray())).toString(16).padStart(32, '0')
 }
 
-// COMPOSABLES
+// COMPOSABLE
 
 @Composable
 fun LockScreenOrientation(orientation: Int) {
@@ -120,8 +119,10 @@ object SharedPrefConstants {
     const val LOCAL_SHARED_PREF_SETTINGS = "local_shared_pref_settings"
     const val USER_ID_KEY = "user_id"
     const val IS_LOGGED_KEY = "isLogged"
+    const val KEEP_SESSION_KEY = "keepSession"
     const val EMAIL_KEY = "email"
     const val PASSWORD_KEY = "password"
+    const val SIGN_IN_METHOD_KEY = "signInMethod"
 }
 
 object RoomConstants {
@@ -134,5 +135,5 @@ object FirebaseFirestoreConstants {
 
 object FirebaseStorageConstants {
     const val USERS = "users"
-    const val USERS_IMAGES = "profile_images"
+    const val USERS_PROFILE_PICTURES = "profile_pictures"
 }

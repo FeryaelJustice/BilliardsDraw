@@ -171,13 +171,11 @@ fun RegisterScreen(
                     Spacer(modifier = Modifier.height(1.dp))
                     Button(
                         onClick = {
-                            // appViewModel.setLoading(true)
                             viewModel.signUp(
                                 appViewModel,
                                 context,
                                 navController
                             )
-                            // appViewModel.setLoading(false)
                         },
                         modifier = Modifier.width(160.dp)
                     ) {

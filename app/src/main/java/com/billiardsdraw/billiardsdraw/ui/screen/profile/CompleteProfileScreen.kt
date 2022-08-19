@@ -246,13 +246,11 @@ fun CompleteProfileScreen(
                     Spacer(modifier = Modifier.height(1.dp))
                     Button(
                         onClick = {
-                            // appViewModel.setLoading(true)
                             viewModel.completeProfile(
                                 appViewModel,
                                 context,
                                 navController
                             )
-                            // appViewModel.setLoading(false)
                         },
                         modifier = Modifier.width(160.dp)
                     ) {

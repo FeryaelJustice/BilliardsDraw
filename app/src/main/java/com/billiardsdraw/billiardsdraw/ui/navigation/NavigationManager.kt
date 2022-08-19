@@ -1,5 +1,6 @@
 package com.billiardsdraw.billiardsdraw.ui.navigation
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -9,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
+import com.billiardsdraw.billiardsdraw.domain.model.SignInMethod
 import com.billiardsdraw.billiardsdraw.ui.screen.splash.SplashScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.login.LoginScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.carambola.CarambolaScreen
@@ -54,16 +56,36 @@ sealed class Routes(val route: String) {
 
 // NAVIGATION MANAGER
 @Composable
-fun NavigationManager(viewModel: BilliardsDrawViewModel, navController: NavHostController) {
+fun NavigationManager(
+    viewModel: BilliardsDrawViewModel,
+    navController: NavHostController,
+    onSignIn: (
+        signInMethod: SignInMethod,
+        context: Context,
+        navController: NavHostController,
+        emailStr: String?,
+        passwordStr: String?,
+        keepSession: Boolean?
+    ) -> Unit,
+    onSignOut: (navController: NavHostController) -> Unit
+) {
     NavHost(navController = navController, startDestination = Routes.GeneralApp.route) {
-        generalApp(navController, viewModel)
-        loggedApp(navController, viewModel)
+        generalApp(navController, viewModel, onSignIn)
+        loggedApp(navController, viewModel, onSignOut)
     }
 }
 
 fun NavGraphBuilder.generalApp(
     navController: NavHostController,
-    viewModel: BilliardsDrawViewModel
+    viewModel: BilliardsDrawViewModel,
+    onSignIn: (
+        signInMethod: SignInMethod,
+        context: Context,
+        navController: NavHostController,
+        emailStr: String?,
+        passwordStr: String?,
+        keepSession: Boolean?
+    ) -> Unit
 ) {
     navigation(startDestination = Routes.SplashScreen.route, route = Routes.GeneralApp.route) {
         composable(Routes.SplashScreen.route) {
@@ -74,7 +96,7 @@ fun NavGraphBuilder.generalApp(
             val parentEntry = remember(backStackEntry) {
                 navController.getBackStackEntry(Routes.GeneralApp.route)
             }
-            LoginScreen(hiltViewModel(parentEntry), navController, viewModel)
+            LoginScreen(hiltViewModel(parentEntry), navController, viewModel, onSignIn)
         }
         composable(Routes.RegisterScreen.route) { backStackEntry ->
             val parentEntry = remember(backStackEntry) {
@@ -91,11 +113,15 @@ fun NavGraphBuilder.generalApp(
     }
 }
 
-fun NavGraphBuilder.loggedApp(navController: NavHostController, viewModel: BilliardsDrawViewModel) {
+fun NavGraphBuilder.loggedApp(
+    navController: NavHostController,
+    viewModel: BilliardsDrawViewModel,
+    onSignOut: (navController: NavHostController) -> Unit
+) {
     navigation(startDestination = Routes.MenuScreen.route, route = Routes.LoggedApp.route) {
         composable(Routes.CompleteProfileScreen.route) { backStackEntry ->
             val parentEntry = remember(backStackEntry) {
-                navController.getBackStackEntry(Routes.GeneralApp.route)
+                navController.getBackStackEntry(Routes.LoggedApp.route)
             }
             CompleteProfileScreen(hiltViewModel(parentEntry), navController, viewModel)
         }
@@ -124,7 +150,7 @@ fun NavGraphBuilder.loggedApp(navController: NavHostController, viewModel: Billi
             val parentEntry = remember(backStackEntry) {
                 navController.getBackStackEntry(Routes.LoggedApp.route)
             }
-            UserProfileScreen(hiltViewModel(parentEntry), navController, viewModel)
+            UserProfileScreen(hiltViewModel(parentEntry), navController, viewModel, onSignOut)
         }
         composable(Routes.UserPremiumScreen.route) { backStackEntry ->
             val parentEntry = remember(backStackEntry) {
