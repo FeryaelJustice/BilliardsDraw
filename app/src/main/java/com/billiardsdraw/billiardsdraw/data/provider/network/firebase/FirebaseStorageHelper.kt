@@ -10,6 +10,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.io.File
@@ -43,7 +44,20 @@ class FirebaseStorageHelper : BaseFirebaseStorageHelper {
                         uri = Uri.fromFile(localFile)
                     }.addOnFailureListener {
                         // Handle any errors
-                        Log.d("profile_picture", "Error downloading profile picture")
+                        Log.d("profile_picture", "Error downloading profile picture, retrying...")
+                        val profilePictureReferencePlusExtension =
+                            storageRef.child(FirebaseStorageConstants.USERS)
+                                .child("${FirebaseStorageConstants.USERS_PROFILE_PICTURES}/$userId.jpg")
+                        CoroutineScope(Dispatchers.IO).launch {
+                            profilePictureReferencePlusExtension.getFile(localFile)
+                                .addOnSuccessListener {
+                                    // Local temp file has been created
+                                    Log.d("profile_picture", "Profile picture downloaded")
+                                    uri = Uri.fromFile(localFile)
+                                }.addOnFailureListener {
+                                    Log.d("profile_picture", "Error downloading profile picture...")
+                                }.await()
+                        }
                     }.await()
                     Log.d("profile_picture", "Profile picture loaded: $uri")
                     callback(localFile)

@@ -17,7 +17,7 @@ object NetworkModule {
 
     // OWN API
     @Singleton
-    val BASEURL = "https://google.com"
+    const val BASEURL = "https://google.com"
 
     @Provides
     @Singleton
@@ -54,6 +54,6 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideFirebaseFirestore(): FirebaseFirestore = FirebaseFirestore.getInstance()
-     */
+    */
 
 }

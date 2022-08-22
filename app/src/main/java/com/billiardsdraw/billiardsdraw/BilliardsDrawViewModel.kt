@@ -312,7 +312,24 @@ class BilliardsDrawViewModel @Inject constructor(
                                 }
                             } else {
                                 withContext(dispatchers.main) {
+                                    setIsLogged(true)
                                     setSignInMethodSharedPrefs(SignInMethod.Google)
+                                    repository.setSharedPreferencesBoolean(
+                                        SharedPrefConstants.KEEP_SESSION_KEY,
+                                        true
+                                    )
+                                    repository.setSharedPreferencesString(
+                                        SharedPrefConstants.EMAIL_KEY,
+                                        userAuth.email
+                                    )
+                                    repository.setSharedPreferencesString(
+                                        SharedPrefConstants.PASSWORD_KEY,
+                                        userAuth.password,
+                                    )
+                                    repository.setSharedPreferencesString(
+                                        SharedPrefConstants.USER_ID_KEY,
+                                        userAuth.uid
+                                    )
                                     navigateClearingAllBackstack(
                                         navController,
                                         Routes.LoggedApp.route

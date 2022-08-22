@@ -128,7 +128,7 @@ fun UserProfileScreen(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center
                     ) {
-                        UserProfilePicture(imageURL = viewModel.profilePicture) {
+                        UserProfilePicture(imageURL = viewModel.profilePicture, context) {
                             launcher.launch("image/*")
                         }
                         Spacer(modifier = Modifier.width(10.dp))

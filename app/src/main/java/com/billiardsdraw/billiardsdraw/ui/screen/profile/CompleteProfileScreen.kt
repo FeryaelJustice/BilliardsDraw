@@ -101,7 +101,7 @@ fun CompleteProfileScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    UserProfilePicture(imageURL = viewModel.profilePicture) {
+                    UserProfilePicture(imageURL = viewModel.profilePicture, context) {
                         launcher.launch("image/*")
                     }
                     Spacer(modifier = Modifier.height(4.dp))

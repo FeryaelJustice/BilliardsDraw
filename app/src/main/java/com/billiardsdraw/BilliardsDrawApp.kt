@@ -15,15 +15,15 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class BilliardsDrawApp : Application() {
-    // lateinit var appOpenManager: AppOpenManager
+    // late init var appOpenManager: AppOpenManager
     override fun onCreate() {
         super.onCreate()
         // Check build version
-        enableAds = buildConfig() == "debug" // cambiar a release al subirlo a tienda en prod
+        enableAds = buildConfig() == "debug" // change to release on uploading to store in prod
 
         // ADS
         if (enableAds) {
-            // Si hay que obtener consentimiento para mostrar anuncios, hacerlo antes del initialize
+            // If we need to obtain consent for showing show ads, do it before initialize
             MobileAds.initialize(this)
             // appOpenManager = AppOpenManager(this)
         }

@@ -29,6 +29,7 @@ class LoginScreenViewModel @Inject constructor(
     var password: String by mutableStateOf("")
     var passwordVisible: Boolean by mutableStateOf(false)
     var keepSession: Boolean by mutableStateOf(false)
+    var keep: Boolean by mutableStateOf(false) // aux for not overloading view model purposes on ui
 
     fun onCreate() {
         keepSession = repository.sharedPreferencesBoolean(KEEP_SESSION_KEY)

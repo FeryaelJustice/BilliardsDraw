@@ -17,6 +17,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.currentRecomposeScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -54,7 +55,9 @@ fun LoginScreen(
         keepSession: Boolean?
     ) -> Unit
 ) {
-    viewModel.onCreate()
+    LaunchedEffect(key1 = "onCreate", block = {
+        viewModel.onCreate()
+    })
 
     val context = LocalContext.current
     val currentUser = appViewModel.currentUser
@@ -214,9 +217,9 @@ fun LoginScreen(
                         Checkbox(
                             checked = viewModel.keepSession,
                             onCheckedChange = {
+                                viewModel.keepSession = it
                                 Log.d("checkbox", viewModel.keepSession.toString())
                                 Log.d("checkboxValue", it.toString())
-                                viewModel.keepSession = it
                             }
                         )
                         Text(

@@ -1,5 +1,6 @@
 package com.billiardsdraw.billiardsdraw.ui.components
 
+import android.content.Context
 import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.size
@@ -15,9 +16,13 @@ import coil.compose.AsyncImage
 import com.billiardsdraw.billiardsdraw.R
 
 @Composable
-fun UserProfilePicture(imageURL: Uri?, onClick: () -> Unit) {
+fun UserProfilePicture(imageURL: Uri?, context: Context, onClick: () -> Unit) {
+    var finalImageURI: Uri? = imageURL
+    if (finalImageURI == null || finalImageURI == Uri.EMPTY) {
+        finalImageURI = Uri.parse("android.resource://" + context.packageName + "/" + R.drawable.profileicon)
+    }
     AsyncImage(
-        model = imageURL,
+        model = finalImageURI,
         contentDescription = stringResource(R.string.profileicon),
         placeholder = painterResource(id = R.drawable.profileicon),
         contentScale = ContentScale.Crop,            // crop the image
