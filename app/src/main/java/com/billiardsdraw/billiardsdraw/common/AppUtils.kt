@@ -10,11 +10,18 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.BillingClientStateListener
+import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.PurchasesUpdatedListener
+import com.android.billingclient.api.QueryProductDetailsParams
 import com.billiardsdraw.billiardsdraw.BuildConfig
+import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.ImmutableList
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
 import java.math.BigInteger
@@ -74,6 +81,50 @@ fun getImageUriFromBitmap(context: Context, bitmap: Bitmap): Uri? {
         return Uri.parse(path.toString())
     }
 
+}
+
+// Play Billing
+fun initGooglePlayBilling(context: Context) {
+    val purchasesUpdatedListener =
+        PurchasesUpdatedListener { billingResult, purchases ->
+            // To be implemented in a later section.
+            Log.d("billingresultcode", billingResult.responseCode.toString())
+            Log.d("purchasessize", purchases?.size.toString())
+        }
+    val billingClient = BillingClient.newBuilder(context)
+        .setListener(purchasesUpdatedListener)
+        .enablePendingPurchases()
+        .build()
+    billingClient.startConnection(object : BillingClientStateListener {
+        override fun onBillingServiceDisconnected() {
+            Log.d("billingresultcode", "Disconnected")
+        }
+
+        override fun onBillingSetupFinished(billingResult: BillingResult) {
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                Log.d("billingresultcode", billingResult.responseCode.toString())
+            }
+        }
+    })
+    val queryProductDetailsParams =
+        QueryProductDetailsParams.newBuilder()
+            .setProductList(
+                ImmutableList.of(
+                    QueryProductDetailsParams.Product.newBuilder()
+                        .setProductId("product_id_example")
+                        .setProductType(BillingClient.ProductType.SUBS)
+                        .build()
+                )
+            )
+            .build()
+    billingClient.queryProductDetailsAsync(
+        queryProductDetailsParams
+    ) { billingResult, productDetailsList ->
+        // check billingResult
+        Log.d("billingResult", billingResult.responseCode.toString())
+        // process returned productDetailsList
+        Log.d("productDetailsList", productDetailsList.size.toString())
+    }
 }
 
 // Security

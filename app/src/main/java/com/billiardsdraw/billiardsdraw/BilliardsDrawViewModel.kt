@@ -5,6 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -26,6 +29,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -40,12 +45,16 @@ class BilliardsDrawViewModel @Inject constructor(
     val dispatchers: DispatcherProvider
 ) : ViewModel(), DefaultLifecycleObserver, LifecycleEventObserver {
 
+    fun onCreate(navController: NavHostController) {
+        _navController.value = navController
+    }
+
     // APP Nav Controller
     private var _navController: MutableLiveData<NavHostController?> = MutableLiveData()
     val navController: LiveData<NavHostController?> = _navController
-    fun setNavController(navController: NavHostController) {
-        _navController.value = navController
-    }
+
+    // Auth firebase
+    var auth: FirebaseAuth by mutableStateOf(Firebase.auth)
 
     // Firebase user (Only for Google and Facebook sign in support)
     private var _currentUser: MutableLiveData<FirebaseUser?> = MutableLiveData()
@@ -191,8 +200,7 @@ class BilliardsDrawViewModel @Inject constructor(
                     }
                 }
                 SignInMethod.Google -> {
-                    val signInIntent = googleSignInClient.signInIntent
-                    authResultLauncher.launch(signInIntent)
+                    authResultLauncher.launch(googleSignInClient.signInIntent)
                     // Inside contract firebaseAuthWithGoogle method only on successful login assigns sign in method to viewModel
                 }
             }
@@ -201,6 +209,7 @@ class BilliardsDrawViewModel @Inject constructor(
         }
     }
 
+    // Sign in en google con token
     fun firebaseAuthWithGoogle(
         activity: Activity,
         auth: FirebaseAuth,
@@ -208,15 +217,13 @@ class BilliardsDrawViewModel @Inject constructor(
         navController: NavHostController,
         context: Context
     ) {
-        val credential = GoogleAuthProvider.getCredential(idToken, null)
-        auth.signInWithCredential(credential)
+        auth.signInWithCredential(GoogleAuthProvider.getCredential(idToken, null))
             .addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("auth", "signInWithCredential:success")
 
                     val firebaseUser = auth.currentUser
-                    val isNewUser = task.result.additionalUserInfo?.isNewUser
                     setCurrentUser(firebaseUser)
                     Log.d("auth_id", firebaseUser?.uid ?: "")
 
@@ -224,22 +231,8 @@ class BilliardsDrawViewModel @Inject constructor(
                     userDomain?.let { userAuth ->
                         setUser(userAuth)
                         viewModelScope.launch(dispatchers.io) {
-                            repository.getUserFromFirebaseFirestore(userAuth.uid) { userData ->
-                                // User data retrieved
-                                user.value?.apply {
-                                    username = userData.username
-                                    nickname = userData.nickname
-                                    name = userData.name
-                                    surnames = userData.surnames
-                                    password = userData.password
-                                    age = userData.age
-                                    country = userData.country
-                                    role = userData.role
-                                }
-                            }
-
                             // if its first login on google, create a new user in fire store
-                            if (isNewUser == true) {
+                            if (task.result.additionalUserInfo?.isNewUser == true) {
                                 // Add user to firestore
                                 val userToAdd: MutableMap<String, Any> = HashMap()
                                 userToAdd["uid"] = userAuth.uid
@@ -265,40 +258,7 @@ class BilliardsDrawViewModel @Inject constructor(
                                         Log.d("register", "Failed to create user in db")
                                     }
                                 }
-                                repository.getUserFromFirebaseFirestore(userAuth.uid) { userData ->
-                                    // User data retrieved
-                                    user.value?.apply {
-                                        username = userData.username
-                                        nickname = userData.nickname
-                                        name = userData.name
-                                        surnames = userData.surnames
-                                        password = userData.password
-                                        age = userData.age
-                                        country = userData.country
-                                        role = userData.role
-                                    }
-                                }
-
                                 withContext(dispatchers.main) {
-                                    setIsLogged(true)
-                                    setSignInMethodSharedPrefs(SignInMethod.Google)
-                                    repository.setSharedPreferencesBoolean(
-                                        SharedPrefConstants.KEEP_SESSION_KEY,
-                                        true
-                                    )
-                                    repository.setSharedPreferencesString(
-                                        SharedPrefConstants.EMAIL_KEY,
-                                        userAuth.email
-                                    )
-                                    repository.setSharedPreferencesString(
-                                        SharedPrefConstants.PASSWORD_KEY,
-                                        userAuth.password,
-                                    )
-                                    repository.setSharedPreferencesString(
-                                        SharedPrefConstants.USER_ID_KEY,
-                                        userAuth.uid
-                                    )
-
                                     showToastLong(
                                         context,
                                         context.resources.getString(R.string.welcome) + " " + context.resources.getString(
@@ -312,30 +272,43 @@ class BilliardsDrawViewModel @Inject constructor(
                                 }
                             } else {
                                 withContext(dispatchers.main) {
-                                    setIsLogged(true)
-                                    setSignInMethodSharedPrefs(SignInMethod.Google)
-                                    repository.setSharedPreferencesBoolean(
-                                        SharedPrefConstants.KEEP_SESSION_KEY,
-                                        true
-                                    )
-                                    repository.setSharedPreferencesString(
-                                        SharedPrefConstants.EMAIL_KEY,
-                                        userAuth.email
-                                    )
-                                    repository.setSharedPreferencesString(
-                                        SharedPrefConstants.PASSWORD_KEY,
-                                        userAuth.password,
-                                    )
-                                    repository.setSharedPreferencesString(
-                                        SharedPrefConstants.USER_ID_KEY,
-                                        userAuth.uid
-                                    )
                                     navigateClearingAllBackstack(
                                         navController,
                                         Routes.LoggedApp.route
                                     )
                                 }
                             }
+                            repository.getUserFromFirebaseFirestore(userAuth.uid) { userData ->
+                                // User data retrieved
+                                user.value?.apply {
+                                    username = userData.username
+                                    nickname = userData.nickname
+                                    name = userData.name
+                                    surnames = userData.surnames
+                                    password = userData.password
+                                    age = userData.age
+                                    country = userData.country
+                                    role = userData.role
+                                }
+                            }
+                            setIsLogged(true)
+                            setSignInMethodSharedPrefs(SignInMethod.Google)
+                            repository.setSharedPreferencesBoolean(
+                                SharedPrefConstants.KEEP_SESSION_KEY,
+                                true
+                            )
+                            repository.setSharedPreferencesString(
+                                SharedPrefConstants.EMAIL_KEY,
+                                userAuth.email
+                            )
+                            repository.setSharedPreferencesString(
+                                SharedPrefConstants.PASSWORD_KEY,
+                                userAuth.password,
+                            )
+                            repository.setSharedPreferencesString(
+                                SharedPrefConstants.USER_ID_KEY,
+                                userAuth.uid
+                            )
                         }
                     }
 
@@ -346,15 +319,32 @@ class BilliardsDrawViewModel @Inject constructor(
             }
     }
 
-    fun signOut(navController: NavHostController) {
-        onlySignOut()
-        navigateClearingAllBackstack(navController, Routes.LoginScreen.route)
-    }
+    fun onlySignOut() {
+        when (getSignInMethodSharedPrefs()) {
+            SignInMethod.Custom -> {
+                // Email sign out
+                repository.signOut()
+            }
+            SignInMethod.Google -> {
+                // Google sign out
+                auth.signOut()
+            }
+        }
 
-    fun onlySignOut(){
-        repository.signOut()
+        // App sign out
         setIsLogged(false)
         _currentUser.value = null
         _user.value = null
+        repository.setSharedPreferencesBoolean(SharedPrefConstants.IS_LOGGED_KEY, false)
+        repository.setSharedPreferencesString(SharedPrefConstants.EMAIL_KEY, "")
+        repository.setSharedPreferencesString(SharedPrefConstants.PASSWORD_KEY, "")
+        repository.setSharedPreferencesString(SharedPrefConstants.USER_ID_KEY, "")
+    }
+
+    fun signOut(
+        navController: NavHostController
+    ) {
+        onlySignOut()
+        navigateClearingAllBackstack(navController, Routes.LoginScreen.route)
     }
 }

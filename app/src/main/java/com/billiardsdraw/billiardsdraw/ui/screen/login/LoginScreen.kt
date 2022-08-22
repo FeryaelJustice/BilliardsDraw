@@ -11,13 +11,9 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material3.CheckboxColors
-import androidx.compose.material3.CheckboxDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.currentRecomposeScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -38,6 +34,7 @@ import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.common.ads.CreateBanner
 import com.billiardsdraw.billiardsdraw.common.ads.enableAds
 import com.billiardsdraw.billiardsdraw.domain.model.SignInMethod
+import com.billiardsdraw.billiardsdraw.ui.components.CustomGoogleButton
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigate
 
@@ -202,6 +199,7 @@ fun LoginScreen(
                                         viewModel.keepSession
                                     )
                                 },
+                                enabled = !appViewModel.isLogged(),
                                 modifier = Modifier.width(160.dp)
                             ) {
                                 Text(
@@ -232,6 +230,22 @@ fun LoginScreen(
                     // Google sign in
                     Column(modifier = Modifier.padding(16.dp)) {
                         if (currentUser.value == null) {
+                            CustomGoogleButton(
+                                context = LocalContext.current,
+                                enabled = !appViewModel.isLogged(),
+                                onClicked = {
+                                    appViewModel.setSignInMethodSharedPrefs(SignInMethod.Google)
+                                    onSignIn(
+                                        appViewModel.getSignInMethodSharedPrefs(),
+                                        context,
+                                        navController,
+                                        viewModel.email,
+                                        viewModel.password,
+                                        viewModel.keepSession
+                                    )
+                                }
+                            )
+                            /*
                             Button(onClick = {
                                 appViewModel.setSignInMethodSharedPrefs(SignInMethod.Google)
                                 onSignIn(
@@ -242,9 +256,10 @@ fun LoginScreen(
                                     viewModel.password,
                                     viewModel.keepSession
                                 )
-                            }) {
+                            }, enabled = !appViewModel.isLogged()) {
                                 Text(text = "Sign in with Google")
                             }
+                            */
                         } else {
                             Text(text = "Google welcomes you, ${currentUser.value!!.displayName}")
                         }

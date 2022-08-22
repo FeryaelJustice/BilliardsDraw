@@ -140,11 +140,17 @@ fun NavGraphBuilder.loggedApp(
             }
             PoolScreen(hiltViewModel(parentEntry), navController, viewModel)
         }
-        composable(Routes.CarambolaMenuScreen.route) {
-            CarambolaMenuScreen(navController, viewModel)
+        composable(Routes.CarambolaMenuScreen.route) { backStackEntry ->
+            val parentEntry = remember(backStackEntry) {
+                navController.getBackStackEntry(Routes.LoggedApp.route)
+            }
+            CarambolaMenuScreen(hiltViewModel(parentEntry), navController, viewModel)
         }
-        composable(Routes.PoolMenuScreen.route) {
-            PoolMenuScreen(navController, viewModel)
+        composable(Routes.PoolMenuScreen.route) { backStackEntry ->
+            val parentEntry = remember(backStackEntry) {
+                navController.getBackStackEntry(Routes.LoggedApp.route)
+            }
+            PoolMenuScreen(hiltViewModel(parentEntry), navController, viewModel)
         }
         composable(Routes.UserProfileScreen.route) { backStackEntry ->
             val parentEntry = remember(backStackEntry) {

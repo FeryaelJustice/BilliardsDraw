@@ -13,7 +13,7 @@
     <string name="signUp">Registrarse</string>
     <string name="signIn">Iniciar sesión</string>
     <string name="carambola">Carambola</string>
-    <string name="pool">Billar americano</string>
+    <string name="pool">Pool</string>
     <string name="sendEmail">Enviar email</string>
     <string name="emailSent">Email enviado a tu bandeja de entrada, ¡ve a revisarlo!</string>
     <string name="sendEmailFail">Error al enviar el correo electrónico de recuperación de la cuenta</string>
@@ -45,4 +45,6 @@
     <string name="txt_connect_with_facebook">Iniciar sesión con Facebook</string>
     <string name="subscription_state">Estado de suscripción</string>
     <string name="user_is_not_premium">No eres un usuario premium</string>
+    <string name="askForEditing">Edit?</string>
+    <string name="google_sign_in">Sign Up with Google</string>
 </resources>

@@ -5,10 +5,11 @@ import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.Text
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -18,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
@@ -142,10 +144,26 @@ fun UserProfileScreen(
                             text = stringResource(id = R.string.username) + ": ",
                             color = Color.White
                         )
-                        Text(
-                            text = "" + appViewModel.user.value?.username,
-                            color = Color.White
-                        )
+                        if (!viewModel.isEditing) {
+                            Text(
+                                text = "" + appViewModel.user.value?.username,
+                                color = Color.White
+                            )
+                        } else {
+                            TextField(
+                                value = viewModel.user.username,
+                                onValueChange = {
+                                    viewModel.user = viewModel.user.copy(username = it)
+                                },
+                                singleLine = true,
+                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                                modifier = Modifier
+                                    .background(
+                                        Color.White
+                                    )
+                                    .fillMaxWidth()
+                            )
+                        }
                     }
                     Spacer(modifier = Modifier.height(20.dp))
                     Row {
@@ -207,29 +225,44 @@ fun UserProfileScreen(
                     Spacer(modifier = Modifier.height(20.dp))
                     Text(text = stringResource(R.string.linkFacebook), color = Color.White)
                     Spacer(modifier = Modifier.height(20.dp))
-                    // START SIGN OUT
-                    when (appViewModel.getSignInMethodSharedPrefs()) {
-                        SignInMethod.Custom -> {
-                            // Own sign out
-                            Button(onClick = {
-                                viewModel.signOut(navController)
-                                onSignOut(navController)
-                            }) {
-                                Text(text = stringResource(id = R.string.signOut))
+                    Row {
+                        // START SIGN OUT
+                        when (appViewModel.getSignInMethodSharedPrefs()) {
+                            SignInMethod.Custom -> {
+                                // Own sign out
+                                Button(onClick = {
+                                    onSignOut(navController)
+                                }) {
+                                    Text(text = stringResource(id = R.string.signOut))
+                                }
                             }
-                        }
-                        SignInMethod.Google -> {
-                            // Google sign out
-                            if (currentUser.value != null) {
-                                Column(modifier = Modifier.padding(16.dp)) {
-                                    Button(onClick = { onSignOut(navController) }) {
-                                        androidx.compose.material3.Text(text = "Sign out")
+                            SignInMethod.Google -> {
+                                // Google sign out
+                                if (currentUser.value != null) {
+                                    Column(modifier = Modifier.padding(16.dp)) {
+                                        Button(onClick = { onSignOut(navController) }) {
+                                            androidx.compose.material3.Text(text = "Sign out")
+                                        }
                                     }
                                 }
                             }
                         }
+                        // END SIGN OUT
+                        Row(
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Checkbox(
+                                checked = viewModel.isEditing,
+                                onCheckedChange = { viewModel.isEditing = it },
+                                colors = CheckboxDefaults.colors(Color.Blue),
+                            )
+                            Text(
+                                text = context.resources.getString(R.string.askForEditing),
+                                color = Color.White
+                            )
+                        }
                     }
-                    // END SIGN OUT
                     Spacer(modifier = Modifier.height(20.dp))
                     Image(
                         modifier = Modifier

@@ -21,6 +21,7 @@ import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.common.ads.createInterstitialAd
 import com.billiardsdraw.billiardsdraw.common.ads.enableAds
+import com.billiardsdraw.billiardsdraw.ui.components.UserProfilePicture
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigate
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
@@ -29,6 +30,7 @@ import com.billiardsdraw.billiardsdraw.ui.util.showToastShort
 
 @Composable
 fun CarambolaMenuScreen(
+    viewModel: CarambolaMenuScreenViewModel,
     navController: NavHostController,
     appViewModel: BilliardsDrawViewModel
 ) {
@@ -36,6 +38,8 @@ fun CarambolaMenuScreen(
     LaunchedEffect(key1 = "loginCheck", block = {
         if (!appViewModel.isLogged()) {
             navigateClearingAllBackstack(navController, Routes.GeneralApp.route)
+        } else {
+            viewModel.onCreate(appViewModel)
         }
     })
     val context = LocalContext.current
@@ -72,6 +76,25 @@ fun CarambolaMenuScreen(
                         painter = painterResource(id = R.drawable.billiardsdraw),
                         contentDescription = context.resources.getString(R.string.app_name)
                     )
+                    UserProfilePicture(imageURL = viewModel.profilePicture, context) {
+                        // Navigate to profile screen
+                        try {
+                            val back: NavBackStackEntry =
+                                navController.getBackStackEntry(Routes.UserProfileScreen.route)
+                            Log.d("in_back_stack", back.destination.label.toString())
+                            navigate(
+                                navController,
+                                Routes.UserProfileScreen.route
+                            )
+                        } catch (ex: IllegalArgumentException) {
+                            Log.d("in_back_stack", "no_entry")
+                            navigate(
+                                navController,
+                                Routes.UserProfileScreen.route
+                            )
+                        }
+                    }
+                    /*
                     Image(
                         painter = painterResource(id = R.drawable.profileicon),
                         contentDescription = context.resources.getString(R.string.profileicon),
@@ -95,6 +118,7 @@ fun CarambolaMenuScreen(
                                     )
                                 }
                             })
+                    */
                 }
                 Column(
                     modifier = Modifier
