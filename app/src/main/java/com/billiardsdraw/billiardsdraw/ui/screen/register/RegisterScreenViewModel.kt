@@ -34,9 +34,7 @@ class RegisterScreenViewModel @Inject constructor(
     ViewModel(), DefaultLifecycleObserver, LifecycleEventObserver {
     var email: String by mutableStateOf("")
     var password: String by mutableStateOf("")
-    var passwordVisible by mutableStateOf(false)
     var repeatPassword: String by mutableStateOf("")
-    var repeatPasswordVisible by mutableStateOf(false)
 
     fun signUp(
         appViewModel: BilliardsDrawViewModel,
@@ -82,12 +80,10 @@ class RegisterScreenViewModel @Inject constructor(
                             userToAdd["active"] = true
                             userToAdd["deleted"] = false
 
-                            repository.createUserInFirebaseFirestore(userAuth.uid, userToAdd) {
-                                if (it) {
-                                    Log.d("register", "User created in db")
-                                } else {
-                                    Log.d("register", "Failed to create user in db")
-                                }
+                            if (repository.createUserInFirebaseFirestore(userAuth.uid, userToAdd)) {
+                                Log.d("register", "User created in db")
+                            } else {
+                                Log.d("register", "Failed to create user in db")
                             }
 
                             repository.getUserFromFirebaseFirestore(userAuth.uid) { userData ->

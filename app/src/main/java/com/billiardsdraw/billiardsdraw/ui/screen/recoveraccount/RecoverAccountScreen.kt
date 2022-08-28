@@ -27,11 +27,13 @@ import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 import com.billiardsdraw.billiardsdraw.ui.util.showToastLong
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun RecoverAccountScreen(
     viewModel: RecoverAccountScreenViewModel,
-    navController: NavHostController
+    navController: NavHostController,
+    coroutineScope: CoroutineScope
 ) {
     val context = LocalContext.current
 

@@ -21,11 +21,13 @@ import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun ContactScreen(
     viewModel: ContactScreenViewModel,
-    navController: NavHostController
+    navController: NavHostController,
+    coroutineScope: CoroutineScope
 ) {
     val context = LocalContext.current
     Box(modifier = Modifier.fillMaxSize()) {

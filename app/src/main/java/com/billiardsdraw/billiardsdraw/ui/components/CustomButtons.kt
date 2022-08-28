@@ -20,9 +20,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.billiardsdraw.billiardsdraw.R
+import com.billiardsdraw.billiardsdraw.domain.model.SignInMethod
 
 @Composable
 fun CustomGoogleButton(
@@ -88,6 +90,62 @@ fun CustomGoogleButton(
 @Preview
 private fun GoogleButtonPreview() {
     CustomGoogleButton(
+        context = LocalContext.current,
+        enabled = true,
+        onClicked = {}
+    )
+}
+
+@Composable
+fun CustomSignInButton(
+    context: Context,
+    modifier: Modifier = Modifier,
+    enabled: Boolean,
+    onClicked: () -> Unit
+) {
+    Button(
+        onClick = onClicked,
+        enabled = enabled,
+        modifier = modifier,
+    ) {
+        Text(
+            text = context.resources.getString(R.string.signIn)
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun CustomSignInButtonPreview() {
+    CustomSignInButton(
+        context = LocalContext.current,
+        enabled = true,
+        onClicked = {}
+    )
+}
+
+@Composable
+fun CustomSignUpButton(
+    context: Context,
+    modifier: Modifier = Modifier,
+    enabled: Boolean,
+    onClicked: () -> Unit
+) {
+    Button(
+        onClick = onClicked,
+        enabled = enabled,
+        modifier = modifier,
+    ) {
+        Text(
+            text = context.resources.getString(R.string.signUp)
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun CustomSignUpButtonPreview() {
+    CustomSignUpButton(
         context = LocalContext.current,
         enabled = true,
         onClicked = {}

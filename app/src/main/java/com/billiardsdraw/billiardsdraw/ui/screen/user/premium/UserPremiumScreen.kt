@@ -20,6 +20,7 @@ import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
+import kotlinx.coroutines.CoroutineScope
 
 /***
  * @author billiardsdraw
@@ -31,19 +32,19 @@ import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstac
 fun UserPremiumScreen(
     viewModel: UserPremiumScreenViewModel,
     navController: NavHostController,
+    coroutineScope: CoroutineScope,
     appViewModel: BilliardsDrawViewModel,
     onSignOut: (navController: NavHostController) -> Unit
 ) {
     // Check is Logged
     LaunchedEffect(key1 = "loginCheck", block = {
-        if (!appViewModel.isLogged()) {
+        if (!appViewModel.isSignedIn()) {
             navigateClearingAllBackstack(navController, Routes.GeneralApp.route)
         }
     })
 
     val context = LocalContext.current
 
-    // if (appViewModel.user.value?.role == "premium") {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
@@ -138,11 +139,4 @@ fun UserPremiumScreen(
             }
         }
     }
-    // }
-    /*
-    else {
-        navigateClearingAllBackstack(navController, Routes.LoggedApp.route)
-        showToastShort(context, stringResource(id = R.string.user_is_not_premium))
-    }
-     */
 }

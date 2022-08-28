@@ -28,16 +28,18 @@ import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstac
 import com.billiardsdraw.billiardsdraw.ui.screen.carambola.menu.CarambolaMenuScreenViewModel
 import com.billiardsdraw.billiardsdraw.ui.util.showToastLong
 import com.billiardsdraw.billiardsdraw.ui.util.showToastShort
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun PoolMenuScreen(
     viewModel: CarambolaMenuScreenViewModel,
     navController: NavHostController,
+    coroutineScope: CoroutineScope,
     appViewModel: BilliardsDrawViewModel
 ) {
     // Check is Logged
     LaunchedEffect(key1 = "loginCheck", block = {
-        if (!appViewModel.isLogged()) {
+        if (!appViewModel.isSignedIn()) {
             navigateClearingAllBackstack(navController, Routes.GeneralApp.route)
         } else {
             viewModel.onCreate(appViewModel)
@@ -77,7 +79,11 @@ fun PoolMenuScreen(
                         painter = painterResource(id = R.drawable.billiardsdraw),
                         contentDescription = context.resources.getString(R.string.app_name)
                     )
-                    UserProfilePicture(imageURL = viewModel.profilePicture, context) {
+                    UserProfilePicture(
+                        isLoading = false,
+                        imageURL = viewModel.profilePicture,
+                        context
+                    ) {
                         // Navigate to profile screen
                         try {
                             val back: NavBackStackEntry =

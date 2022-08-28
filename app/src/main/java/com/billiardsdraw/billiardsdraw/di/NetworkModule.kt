@@ -2,7 +2,6 @@ package com.billiardsdraw.billiardsdraw.di
 
 import com.billiardsdraw.billiardsdraw.data.provider.network.api.BilliardsDrawAPIClient
 import com.billiardsdraw.billiardsdraw.data.provider.network.firebase.*
-import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,9 +14,9 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    // OWN API
+    // OWN API (still not needed)
     @Singleton
-    const val BASEURL = "https://google.com"
+    const val BASEURL = "https://billiardsdraw.com"
 
     @Provides
     @Singleton
@@ -43,17 +42,5 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideFirebaseStorageHelper(): BaseFirebaseStorageHelper = FirebaseStorageHelper()
-
-    /*
-    @Provides
-    @Singleton
-    fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
-    */
-
-    /*
-    @Provides
-    @Singleton
-    fun provideFirebaseFirestore(): FirebaseFirestore = FirebaseFirestore.getInstance()
-    */
 
 }

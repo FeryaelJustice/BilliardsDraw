@@ -22,14 +22,16 @@ import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigate
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun MenuScreen(
     navController: NavHostController,
+    coroutineScope: CoroutineScope,
     appViewModel: BilliardsDrawViewModel
 ) {    // Check is Logged
     LaunchedEffect(key1 = "loginCheck", block = {
-        if (!appViewModel.isLogged()) {
+        if (!appViewModel.isSignedIn()) {
             navigateClearingAllBackstack(navController, Routes.GeneralApp.route)
         }
     })

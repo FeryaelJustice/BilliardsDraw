@@ -24,6 +24,7 @@ import com.billiardsdraw.billiardsdraw.ui.screen.recoveraccount.RecoverAccountSc
 import com.billiardsdraw.billiardsdraw.ui.screen.register.RegisterScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.user.premium.UserPremiumScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.user.profile.UserProfileScreen
+import kotlinx.coroutines.CoroutineScope
 
 // NAVIGATION ROUTES
 sealed class Routes(val route: String) {
@@ -59,6 +60,7 @@ sealed class Routes(val route: String) {
 fun NavigationManager(
     viewModel: BilliardsDrawViewModel,
     navController: NavHostController,
+    coroutineScope: CoroutineScope,
     onSignIn: (
         signInMethod: SignInMethod,
         context: Context,
@@ -70,13 +72,14 @@ fun NavigationManager(
     onSignOut: (navController: NavHostController) -> Unit
 ) {
     NavHost(navController = navController, startDestination = Routes.GeneralApp.route) {
-        generalApp(navController, viewModel, onSignIn)
-        loggedApp(navController, viewModel, onSignOut)
+        generalApp(navController, coroutineScope, viewModel, onSignIn)
+        loggedApp(navController, coroutineScope, viewModel, onSignOut)
     }
 }
 
 fun NavGraphBuilder.generalApp(
     navController: NavHostController,
+    coroutineScope: CoroutineScope,
     viewModel: BilliardsDrawViewModel,
     onSignIn: (
         signInMethod: SignInMethod,
@@ -89,32 +92,33 @@ fun NavGraphBuilder.generalApp(
 ) {
     navigation(startDestination = Routes.SplashScreen.route, route = Routes.GeneralApp.route) {
         composable(Routes.SplashScreen.route) {
-            SplashScreen(navController)
+            SplashScreen(navController,  coroutineScope)
         }
         composable(Routes.LoginScreen.route) { backStackEntry ->
             // We get the instances of the sub navgraph
             val parentEntry = remember(backStackEntry) {
                 navController.getBackStackEntry(Routes.GeneralApp.route)
             }
-            LoginScreen(hiltViewModel(parentEntry), navController, viewModel, onSignIn)
+            LoginScreen(hiltViewModel(parentEntry), navController, coroutineScope, viewModel, onSignIn)
         }
         composable(Routes.RegisterScreen.route) { backStackEntry ->
             val parentEntry = remember(backStackEntry) {
                 navController.getBackStackEntry(Routes.GeneralApp.route)
             }
-            RegisterScreen(hiltViewModel(parentEntry), navController, viewModel)
+            RegisterScreen(hiltViewModel(parentEntry), navController, coroutineScope, viewModel)
         }
         composable(Routes.RecoverAccountScreen.route) { backStackEntry ->
             val parentEntry = remember(backStackEntry) {
                 navController.getBackStackEntry(Routes.GeneralApp.route)
             }
-            RecoverAccountScreen(hiltViewModel(parentEntry), navController)
+            RecoverAccountScreen(hiltViewModel(parentEntry), navController, coroutineScope)
         }
     }
 }
 
 fun NavGraphBuilder.loggedApp(
     navController: NavHostController,
+    coroutineScope: CoroutineScope,
     viewModel: BilliardsDrawViewModel,
     onSignOut: (navController: NavHostController) -> Unit
 ) {
@@ -123,52 +127,52 @@ fun NavGraphBuilder.loggedApp(
             val parentEntry = remember(backStackEntry) {
                 navController.getBackStackEntry(Routes.LoggedApp.route)
             }
-            CompleteProfileScreen(hiltViewModel(parentEntry), navController, viewModel)
+            CompleteProfileScreen(hiltViewModel(parentEntry), navController, coroutineScope, viewModel)
         }
         composable(Routes.MenuScreen.route) {
-            MenuScreen(navController, viewModel)
+            MenuScreen(navController, coroutineScope, viewModel)
         }
         composable(Routes.CarambolaScreen.route) { backStackEntry ->
             val parentEntry = remember(backStackEntry) {
                 navController.getBackStackEntry(Routes.LoggedApp.route)
             }
-            CarambolaScreen(hiltViewModel(parentEntry), navController, viewModel)
+            CarambolaScreen(hiltViewModel(parentEntry), navController, coroutineScope, viewModel)
         }
         composable(Routes.PoolScreen.route) { backStackEntry ->
             val parentEntry = remember(backStackEntry) {
                 navController.getBackStackEntry(Routes.LoggedApp.route)
             }
-            PoolScreen(hiltViewModel(parentEntry), navController, viewModel)
+            PoolScreen(hiltViewModel(parentEntry), navController, coroutineScope, viewModel)
         }
         composable(Routes.CarambolaMenuScreen.route) { backStackEntry ->
             val parentEntry = remember(backStackEntry) {
                 navController.getBackStackEntry(Routes.LoggedApp.route)
             }
-            CarambolaMenuScreen(hiltViewModel(parentEntry), navController, viewModel)
+            CarambolaMenuScreen(hiltViewModel(parentEntry), navController, coroutineScope, viewModel)
         }
         composable(Routes.PoolMenuScreen.route) { backStackEntry ->
             val parentEntry = remember(backStackEntry) {
                 navController.getBackStackEntry(Routes.LoggedApp.route)
             }
-            PoolMenuScreen(hiltViewModel(parentEntry), navController, viewModel)
+            PoolMenuScreen(hiltViewModel(parentEntry), navController, coroutineScope, viewModel)
         }
         composable(Routes.UserProfileScreen.route) { backStackEntry ->
             val parentEntry = remember(backStackEntry) {
                 navController.getBackStackEntry(Routes.LoggedApp.route)
             }
-            UserProfileScreen(hiltViewModel(parentEntry), navController, viewModel, onSignOut)
+            UserProfileScreen(hiltViewModel(parentEntry), navController, coroutineScope, viewModel, onSignOut)
         }
         composable(Routes.UserPremiumScreen.route) { backStackEntry ->
             val parentEntry = remember(backStackEntry) {
                 navController.getBackStackEntry(Routes.LoggedApp.route)
             }
-            UserPremiumScreen(hiltViewModel(parentEntry), navController, viewModel, onSignOut)
+            UserPremiumScreen(hiltViewModel(parentEntry), navController, coroutineScope, viewModel, onSignOut)
         }
         composable(Routes.ContactScreen.route) { navBackStackEntry ->
             val parentEntry = remember(navBackStackEntry) {
                 navController.getBackStackEntry(Routes.LoggedApp.route)
             }
-            ContactScreen(hiltViewModel(parentEntry), navController)
+            ContactScreen(hiltViewModel(parentEntry), navController,  coroutineScope)
         }
     }
 }

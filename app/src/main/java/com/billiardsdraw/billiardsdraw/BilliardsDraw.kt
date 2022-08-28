@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -27,6 +28,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalMaterial3Api::class)
 @AndroidEntryPoint
@@ -53,17 +55,29 @@ class BilliardsDraw : ComponentActivity() {
         setContent {
             // Navigation
             val navController = rememberNavController()
-            LaunchedEffect(Unit){
-                viewModel.onCreate(navController)
+            // CoroutineScope
+            val coroutineScope = rememberCoroutineScope()
+            // Assign app navigation and coroutineScope to viewModel
+            LaunchedEffect(Unit) {
+                viewModel.onCreate(navController, coroutineScope)
             }
+            // App
             BilliardsDrawTheme {
-                BilliardsDrawApp(viewModel, navController)
+                BilliardsDrawApp(viewModel, navController, coroutineScope)
             }
         }
     }
 
+    override fun onDestroy() {
+        // Only sign out if we are in custom login type, not with google and facebook type
+        if (!viewModel.isKeepSession() && (viewModel.getSignInMethodSharedPrefs() != SignInMethod.Google)) {
+            viewModel.onlySignOut()
+        }
+        super.onDestroy()
+    }
+
     private fun initGoogleAuth() {
-        viewModel.auth.addAuthStateListener { auth ->
+        viewModel.auth.value?.addAuthStateListener { auth ->
             Log.d("auth", "addAuthStateListener: ${auth.currentUser}")
             viewModel.setCurrentUser(auth.currentUser)
         }
@@ -87,11 +101,15 @@ class BilliardsDraw : ComponentActivity() {
                 try {
                     // Google Sign In was successful, authenticate with Firebase
                     val account = task.getResult(ApiException::class.java)!!
+                    // Save google account id auth token in shared prefs to use it out of this contract only on sign in once (remember to delete it on sign out)
+                    if (!viewModel.isSignedIn()) {
+                        saveGoogleAuthIDToken(account.idToken!!)
+                    }
                     Log.d("auth", "firebaseAuthWithGoogle:" + account.id)
                     viewModel.navController.value?.let { navController ->
                         viewModel.firebaseAuthWithGoogle(
                             this,
-                            viewModel.auth,
+                            viewModel.auth.value!!,
                             account.idToken!!,
                             navController,
                             this
@@ -102,6 +120,11 @@ class BilliardsDraw : ComponentActivity() {
                     Log.w(e.toString(), "Google sign in failed")
                 }
             }
+    }
+
+    private fun getGoogleAuthIDToken(): String = viewModel.getGoogleAuthIDToken()
+    private fun saveGoogleAuthIDToken(idToken: String) {
+        viewModel.saveGoogleAuthIDToken(idToken)
     }
 
     // AUTH Main Methods
@@ -116,6 +139,7 @@ class BilliardsDraw : ComponentActivity() {
         viewModel.signIn(
             signInMethod,
             context,
+            this,
             navController,
             emailStr,
             passwordStr,
@@ -123,13 +147,6 @@ class BilliardsDraw : ComponentActivity() {
             googleSignInClient,
             authResultLauncher
         )
-    }
-
-    override fun onDestroy() {
-        if (!viewModel.isKeepSession() && (viewModel.getSignInMethodSharedPrefs() != SignInMethod.Google)) {
-            viewModel.onlySignOut()
-        }
-        super.onDestroy()
     }
 
     private fun signOut(navController: NavHostController) {
@@ -140,7 +157,8 @@ class BilliardsDraw : ComponentActivity() {
     @Composable
     fun BilliardsDrawApp(
         model: BilliardsDrawViewModel,
-        navController: NavHostController
+        navController: NavHostController,
+        coroutineScope: CoroutineScope
     ) {
         // This locks orientation in all app, to lock individually just put this line in each screen composable
         LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
@@ -163,6 +181,7 @@ class BilliardsDraw : ComponentActivity() {
                     NavigationManager(
                         viewModel = model,
                         navController = navController,
+                        coroutineScope = coroutineScope,
                         onSignIn = { signInMethod, context, navController, emailStr, passwordStr, keepSession ->
                             signIn(
                                 signInMethod,

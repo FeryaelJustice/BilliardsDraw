@@ -75,16 +75,15 @@ class CompleteProfileScreenViewModel @Inject constructor(
 
             viewModelScope.launch(dispatchers.io) {
                 // Update user
-                repository.updateUserInFirebaseFirestore(
-                    repository.sharedPreferencesString(
-                        SharedPrefConstants.USER_ID_KEY
-                    ), userToAdd
+                if (repository.updateUserInFirebaseFirestore(
+                        repository.sharedPreferencesString(
+                            SharedPrefConstants.USER_ID_KEY
+                        ), userToAdd
+                    )
                 ) {
-                    if (it) {
-                        Log.d("register", "User updated in db")
-                    } else {
-                        Log.d("register", "Failed to update user in db")
-                    }
+                    Log.d("register", "User updated in db")
+                } else {
+                    Log.d("register", "Failed to update user in db")
                 }
 
                 if (repository.uploadUserProfilePicture(

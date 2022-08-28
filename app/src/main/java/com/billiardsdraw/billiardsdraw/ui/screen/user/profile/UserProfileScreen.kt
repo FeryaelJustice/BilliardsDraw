@@ -1,7 +1,9 @@
 package com.billiardsdraw.billiardsdraw.ui.screen.user.profile
 
+import android.app.DatePickerDialog
 import android.net.Uri
 import android.util.Log
+import android.widget.DatePicker
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -33,11 +35,14 @@ import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigate
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 import com.billiardsdraw.billiardsdraw.ui.util.showToastLong
+import kotlinx.coroutines.CoroutineScope
+import java.util.*
 
 @Composable
 fun UserProfileScreen(
     viewModel: UserProfileScreenViewModel,
     navController: NavHostController,
+    coroutineScope: CoroutineScope,
     appViewModel: BilliardsDrawViewModel,
     onSignOut: (navController: NavHostController) -> Unit
 ) {
@@ -45,13 +50,29 @@ fun UserProfileScreen(
 
     // Check is Logged
     LaunchedEffect(key1 = "loginCheck", block = {
-        if (!appViewModel.isLogged()) {
+        if (!appViewModel.isSignedIn()) {
             navigateClearingAllBackstack(navController, Routes.GeneralApp.route)
         }
     })
 
     // Context
     val context = LocalContext.current
+
+    // For date picker
+    val mYear: Int
+    val mMonth: Int
+    val mDay: Int
+    val mCalendar = Calendar.getInstance()
+    mYear = mCalendar.get(Calendar.YEAR)
+    mMonth = mCalendar.get(Calendar.MONTH)
+    mDay = mCalendar.get(Calendar.DAY_OF_MONTH)
+    mCalendar.time = Date()
+    val mDatePickerDialog = DatePickerDialog(
+        context,
+        { _: DatePicker, myYear: Int, myMonth: Int, myDayOfMonth: Int ->
+            viewModel.birthdate = "$myDayOfMonth/${myMonth + 1}/$myYear"
+        }, mYear, mMonth, mDay
+    )
 
     // To execute it one time, if not, it's executed infinite times
     LaunchedEffect(Unit) {
@@ -134,7 +155,11 @@ fun UserProfileScreen(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.Center
                         ) {
-                            UserProfilePicture(imageURL = viewModel.profilePicture, context) {
+                            UserProfilePicture(
+                                isLoading = false,
+                                imageURL = viewModel.profilePicture,
+                                context
+                            ) {
                                 launcher.launch("image/*")
                             }
                             Spacer(modifier = Modifier.width(10.dp))
@@ -151,26 +176,10 @@ fun UserProfileScreen(
                                 text = stringResource(id = R.string.username) + ": ",
                                 color = Color.White
                             )
-                            if (!viewModel.isEditing) {
-                                Text(
-                                    text = "" + appViewModel.user.value?.username,
-                                    color = Color.White
-                                )
-                            } else {
-                                TextField(
-                                    value = viewModel.user.username,
-                                    onValueChange = {
-                                        viewModel.user = viewModel.user.copy(username = it)
-                                    },
-                                    singleLine = true,
-                                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                                    modifier = Modifier
-                                        .background(
-                                            Color.White
-                                        )
-                                        .fillMaxWidth()
-                                )
-                            }
+                            Text(
+                                text = "" + appViewModel.user.value?.username,
+                                color = Color.White
+                            )
                         }
                         Spacer(modifier = Modifier.height(20.dp))
                         Row {
@@ -189,6 +198,8 @@ fun UserProfileScreen(
                                     onValueChange = {
                                         viewModel.user = viewModel.user.copy(nickname = it)
                                     },
+                                    label = { Text(text = context.resources.getString(R.string.nickname)) },
+                                    placeholder = { Text(text = context.resources.getString(R.string.nickname)) },
                                     singleLine = true,
                                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                                     modifier = Modifier
@@ -217,6 +228,8 @@ fun UserProfileScreen(
                                         onValueChange = {
                                             viewModel.user = viewModel.user.copy(name = it)
                                         },
+                                        label = { Text(text = context.resources.getString(R.string.name)) },
+                                        placeholder = { Text(text = context.resources.getString(R.string.name)) },
                                         singleLine = true,
                                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                                         modifier = Modifier
@@ -230,6 +243,8 @@ fun UserProfileScreen(
                                         onValueChange = {
                                             viewModel.user = viewModel.user.copy(surnames = it)
                                         },
+                                        label = { Text(text = context.resources.getString(R.string.surnames)) },
+                                        placeholder = { Text(text = context.resources.getString(R.string.surnames)) },
                                         singleLine = true,
                                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                                         modifier = Modifier
@@ -247,26 +262,10 @@ fun UserProfileScreen(
                                 text = stringResource(id = R.string.email) + ": ",
                                 color = Color.White
                             )
-                            if (!viewModel.isEditing) {
-                                Text(
-                                    text = "" + appViewModel.user.value?.email,
-                                    color = Color.White
-                                )
-                            } else {
-                                TextField(
-                                    value = viewModel.user.email,
-                                    onValueChange = {
-                                        viewModel.user = viewModel.user.copy(email = it)
-                                    },
-                                    singleLine = true,
-                                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                                    modifier = Modifier
-                                        .background(
-                                            Color.White
-                                        )
-                                        .fillMaxWidth()
-                                )
-                            }
+                            Text(
+                                text = "" + appViewModel.user.value?.email,
+                                color = Color.White
+                            )
                         }
                         Spacer(modifier = Modifier.height(20.dp))
                         Row {
@@ -280,20 +279,26 @@ fun UserProfileScreen(
                                     color = Color.White
                                 )
                             } else {
-                                TextField(
-                                    value = viewModel.user.birthdate.toString(),
-                                    onValueChange = {
-                                        viewModel.user =
-                                            viewModel.user.copy(birthdate = it.toDate()!!)
-                                    },
-                                    singleLine = true,
-                                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                                    modifier = Modifier
-                                        .background(
-                                            Color.White
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Button(
+                                        onClick = {
+                                            mDatePickerDialog.show()
+                                        },
+                                        colors = ButtonDefaults.buttonColors(
+                                            backgroundColor = Color(
+                                                0XFF0F9D58
+                                            )
                                         )
-                                        .fillMaxWidth()
-                                )
+                                    ) {
+                                        androidx.compose.material3.Text(
+                                            text = context.resources.getString(R.string.birthdate),
+                                            color = Color.White
+                                        )
+                                    }
+                                    androidx.compose.material3.Text(text = "" + viewModel.birthdate)
+                                }
                             }
                         }
                         Spacer(modifier = Modifier.height(20.dp))
@@ -302,26 +307,10 @@ fun UserProfileScreen(
                                 text = stringResource(id = R.string.subscription_state) + ": ",
                                 color = Color.White
                             )
-                            if (!viewModel.isEditing) {
-                                Text(
-                                    text = "" + appViewModel.user.value?.role,
-                                    color = Color.White
-                                )
-                            } else {
-                                TextField(
-                                    value = viewModel.user.role,
-                                    onValueChange = {
-                                        viewModel.user = viewModel.user.copy(role = it)
-                                    },
-                                    singleLine = true,
-                                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                                    modifier = Modifier
-                                        .background(
-                                            Color.White
-                                        )
-                                        .fillMaxWidth()
-                                )
-                            }
+                            Text(
+                                text = "" + appViewModel.user.value?.role,
+                                color = Color.White
+                            )
                         }
                         Spacer(modifier = Modifier.height(20.dp))
                         Text(
@@ -357,12 +346,8 @@ fun UserProfileScreen(
                                 }
                                 SignInMethod.Google -> {
                                     // Google sign out
-                                    if (currentUser.value != null) {
-                                        Column(modifier = Modifier.padding(16.dp)) {
-                                            Button(onClick = { onSignOut(navController) }) {
-                                                androidx.compose.material3.Text(text = "Sign out")
-                                            }
-                                        }
+                                    Button(onClick = { onSignOut(navController) }) {
+                                        androidx.compose.material3.Text(text = "Sign out")
                                     }
                                 }
                             }

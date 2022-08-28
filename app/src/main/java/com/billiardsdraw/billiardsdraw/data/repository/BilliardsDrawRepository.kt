@@ -7,6 +7,7 @@ import com.google.firebase.auth.FirebaseUser
 import java.io.File
 
 interface BilliardsDrawRepository {
+
     // LOCAL
     fun sharedPreferencesBoolean(key: String): Boolean
     fun setSharedPreferencesBoolean(key: String, value: Boolean)
@@ -28,15 +29,13 @@ interface BilliardsDrawRepository {
     // Firestore
     suspend fun createUserInFirebaseFirestore(
         userId: String,
-        user: MutableMap<String, Any>,
-        callback: (Boolean) -> Unit
-    )
+        user: MutableMap<String, Any>
+    ): Boolean
 
     suspend fun updateUserInFirebaseFirestore(
         userid: String,
-        user: MutableMap<String, Any>,
-        callback: (Boolean) -> Unit
-    )
+        user: MutableMap<String, Any>
+    ): Boolean
 
     suspend fun getUserFromFirebaseFirestore(
         userId: String,
@@ -44,7 +43,6 @@ interface BilliardsDrawRepository {
     )
 
     // Storage
-    // suspend fun getUserProfilePicture(userId: String): ByteArray?
     suspend fun getUserProfilePicture(userId: String, callback: (File) -> Unit): Uri?
     suspend fun uploadUserProfilePicture(userId: String, data: Uri?): Boolean
 }

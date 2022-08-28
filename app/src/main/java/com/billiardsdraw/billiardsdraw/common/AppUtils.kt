@@ -181,6 +181,7 @@ object HexToJetpackColor {
 object SharedPrefConstants {
     const val LOCAL_SHARED_PREF_SETTINGS = "local_shared_pref_settings"
     const val USER_ID_KEY = "user_id"
+    const val GOOGLE_AUTH_FIREBASE_ID_KEY = "googleAuthFirebaseIdKey"
     const val IS_LOGGED_KEY = "isLogged"
     const val KEEP_SESSION_KEY = "keepSession"
     const val EMAIL_KEY = "email"

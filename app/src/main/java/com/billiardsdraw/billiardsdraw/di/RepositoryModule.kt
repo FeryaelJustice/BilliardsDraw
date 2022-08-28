@@ -8,8 +8,6 @@ import com.billiardsdraw.billiardsdraw.data.provider.network.firebase.BaseFireba
 import com.billiardsdraw.billiardsdraw.data.provider.network.firebase.BaseFirebaseStorageHelper
 import com.billiardsdraw.billiardsdraw.data.repository.BilliardsDrawRepository
 import com.billiardsdraw.billiardsdraw.data.repository.BilliardsDrawRepositoryImp
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides

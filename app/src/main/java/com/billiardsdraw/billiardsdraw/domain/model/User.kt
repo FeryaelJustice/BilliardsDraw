@@ -11,7 +11,7 @@ data class User(
     var surnames: String,
     var email: String,
     var password: String,
-    var age: Int,
+    var age: String,
     var birthdate: Date,
     var country: String,
     var carambola_paints: Array<String>,
@@ -55,7 +55,7 @@ data class User(
         result = 31 * result + surnames.hashCode()
         result = 31 * result + email.hashCode()
         result = 31 * result + password.hashCode()
-        result = 31 * result + age
+        result = 31 * result + age.hashCode()
         result = 31 * result + birthdate.hashCode()
         result = 31 * result + country.hashCode()
         result = 31 * result + carambola_paints.contentHashCode()

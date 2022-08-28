@@ -45,19 +45,21 @@ class BilliardsDrawViewModel @Inject constructor(
     val dispatchers: DispatcherProvider
 ) : ViewModel(), DefaultLifecycleObserver, LifecycleEventObserver {
 
-    fun onCreate(navController: NavHostController) {
-        _navController.value = navController
-    }
-
     // APP Nav Controller
     private var _navController: MutableLiveData<NavHostController?> = MutableLiveData()
     val navController: LiveData<NavHostController?> = _navController
 
+    // APP CoroutineScope
+    private val _coroutineScope: MutableLiveData<CoroutineScope?> = MutableLiveData()
+    val coroutineScope: LiveData<CoroutineScope?> = _coroutineScope
+
     // Auth firebase
-    var auth: FirebaseAuth by mutableStateOf(Firebase.auth)
+    private val _auth: MutableLiveData<FirebaseAuth?> = MutableLiveData(Firebase.auth)
+    val auth: LiveData<FirebaseAuth?> = _auth
 
     // Firebase user (Only for Google and Facebook sign in support)
-    private var _currentUser: MutableLiveData<FirebaseUser?> = MutableLiveData()
+    private var _currentUser: MutableLiveData<FirebaseUser?> =
+        MutableLiveData(Firebase.auth.currentUser)
     val currentUser: LiveData<FirebaseUser?> = _currentUser
     fun setCurrentUser(user: FirebaseUser?) {
         _currentUser.value = user
@@ -94,14 +96,23 @@ class BilliardsDrawViewModel @Inject constructor(
     }
 
     // Is logged (using repository and shared preferences)
-    fun isLogged() = repository.sharedPreferencesBoolean(SharedPrefConstants.IS_LOGGED_KEY)
+    private fun isLogged() = repository.sharedPreferencesBoolean(SharedPrefConstants.IS_LOGGED_KEY)
     fun setIsLogged(isLogged: Boolean) =
         repository.setSharedPreferencesBoolean(SharedPrefConstants.IS_LOGGED_KEY, isLogged)
+
+    // LOGIC: Login check if it's logged with shared prefs and firebase auth
+    fun isSignedIn() = isLogged() && _currentUser.value != null
 
     // Keep session with repository and shared preferences
     fun isKeepSession() = repository.sharedPreferencesBoolean(SharedPrefConstants.KEEP_SESSION_KEY)
     private fun setKeepSession(keepSession: Boolean) =
         repository.setSharedPreferencesBoolean(SharedPrefConstants.KEEP_SESSION_KEY, keepSession)
+
+    // ON CREATE
+    fun onCreate(navController: NavHostController, coroutineScope: CoroutineScope) {
+        _navController.value = navController
+        _coroutineScope.value = coroutineScope
+    }
 
     // Lifecycle
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
@@ -111,6 +122,7 @@ class BilliardsDrawViewModel @Inject constructor(
     fun signIn(
         signInMethod: SignInMethod,
         context: Context,
+        activity: Activity,
         navController: NavHostController,
         emailStr: String?,
         passwordStr: String?,
@@ -169,7 +181,6 @@ class BilliardsDrawViewModel @Inject constructor(
                             withContext(dispatchers.main) {
                                 setSignInMethodSharedPrefs(SignInMethod.Custom)
                                 setIsLogged(true)
-                                // Solo si mantener sesion iniciada is checked
                                 setKeepSession(keepSession!!)
                                 repository.setSharedPreferencesString(
                                     SharedPrefConstants.EMAIL_KEY,
@@ -200,10 +211,20 @@ class BilliardsDrawViewModel @Inject constructor(
                     }
                 }
                 SignInMethod.Google -> {
-                    if (!isLogged()){
+                    if (isSignedIn()) {
+                        // Skip google pick up account (we have the logged google account id token on shared preferences)
+                        _auth.value?.let { authenticator ->
+                            firebaseAuthWithGoogle(
+                                activity,
+                                authenticator,
+                                getGoogleAuthIDToken(),
+                                navController,
+                                context
+                            )
+                        }
+                    } else {
                         authResultLauncher.launch(googleSignInClient.signInIntent)
                     }
-                    // Inside contract firebaseAuthWithGoogle method only on successful login assigns sign in method to viewModel
                 }
             }
         } catch (e: Exception) {
@@ -253,12 +274,14 @@ class BilliardsDrawViewModel @Inject constructor(
                                 userToAdd["role"] = "free"
                                 userToAdd["active"] = true
                                 userToAdd["deleted"] = false
-                                repository.createUserInFirebaseFirestore(userAuth.uid, userToAdd) {
-                                    if (it) {
-                                        Log.d("register", "User created in db")
-                                    } else {
-                                        Log.d("register", "Failed to create user in db")
-                                    }
+                                if (repository.createUserInFirebaseFirestore(
+                                        userAuth.uid,
+                                        userToAdd
+                                    )
+                                ) {
+                                    Log.d("register", "User created in db")
+                                } else {
+                                    Log.d("register", "Failed to create user in db")
                                 }
                                 withContext(dispatchers.main) {
                                     showToastLong(
@@ -329,7 +352,8 @@ class BilliardsDrawViewModel @Inject constructor(
             }
             SignInMethod.Google -> {
                 // Google sign out
-                auth.signOut()
+                _auth.value?.signOut()
+                repository.setSharedPreferencesBoolean(SharedPrefConstants.KEEP_SESSION_KEY, false)
             }
         }
 
@@ -341,6 +365,7 @@ class BilliardsDrawViewModel @Inject constructor(
         repository.setSharedPreferencesString(SharedPrefConstants.EMAIL_KEY, "")
         repository.setSharedPreferencesString(SharedPrefConstants.PASSWORD_KEY, "")
         repository.setSharedPreferencesString(SharedPrefConstants.USER_ID_KEY, "")
+        repository.setSharedPreferencesString(SharedPrefConstants.GOOGLE_AUTH_FIREBASE_ID_KEY, "")
     }
 
     fun signOut(
@@ -348,5 +373,15 @@ class BilliardsDrawViewModel @Inject constructor(
     ) {
         onlySignOut()
         navigateClearingAllBackstack(navController, Routes.LoginScreen.route)
+    }
+
+    fun getGoogleAuthIDToken(): String =
+        repository.sharedPreferencesString(SharedPrefConstants.GOOGLE_AUTH_FIREBASE_ID_KEY)
+
+    fun saveGoogleAuthIDToken(idToken: String) {
+        repository.setSharedPreferencesString(
+            SharedPrefConstants.GOOGLE_AUTH_FIREBASE_ID_KEY,
+            idToken
+        )
     }
 }

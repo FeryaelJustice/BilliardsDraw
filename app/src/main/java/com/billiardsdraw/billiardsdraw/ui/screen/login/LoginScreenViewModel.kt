@@ -27,7 +27,6 @@ class LoginScreenViewModel @Inject constructor(
 
     var email: String by mutableStateOf("")
     var password: String by mutableStateOf("")
-    var passwordVisible: Boolean by mutableStateOf(false)
     var keepSession: Boolean by mutableStateOf(false)
     var keep: Boolean by mutableStateOf(false) // aux for not overloading view model purposes on ui
 

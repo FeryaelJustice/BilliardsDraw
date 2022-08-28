@@ -28,18 +28,20 @@ import com.billiardsdraw.billiardsdraw.common.HexToJetpackColor
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
+import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun CarambolaScreen(
     viewModel: CarambolaScreenViewModel,
     navController: NavHostController,
+    coroutineScope: CoroutineScope,
     appViewModel: BilliardsDrawViewModel
 ) {
 
     // Check is Logged
     LaunchedEffect(key1 = "loginCheck", block = {
-        if (!appViewModel.isLogged()) {
+        if (!appViewModel.isSignedIn()) {
             navigateClearingAllBackstack(navController, Routes.GeneralApp.route)
         }
     })

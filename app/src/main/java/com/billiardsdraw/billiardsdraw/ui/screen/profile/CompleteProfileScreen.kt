@@ -38,18 +38,20 @@ import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.ui.components.UserProfilePicture
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
+import kotlinx.coroutines.CoroutineScope
 import java.util.*
 
 @Composable
 fun CompleteProfileScreen(
     viewModel: CompleteProfileScreenViewModel,
     navController: NavHostController,
+    coroutineScope: CoroutineScope,
     appViewModel: BilliardsDrawViewModel
 ) {
 
     // Check is Logged
     LaunchedEffect(key1 = "loginCheck", block = {
-        if (!appViewModel.isLogged()) {
+        if (!appViewModel.isSignedIn()) {
             navigateClearingAllBackstack(navController, Routes.GeneralApp.route)
         }
     })
@@ -101,7 +103,11 @@ fun CompleteProfileScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    UserProfilePicture(imageURL = viewModel.profilePicture, context) {
+                    UserProfilePicture(
+                        isLoading = false,
+                        imageURL = viewModel.profilePicture,
+                        context
+                    ) {
                         launcher.launch("image/*")
                     }
                     Spacer(modifier = Modifier.height(4.dp))

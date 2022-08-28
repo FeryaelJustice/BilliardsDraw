@@ -26,11 +26,18 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
+import com.billiardsdraw.billiardsdraw.domain.model.SignInMethod
+import com.billiardsdraw.billiardsdraw.ui.components.CustomSignInButton
+import com.billiardsdraw.billiardsdraw.ui.components.CustomSignUpButton
+import com.billiardsdraw.billiardsdraw.ui.components.EmailField
+import com.billiardsdraw.billiardsdraw.ui.components.PasswordField
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun RegisterScreen(
     viewModel: RegisterScreenViewModel,
     navController: NavHostController,
+    coroutineScope: CoroutineScope,
     appViewModel: BilliardsDrawViewModel
 ) {
     val context = LocalContext.current
@@ -75,112 +82,40 @@ fun RegisterScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    TextField(
-                        value = viewModel.email,
-                        onValueChange = { viewModel.email = it },
-                        label = {
-                            Text(
-                                stringResource(id = R.string.email),
-                                color = Color.Black
-                            )
-                        },
-                        placeholder = {
-                            Text(
-                                stringResource(id = R.string.email_hint),
-                                color = Color.Black
-                            )
-                        },
-                        singleLine = true,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                        modifier = Modifier.background(
-                            Color.White
-                        )
+                    EmailField(
+                        email = viewModel.email,
+                        onTextFieldChanged = { viewModel.email = it },
+                        context = context,
+                        modifier = Modifier.fillMaxWidth(),
+                        enabled = !appViewModel.isSignedIn()
                     )
                     Spacer(modifier = Modifier.height(4.dp))
-                    TextField(
-                        value = viewModel.password,
-                        onValueChange = { viewModel.password = it },
-                        label = {
-                            Text(
-                                stringResource(id = R.string.password),
-                                color = Color.Black
-                            )
-                        },
-                        placeholder = {
-                            Text(
-                                stringResource(id = R.string.password_hint),
-                                color = Color.Black
-                            )
-                        },
-                        visualTransformation = if (viewModel.passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                        singleLine = true,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                        modifier = Modifier.background(Color.White),
-                        trailingIcon = {
-                            val image = if (viewModel.passwordVisible)
-                                Icons.Filled.Visibility
-                            else Icons.Filled.VisibilityOff
-
-                            // Please provide localized description for accessibility services
-                            val description =
-                                if (viewModel.passwordVisible) "Hide password" else "Show password"
-
-                            IconButton(onClick = {
-                                viewModel.passwordVisible = !viewModel.passwordVisible
-                            }) {
-                                Icon(imageVector = image, description)
-                            }
-                        }
+                    PasswordField(
+                        password = viewModel.password,
+                        onTextFieldChanged = { viewModel.password = it },
+                        context = context,
+                        modifier = Modifier.fillMaxWidth(),
+                        enabled = !appViewModel.isSignedIn()
                     )
                     Spacer(modifier = Modifier.height(4.dp))
-                    TextField(
-                        value = viewModel.repeatPassword,
-                        onValueChange = { viewModel.repeatPassword = it },
-                        label = {
-                            Text(
-                                stringResource(id = R.string.repeatpassword_hint),
-                                color = Color.Black
-                            )
-                        },
-                        placeholder = {
-                            Text(
-                                stringResource(id = R.string.repeatpassword_hint),
-                                color = Color.Black
-                            )
-                        },
-                        visualTransformation = if (viewModel.repeatPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                        singleLine = true,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                        modifier = Modifier.background(Color.White),
-                        trailingIcon = {
-                            val image = if (viewModel.repeatPasswordVisible)
-                                Icons.Filled.Visibility
-                            else Icons.Filled.VisibilityOff
-
-                            // Please provide localized description for accessibility services
-                            val description =
-                                if (viewModel.repeatPasswordVisible) "Hide password" else "Show password"
-
-                            IconButton(onClick = {
-                                viewModel.repeatPasswordVisible = !viewModel.repeatPasswordVisible
-                            }) {
-                                Icon(imageVector = image, description)
-                            }
-                        }
+                    PasswordField(
+                        password = viewModel.repeatPassword,
+                        onTextFieldChanged = { viewModel.repeatPassword = it },
+                        context = context,
+                        modifier = Modifier.fillMaxWidth(),
+                        enabled = !appViewModel.isSignedIn(),
+                        isRepeatPassword = true
                     )
                     Spacer(modifier = Modifier.height(1.dp))
-                    Button(
-                        onClick = {
-                            viewModel.signUp(
-                                appViewModel,
-                                context,
-                                navController
-                            )
-                        },
-                        modifier = Modifier.width(160.dp)
+                    CustomSignUpButton(
+                        context = context,
+                        modifier = Modifier.width(160.dp),
+                        enabled = true,
                     ) {
-                        Text(
-                            text = stringResource(id = R.string.signUp)
+                        viewModel.signUp(
+                            appViewModel,
+                            context,
+                            navController
                         )
                     }
                 }

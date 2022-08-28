@@ -12,40 +12,42 @@ class FirebaseFirestoreHelper : BaseFirebaseFirestoreHelper {
 
     override suspend fun createUserInFirebaseFirestore(
         userId: String,
-        user: MutableMap<String, Any>,
-        callback: (Boolean) -> Unit
-    ) {
+        user: MutableMap<String, Any>
+    ): Boolean {
+        var success = false
         try {
             FirebaseFirestore.getInstance().collection(FirebaseFirestoreConstants.USERS_DIRECTORY)
                 .document(userId)
                 .set(user)
                 .addOnCompleteListener {
-                    callback(true)
+                    success = true
                 }.addOnFailureListener {
-                    callback(false)
+                    success = false
                 }
         } catch (e: FirebaseException) {
             Log.d("firebase_exception", e.toString())
-            callback(false)
+            success = false
         }
+        return success
     }
 
     override suspend fun updateUserInFirebaseFirestore(
         userId: String,
-        data: MutableMap<String, Any>,
-        callback: (Boolean) -> Unit
-    ) {
+        data: MutableMap<String, Any>
+    ): Boolean {
+        var success = false
         try {
             FirebaseFirestore.getInstance().collection(FirebaseFirestoreConstants.USERS_DIRECTORY)
                 .document(userId).update(data).addOnCompleteListener {
-                    callback(true)
+                    success = true
                 }.addOnFailureListener {
-                    callback(false)
+                    success = false
                 }
         } catch (e: FirebaseException) {
             Log.d("firebase_exception", e.toString())
-            callback(false)
+            success = false
         }
+        return success
     }
 
     override suspend fun getUser(
@@ -76,8 +78,7 @@ class FirebaseFirestoreHelper : BaseFirebaseFirestoreHelper {
                         password =
                         document.getString("password")
                             .toString(),
-                        age = document.getLong("age")
-                            ?.toInt() ?: 0,
+                        age = document.getString("age").toString(),
                         birthdate = Date(),
                         country =
                         document.getString("country")
@@ -104,7 +105,7 @@ class FirebaseFirestoreHelper : BaseFirebaseFirestoreHelper {
                     "",
                     "",
                     "",
-                    0,
+                    "0",
                     Date(),
                     "",
                     arrayOf(),

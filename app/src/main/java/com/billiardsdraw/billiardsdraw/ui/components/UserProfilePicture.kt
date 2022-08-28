@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -16,21 +17,26 @@ import coil.compose.AsyncImage
 import com.billiardsdraw.billiardsdraw.R
 
 @Composable
-fun UserProfilePicture(imageURL: Uri?, context: Context, onClick: () -> Unit) {
-    var finalImageURI: Uri? = imageURL
-    if (finalImageURI == null || finalImageURI == Uri.EMPTY) {
-        finalImageURI = Uri.parse("android.resource://" + context.packageName + "/" + R.drawable.profileicon)
+fun UserProfilePicture(isLoading: Boolean, imageURL: Uri?, context: Context, onClick: () -> Unit) {
+    if (isLoading) {
+        CircularProgressIndicator()
+    } else {
+        var finalImageURI: Uri? = imageURL
+        if (finalImageURI == null || finalImageURI == Uri.EMPTY) {
+            finalImageURI =
+                Uri.parse("android.resource://" + context.packageName + "/" + R.drawable.profileicon)
+        }
+        AsyncImage(
+            model = finalImageURI,
+            contentDescription = stringResource(R.string.profileicon),
+            placeholder = painterResource(id = R.drawable.profileicon),
+            contentScale = ContentScale.Crop,            // crop the image
+            modifier = Modifier
+                .size(64.dp)
+                .clip(CircleShape)
+                .clickable {
+                    onClick()
+                }                       // clip to the circle shape
+        )
     }
-    AsyncImage(
-        model = finalImageURI,
-        contentDescription = stringResource(R.string.profileicon),
-        placeholder = painterResource(id = R.drawable.profileicon),
-        contentScale = ContentScale.Crop,            // crop the image
-        modifier = Modifier
-            .size(64.dp)
-            .clip(CircleShape)
-            .clickable {
-                onClick()
-            }                       // clip to the circle shape
-    )
 }

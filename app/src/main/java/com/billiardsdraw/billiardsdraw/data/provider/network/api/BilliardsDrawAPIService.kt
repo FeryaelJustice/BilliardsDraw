@@ -23,7 +23,7 @@ class BilliardsDrawAPIService @Inject constructor(
                 "",
                 "",
                 "",
-                0,
+                "0",
                 Date(),
                 "",
                 arrayOf(),

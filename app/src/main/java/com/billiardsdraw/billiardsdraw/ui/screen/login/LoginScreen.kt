@@ -3,14 +3,9 @@ package com.billiardsdraw.billiardsdraw.ui.screen.login
 import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -23,9 +18,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -35,13 +27,18 @@ import com.billiardsdraw.billiardsdraw.common.ads.CreateBanner
 import com.billiardsdraw.billiardsdraw.common.ads.enableAds
 import com.billiardsdraw.billiardsdraw.domain.model.SignInMethod
 import com.billiardsdraw.billiardsdraw.ui.components.CustomGoogleButton
+import com.billiardsdraw.billiardsdraw.ui.components.CustomSignInButton
+import com.billiardsdraw.billiardsdraw.ui.components.EmailField
+import com.billiardsdraw.billiardsdraw.ui.components.PasswordField
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigate
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun LoginScreen(
     viewModel: LoginScreenViewModel,
     navController: NavHostController,
+    coroutineScope: CoroutineScope,
     appViewModel: BilliardsDrawViewModel,
     onSignIn: (
         signInMethod: SignInMethod,
@@ -52,19 +49,17 @@ fun LoginScreen(
         keepSession: Boolean?
     ) -> Unit
 ) {
+    val context = LocalContext.current
+
     LaunchedEffect(key1 = "onCreate", block = {
         viewModel.onCreate()
     })
 
-    val context = LocalContext.current
-    val currentUser = appViewModel.currentUser
-
     // REMEMBER: Auto login with shared prefs, or with variables makes it crash, it repaints itself, search the way
     LaunchedEffect(key1 = "isLogged", block = {
         // Auto login
-        if (appViewModel.isKeepSession()) {
-            if (appViewModel.isLogged() || currentUser.value != null) {
-                appViewModel.setIsLogged(true)
+        if (appViewModel.isSignedIn()) {
+            if (appViewModel.isKeepSession() || appViewModel.getSignInMethodSharedPrefs() == SignInMethod.Google) {
                 onSignIn(
                     appViewModel.getSignInMethodSharedPrefs(),
                     context,
@@ -74,25 +69,8 @@ fun LoginScreen(
                     viewModel.keepSession
                 )
             }
-        } else {
-            if (appViewModel.isLogged() || currentUser.value != null) {
-                appViewModel.signOut(navController)
-            }
         }
-
-        if (currentUser.value == null) {
-            appViewModel.setIsLogged(true)
-            onSignIn(
-                appViewModel.getSignInMethodSharedPrefs(),
-                context,
-                navController,
-                viewModel.email,
-                viewModel.password,
-                viewModel.keepSession
-            )
-        }
-    }
-    )
+    })
 
     Box(modifier = Modifier.fillMaxSize()) {
         Card(elevation = 4.dp, modifier = Modifier.fillMaxSize()) {
@@ -135,91 +113,43 @@ fun LoginScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    TextField(
-                        value = viewModel.email,
-                        onValueChange = { viewModel.email = it },
-                        enabled = !appViewModel.isLogged(),
-                        label = {
-                            Text(
-                                stringResource(id = R.string.email),
-                                color = Color.Black
-                            )
-                        },
-                        placeholder = {
-                            Text(
-                                stringResource(id = R.string.email_hint),
-                                color = Color.Black
-                            )
-                        },
-                        singleLine = true,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                        modifier = Modifier.background(
-                            Color.White
-                        )
+                    EmailField(
+                        email = viewModel.email,
+                        onTextFieldChanged = { viewModel.email = it },
+                        context = context,
+                        modifier = Modifier.fillMaxWidth(),
+                        enabled = !appViewModel.isSignedIn()
                     )
                     Spacer(modifier = Modifier.height(4.dp))
-                    TextField(
-                        value = viewModel.password,
-                        onValueChange = { viewModel.password = it },
-                        enabled = !appViewModel.isLogged(),
-                        label = {
-                            Text(
-                                stringResource(id = R.string.password),
-                                color = Color.Black
-                            )
-                        },
-                        placeholder = {
-                            Text(
-                                stringResource(id = R.string.password_hint),
-                                color = Color.Black
-                            )
-                        },
-                        visualTransformation = if (viewModel.passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                        singleLine = true,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                        modifier = Modifier.background(Color.White),
-                        trailingIcon = {
-                            val image = if (viewModel.passwordVisible)
-                                Icons.Filled.Visibility
-                            else Icons.Filled.VisibilityOff
-
-                            // Please provide localized description for accessibility services
-                            val description =
-                                if (viewModel.passwordVisible) "Hide password" else "Show password"
-
-                            IconButton(onClick = {
-                                viewModel.passwordVisible = !viewModel.passwordVisible
-                            }) {
-                                Icon(imageVector = image, description)
-                            }
-                        }
+                    PasswordField(
+                        password = viewModel.password,
+                        onTextFieldChanged = { viewModel.password = it },
+                        context = context,
+                        modifier = Modifier.fillMaxWidth(),
+                        enabled = !appViewModel.isSignedIn()
                     )
                     Spacer(modifier = Modifier.height(1.dp))
                     // START LOGIN
                     // Own sign in
                     Column(modifier = Modifier.padding(16.dp)) {
-                        if (currentUser.value == null) {
-                            Button(
-                                onClick = {
-                                    appViewModel.setSignInMethodSharedPrefs(SignInMethod.Custom)
-                                    onSignIn(
-                                        appViewModel.getSignInMethodSharedPrefs(),
-                                        context,
-                                        navController,
-                                        viewModel.email,
-                                        viewModel.password,
-                                        viewModel.keepSession
-                                    )
-                                },
-                                enabled = !appViewModel.isLogged(),
-                                modifier = Modifier.width(160.dp)
+                        if (!appViewModel.isSignedIn()) {
+                            CustomSignInButton(
+                                context = context,
+                                modifier = Modifier.width(160.dp),
+                                enabled = !appViewModel.isSignedIn()
                             ) {
-                                Text(
-                                    text = stringResource(id = R.string.signIn)
+                                appViewModel.setSignInMethodSharedPrefs(SignInMethod.Custom)
+                                onSignIn(
+                                    appViewModel.getSignInMethodSharedPrefs(),
+                                    context,
+                                    navController,
+                                    viewModel.email,
+                                    viewModel.password,
+                                    viewModel.keepSession
                                 )
                             }
                         } else {
-                            Text(text = "Welcome, ${currentUser.value!!.displayName}")
+                            Text(text = "Welcome, ${appViewModel.currentUser.value?.displayName}")
                         }
                     }
                     Spacer(modifier = Modifier.height(1.dp))
@@ -241,10 +171,10 @@ fun LoginScreen(
                     }
                     // Google sign in
                     Column(modifier = Modifier.padding(16.dp)) {
-                        if (currentUser.value == null) {
+                        if (!appViewModel.isSignedIn()) {
                             CustomGoogleButton(
                                 context = LocalContext.current,
-                                enabled = !appViewModel.isLogged(),
+                                enabled = !appViewModel.isSignedIn(),
                                 onClicked = {
                                     appViewModel.setSignInMethodSharedPrefs(SignInMethod.Google)
                                     onSignIn(
@@ -257,26 +187,11 @@ fun LoginScreen(
                                     )
                                 }
                             )
-                            /*
-                            Button(onClick = {
-                                appViewModel.setSignInMethodSharedPrefs(SignInMethod.Google)
-                                onSignIn(
-                                    appViewModel.getSignInMethodSharedPrefs(),
-                                    context,
-                                    navController,
-                                    viewModel.email,
-                                    viewModel.password,
-                                    viewModel.keepSession
-                                )
-                            }, enabled = !appViewModel.isLogged()) {
-                                Text(text = "Sign in with Google")
-                            }
-                            */
                         } else {
-                            Text(text = "Google welcomes you, ${currentUser.value!!.displayName}")
+                            Text(text = "Google welcomes you, ${appViewModel.currentUser.value?.displayName}")
                         }
                     }
-                    if (currentUser.value != null) {
+                    if (appViewModel.isSignedIn()) {
                         Button(onClick = { appViewModel.signOut(navController) }) {
                             Text(text = context.resources.getString(R.string.signOut))
                         }
