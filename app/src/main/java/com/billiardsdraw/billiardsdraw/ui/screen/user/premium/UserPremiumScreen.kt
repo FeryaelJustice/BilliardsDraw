@@ -31,7 +31,8 @@ import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstac
 fun UserPremiumScreen(
     viewModel: UserPremiumScreenViewModel,
     navController: NavHostController,
-    appViewModel: BilliardsDrawViewModel
+    appViewModel: BilliardsDrawViewModel,
+    onSignOut: (navController: NavHostController) -> Unit
 ) {
     // Check is Logged
     LaunchedEffect(key1 = "loginCheck", block = {
@@ -129,7 +130,7 @@ fun UserPremiumScreen(
                         contentDescription = context.resources.getString(R.string.contact_form),
                     )
                     Button(onClick = {
-                        viewModel.signOut(navController)
+                        onSignOut(navController)
                     }) {
                         Text(text = stringResource(id = R.string.signOut))
                     }

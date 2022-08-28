@@ -200,7 +200,9 @@ class BilliardsDrawViewModel @Inject constructor(
                     }
                 }
                 SignInMethod.Google -> {
-                    authResultLauncher.launch(googleSignInClient.signInIntent)
+                    if (!isLogged()){
+                        authResultLauncher.launch(googleSignInClient.signInIntent)
+                    }
                     // Inside contract firebaseAuthWithGoogle method only on successful login assigns sign in method to viewModel
                 }
             }

@@ -28,7 +28,7 @@ import com.billiardsdraw.billiardsdraw.R
 fun CustomGoogleButton(
     context: Context,
     modifier: Modifier = Modifier,
-    loadingText: String = "Creating Account...",
+    loadingText: String = "Signing in...",
     icon: Int = R.drawable.ic_google_logo,
     borderColor: Color = Color.LightGray,
     backgroundColor: Color = MaterialTheme.colors.surface,

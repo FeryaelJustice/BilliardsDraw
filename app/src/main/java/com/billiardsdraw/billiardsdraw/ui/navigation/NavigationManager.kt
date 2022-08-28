@@ -162,7 +162,7 @@ fun NavGraphBuilder.loggedApp(
             val parentEntry = remember(backStackEntry) {
                 navController.getBackStackEntry(Routes.LoggedApp.route)
             }
-            UserPremiumScreen(hiltViewModel(parentEntry), navController, viewModel)
+            UserPremiumScreen(hiltViewModel(parentEntry), navController, viewModel, onSignOut)
         }
         composable(Routes.ContactScreen.route) { navBackStackEntry ->
             val parentEntry = remember(navBackStackEntry) {

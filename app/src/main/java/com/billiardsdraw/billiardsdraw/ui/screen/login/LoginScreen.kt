@@ -79,6 +79,18 @@ fun LoginScreen(
                 appViewModel.signOut(navController)
             }
         }
+
+        if (currentUser.value == null) {
+            appViewModel.setIsLogged(true)
+            onSignIn(
+                appViewModel.getSignInMethodSharedPrefs(),
+                context,
+                navController,
+                viewModel.email,
+                viewModel.password,
+                viewModel.keepSession
+            )
+        }
     }
     )
 
@@ -262,6 +274,11 @@ fun LoginScreen(
                             */
                         } else {
                             Text(text = "Google welcomes you, ${currentUser.value!!.displayName}")
+                        }
+                    }
+                    if (currentUser.value != null) {
+                        Button(onClick = { appViewModel.signOut(navController) }) {
+                            Text(text = context.resources.getString(R.string.signOut))
                         }
                     }
                     // END LOGIN

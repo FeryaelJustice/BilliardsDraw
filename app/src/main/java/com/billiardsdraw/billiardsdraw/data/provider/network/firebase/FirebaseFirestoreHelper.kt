@@ -76,7 +76,7 @@ class FirebaseFirestoreHelper : BaseFirebaseFirestoreHelper {
                         password =
                         document.getString("password")
                             .toString(),
-                        age = document.getString("age")
+                        age = document.getLong("age")
                             ?.toInt() ?: 0,
                         birthdate = Date(),
                         country =

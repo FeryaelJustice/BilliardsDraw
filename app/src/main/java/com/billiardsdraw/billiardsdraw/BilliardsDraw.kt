@@ -126,7 +126,7 @@ class BilliardsDraw : ComponentActivity() {
     }
 
     override fun onDestroy() {
-        if (!viewModel.isKeepSession()) {
+        if (!viewModel.isKeepSession() && (viewModel.getSignInMethodSharedPrefs() != SignInMethod.Google)) {
             viewModel.onlySignOut()
         }
         super.onDestroy()

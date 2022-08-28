@@ -13,19 +13,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class UserPremiumScreenViewModel @Inject constructor(
-    private val repository: BilliardsDrawRepository,
-    private val dispatchers: DispatcherProvider
-) : ViewModel(), DefaultLifecycleObserver, LifecycleEventObserver {
-
-    fun signOut(navController: NavHostController) {
-        repository.signOut()
-        repository.setSharedPreferencesBoolean(SharedPrefConstants.IS_LOGGED_KEY, false)
-        navigateClearingAllBackstack(navController, Routes.GeneralApp.route)
-        viewModelScope.launch(dispatchers.io) {
-            repository.setSharedPreferencesBoolean(SharedPrefConstants.IS_LOGGED_KEY, false)
-        }
-    }
+class UserPremiumScreenViewModel @Inject constructor() : ViewModel(), DefaultLifecycleObserver,
+    LifecycleEventObserver {
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         Log.d("Lifecycle", "onStateChanged")
