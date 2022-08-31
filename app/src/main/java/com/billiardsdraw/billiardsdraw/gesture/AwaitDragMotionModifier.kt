@@ -6,11 +6,9 @@ import androidx.compose.foundation.gestures.drag
 import androidx.compose.foundation.gestures.forEachGesture
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.input.pointer.AwaitPointerEventScope
-import androidx.compose.ui.input.pointer.PointerInputChange
-import androidx.compose.ui.input.pointer.consumePositionChange
-import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.*
 
+/*
 suspend fun AwaitPointerEventScope.awaitDragMotionEvent(
     onTouchEvent: (MotionEvent, PointerInputChange) -> Unit
 ) {
@@ -27,7 +25,7 @@ suspend fun AwaitPointerEventScope.awaitDragMotionEvent(
             // 🔥🔥 If consumePositionChange() is not consumed drag does not
             // function properly.
             // Consuming position change causes change.positionChanged() to return false.
-            change.consumePositionChange()
+            if (change.positionChange() != Offset.Zero) change.consume()
         }
 
     if (change != null) {
@@ -54,6 +52,7 @@ fun Modifier.dragMotionEvent(onTouchEvent: (MotionEvent, PointerInputChange) -> 
         }
     }
 )
+*/
 
 
 suspend fun AwaitPointerEventScope.awaitDragMotionEvent(
@@ -70,11 +69,11 @@ suspend fun AwaitPointerEventScope.awaitDragMotionEvent(
     // 🔥 Waits for drag threshold to be passed by pointer
     // or it returns null if up event is triggered
     val change: PointerInputChange? =
-        awaitTouchSlopOrCancellation(down.id) { change: PointerInputChange, over: Offset ->
+        awaitTouchSlopOrCancellation(down.id) { change: PointerInputChange, _: Offset ->
             // 🔥🔥 If consumePositionChange() is not consumed drag does not
             // function properly.
             // Consuming position change causes change.positionChanged() to return false.
-            change.consumePositionChange()
+            if (change.positionChange() != Offset.Zero) change.consume()
         }
 
     if (change != null) {

@@ -1,24 +1,22 @@
 package com.billiardsdraw.billiardsdraw.ui.screen.pool
 
-import android.graphics.Paint
+// import android.graphics.Paint
 import android.widget.Toast
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.shape.ZeroCornerSize
-import androidx.compose.material.Card
-import androidx.compose.material.ExtendedFloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
-import androidx.compose.ui.graphics.drawscope.DrawScope
+// import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.*
 import androidx.compose.ui.layout.ContentScale
@@ -35,7 +33,6 @@ import com.billiardsdraw.billiardsdraw.ui.draw.DrawMode
 import com.billiardsdraw.billiardsdraw.ui.draw.menu.DrawingPropertiesMenu
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
-import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 import kotlinx.coroutines.CoroutineScope
 
 /***
@@ -63,8 +60,8 @@ fun PoolScreen(
     val isResetZoomRotation = rememberSaveable { mutableStateOf(false) }
     isResetZoomRotation.value = scale.value != 1f || rotationState.value != 0f
     // Color picker (if we can use it, still not used, its an external library)
-    val wheelController = rememberColorPickerController()
-    val wheelVisible = rememberSaveable { mutableStateOf(false) }
+    // val wheelController = rememberColorPickerController()
+    // val wheelVisible = rememberSaveable { mutableStateOf(false) }
 
     // NEW OWN CODE BASED IN LIBRARY of SmartToolFactory: Compose Drawing App
     val context = LocalContext.current
@@ -82,7 +79,7 @@ fun PoolScreen(
             .fillMaxSize()
             .background(Color.Black)
             .pointerInput(Unit) {
-                detectTransformGestures { centroid, pan, zoom, rotation ->
+                detectTransformGestures { _, _, zoom, rotation ->
                     scale.value *= zoom
                     rotationState.value += rotation
 
@@ -116,38 +113,16 @@ fun PoolScreen(
                     .fillMaxSize()
             ) {
 
-                // Is there is zoom or rotation
-                ExtendedFloatingActionButton(text = {
-                    if (isResetZoomRotation.value) Text("Reset")
-                },
-                    onClick = {
-                        if (isResetZoomRotation.value) {
-                            scale.value = 1f
-                            rotationState.value = 0f
-                        }
-                    },
-                    shape = RoundedCornerShape(
-                        ZeroCornerSize
-                    ),
-                    icon = {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_baseline_360_24),
-                            contentDescription = if (isResetZoomRotation.value) "Reset" else ""
-                        )
-                    }
-                )
-
                 val drawModifier = Modifier
                     .padding(start = 30.dp, top = 0.dp, end = 30.dp, bottom = 0.dp)
                     .shadow(1.dp)
                     .fillMaxWidth()
                     .weight(1f)
-//            .background(getRandomColor())
                     .dragMotionEvent(
                         onDragStart = { pointerInputChange ->
                             motionEvent = com.billiardsdraw.billiardsdraw.gesture.MotionEvent.Down
                             currentPosition = pointerInputChange.position
-                            pointerInputChange.consumeDownChange()
+                            if (pointerInputChange.pressed != pointerInputChange.previousPressed) pointerInputChange.consume()
 
                         },
                         onDrag = { pointerInputChange ->
@@ -163,16 +138,39 @@ fun PoolScreen(
                                 }
                                 currentPath.translate(change)
                             }
-                            pointerInputChange.consumePositionChange()
+                            if (pointerInputChange.positionChange() != Offset.Zero) pointerInputChange.consume()
 
                         },
                         onDragEnd = { pointerInputChange ->
                             motionEvent = com.billiardsdraw.billiardsdraw.gesture.MotionEvent.Up
-                            pointerInputChange.consumeDownChange()
+                            if (pointerInputChange.pressed != pointerInputChange.previousPressed) pointerInputChange.consume()
                         }
                     )
 
-                androidx.compose.foundation.Canvas(modifier = drawModifier) {
+                // Is there is zoom or rotation
+                ExtendedFloatingActionButton(
+                    text = {
+                        if (isResetZoomRotation.value) Text("Reset")
+                    },
+                    onClick = {
+                        if (isResetZoomRotation.value) {
+                            scale.value = 1f
+                            rotationState.value = 0f
+                        }
+                    },
+                    shape = RoundedCornerShape(
+                        ZeroCornerSize
+                    ),
+                    icon = {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_baseline_360_24),
+                            contentDescription = if (isResetZoomRotation.value) "Reset" else ""
+                        )
+                    },
+                    elevation = FloatingActionButtonDefaults.elevation(8.dp)
+                )
+
+                Canvas(modifier = drawModifier) {
 
                     when (motionEvent) {
 
@@ -347,6 +345,7 @@ fun PoolScreen(
     }
 }
 
+/*
 private fun DrawScope.drawText(text: String, x: Float, y: Float, paint: Paint) {
 
     val lines = text.split("\n")
@@ -358,6 +357,7 @@ private fun DrawScope.drawText(text: String, x: Float, y: Float, paint: Paint) {
         nativeCanvas.drawText(lines[i], x, posY * 40 + y, paint)
     }
 }
+*/
 
 /*
 fun viewToBitmap(view: View): Bitmap? {
