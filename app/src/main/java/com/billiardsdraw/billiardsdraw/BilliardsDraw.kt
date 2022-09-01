@@ -57,9 +57,11 @@ class BilliardsDraw : ComponentActivity() {
             val navController = rememberNavController()
             // CoroutineScope
             val coroutineScope = rememberCoroutineScope()
+            // Get window info (responsiveness) only used to assign it in view model, not in ui
+            val windowInfo = rememberWindowInfo()
             // Assign app navigation and coroutineScope to viewModel
             LaunchedEffect(Unit) {
-                viewModel.onCreate(navController, coroutineScope)
+                viewModel.onCreate(navController, coroutineScope, windowInfo)
             }
             // App
             BilliardsDrawTheme {

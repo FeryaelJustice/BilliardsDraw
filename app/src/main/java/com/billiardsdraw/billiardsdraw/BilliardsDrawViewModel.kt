@@ -13,6 +13,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.billiardsdraw.billiardsdraw.common.SharedPrefConstants
+import com.billiardsdraw.billiardsdraw.common.WindowInfo
 import com.billiardsdraw.billiardsdraw.common.md5
 import com.billiardsdraw.billiardsdraw.coroutine.DispatcherProvider
 import com.billiardsdraw.billiardsdraw.data.repository.BilliardsDrawRepository
@@ -52,6 +53,10 @@ class BilliardsDrawViewModel @Inject constructor(
     // APP CoroutineScope
     private val _coroutineScope: MutableLiveData<CoroutineScope?> = MutableLiveData()
     val coroutineScope: LiveData<CoroutineScope?> = _coroutineScope
+
+    // APP Window Info
+    private val _windowInfo: MutableLiveData<WindowInfo?> = MutableLiveData()
+    val windowInfo: LiveData<WindowInfo?> = _windowInfo
 
     // Auth firebase
     private val _auth: MutableLiveData<FirebaseAuth?> = MutableLiveData(Firebase.auth)
@@ -109,9 +114,10 @@ class BilliardsDrawViewModel @Inject constructor(
         repository.setSharedPreferencesBoolean(SharedPrefConstants.KEEP_SESSION_KEY, keepSession)
 
     // ON CREATE
-    fun onCreate(navController: NavHostController, coroutineScope: CoroutineScope) {
+    fun onCreate(navController: NavHostController, coroutineScope: CoroutineScope, windowInfo: WindowInfo) {
         _navController.value = navController
         _coroutineScope.value = coroutineScope
+        _windowInfo.value = windowInfo
     }
 
     // Lifecycle

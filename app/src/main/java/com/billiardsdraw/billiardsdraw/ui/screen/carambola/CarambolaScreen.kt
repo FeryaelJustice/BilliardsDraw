@@ -34,6 +34,8 @@ import com.billiardsdraw.billiardsdraw.ui.draw.menu.DrawingPropertiesMenu
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
 import com.billiardsdraw.billiardsdraw.ui.screen.pool.PoolScreenViewModel
+import com.billiardsdraw.billiardsdraw.ui.util.showToastShort
+import com.billiardsdraw.billiardsdraw.gesture.MotionEvent
 import kotlinx.coroutines.CoroutineScope
 
 /***
@@ -74,6 +76,10 @@ fun CarambolaScreen(
     var drawMode by remember { mutableStateOf(DrawMode.Draw) }
     var currentPath by remember { mutableStateOf(Path()) }
     var currentPathProperty by remember { mutableStateOf(PathProperties()) }
+    // Working on
+    // var currentBall by remember { mutableStateOf(Ball()) }
+
+    // showToastShort(context = context, message = "Screen with: ${appViewModel.windowInfo.value?.screenWidth} / Screen Height: ${appViewModel.windowInfo.value?.screenHeight}")
 
     Box(
         modifier = Modifier
@@ -88,7 +94,6 @@ fun CarambolaScreen(
                 }
             }
     ) {
-
         Card(
             elevation = 0.dp,
             modifier = Modifier
@@ -108,15 +113,12 @@ fun CarambolaScreen(
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.FillBounds
             )
-
             Column(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-
                 val drawModifier = Modifier
-                    .padding(start = 30.dp, top = 0.dp, end = 30.dp, bottom = 0.dp)
-                    .shadow(1.dp)
+                    .padding(start = appViewModel.windowInfo.value?.screenWidth!! / 7, top = 0.dp, end = appViewModel.windowInfo.value?.screenWidth!! / 7, bottom = 0.dp)
                     .fillMaxWidth()
                     .fillMaxHeight()
                     .weight(1f)
@@ -125,7 +127,6 @@ fun CarambolaScreen(
                             motionEvent = com.billiardsdraw.billiardsdraw.gesture.MotionEvent.Down
                             currentPosition = pointerInputChange.position
                             if (pointerInputChange.pressed != pointerInputChange.previousPressed) pointerInputChange.consume()
-
                         },
                         onDrag = { pointerInputChange ->
                             motionEvent = com.billiardsdraw.billiardsdraw.gesture.MotionEvent.Move
@@ -141,14 +142,12 @@ fun CarambolaScreen(
                                 currentPath.translate(change)
                             }
                             if (pointerInputChange.positionChange() != Offset.Zero) pointerInputChange.consume()
-
                         },
                         onDragEnd = { pointerInputChange ->
                             motionEvent = com.billiardsdraw.billiardsdraw.gesture.MotionEvent.Up
                             if (pointerInputChange.pressed != pointerInputChange.previousPressed) pointerInputChange.consume()
                         }
                     )
-
                 // Is there is zoom or rotation
                 ExtendedFloatingActionButton(
                     text = {
@@ -171,21 +170,15 @@ fun CarambolaScreen(
                     },
                     elevation = FloatingActionButtonDefaults.elevation(8.dp)
                 )
-
                 Canvas(modifier = drawModifier) {
-
                     when (motionEvent) {
-
-                        com.billiardsdraw.billiardsdraw.gesture.MotionEvent.Down -> {
+                        MotionEvent.Down -> {
                             if (drawMode != DrawMode.Touch) {
                                 currentPath.moveTo(currentPosition.x, currentPosition.y)
                             }
-
                             previousPosition = currentPosition
-
                         }
-                        com.billiardsdraw.billiardsdraw.gesture.MotionEvent.Move -> {
-
+                        MotionEvent.Move -> {
                             if (drawMode != DrawMode.Touch) {
                                 currentPath.quadraticBezierTo(
                                     previousPosition.x,
@@ -195,16 +188,14 @@ fun CarambolaScreen(
 
                                 )
                             }
-
                             previousPosition = currentPosition
                         }
-
-                        com.billiardsdraw.billiardsdraw.gesture.MotionEvent.Up -> {
+                        MotionEvent.Up -> {
                             if (drawMode != DrawMode.Touch) {
                                 currentPath.lineTo(currentPosition.x, currentPosition.y)
 
                                 // Pointer is up save current path
-//                        paths[currentPath] = currentPathProperty
+                                // paths[currentPath] = currentPathProperty
                                 paths.add(Pair(currentPath, currentPathProperty))
 
                                 // Since paths are keys for map, use new one for each key
@@ -233,16 +224,11 @@ fun CarambolaScreen(
                         }
                         else -> Unit
                     }
-
                     with(drawContext.canvas.nativeCanvas) {
-
                         val checkPoint = saveLayer(null, null)
-
                         paths.forEach {
-
                             val path = it.first
                             val property = it.second
-
                             if (!property.eraseMode) {
                                 drawPath(
                                     color = property.color,
@@ -254,7 +240,6 @@ fun CarambolaScreen(
                                     )
                                 )
                             } else {
-
                                 // Source
                                 drawPath(
                                     color = Color.Transparent,
@@ -268,9 +253,7 @@ fun CarambolaScreen(
                                 )
                             }
                         }
-
                         if (motionEvent != com.billiardsdraw.billiardsdraw.gesture.MotionEvent.Idle) {
-
                             if (!currentPathProperty.eraseMode) {
                                 drawPath(
                                     color = currentPathProperty.color,
@@ -308,19 +291,15 @@ fun CarambolaScreen(
                     drawMode = drawMode,
                     onUndo = {
                         if (paths.isNotEmpty()) {
-
                             val lastItem = paths.last()
                             val lastPath = lastItem.first
                             val lastPathProperty = lastItem.second
                             paths.remove(lastItem)
-
                             pathsUndone.add(Pair(lastPath, lastPathProperty))
-
                         }
                     },
                     onRedo = {
                         if (pathsUndone.isNotEmpty()) {
-
                             val lastPath = pathsUndone.last().first
                             val lastPathProperty = pathsUndone.last().second
                             pathsUndone.removeLast()
@@ -346,17 +325,3 @@ fun CarambolaScreen(
         }
     }
 }
-
-/*
-private fun DrawScope.drawText(text: String, x: Float, y: Float, paint: Paint) {
-
-    val lines = text.split("\n")
-    // 🔥🔥 There is not a built-in function as of 1.0.0
-    // for drawing text so we get the native canvas to draw text and use a Paint object
-    val nativeCanvas = drawContext.canvas.nativeCanvas
-
-    lines.indices.withIndex().forEach { (posY, i) ->
-        nativeCanvas.drawText(lines[i], x, posY * 40 + y, paint)
-    }
-}
-*/
