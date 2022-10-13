@@ -9,12 +9,12 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.billiardsdraw.billiardsdraw"
         minSdk 21
-        targetSdk 32
+        targetSdk 33
         versionCode 3
         versionName "1.0.2"
 
@@ -85,6 +85,7 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    namespace 'com.billiardsdraw.billiardsdraw'
 }
 
 dependencies {
@@ -122,8 +123,6 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     kapt "androidx.hilt:hilt-compiler:$hilt_compiler_version"
-    // Hilt ViewModel
-    // implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_viewmodel_version"
 
     // COROUTINES
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
@@ -149,7 +148,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-perf-ktx'
     // Auth
     implementation 'com.google.firebase:firebase-auth-ktx'
-    // Firestore
+    // Fire store
     implementation 'com.google.firebase:firebase-firestore-ktx'
     // Cloud store
     implementation 'com.google.firebase:firebase-storage-ktx'
@@ -169,20 +168,17 @@ dependencies {
 
     // NAVIGATION
     // Compose
-    def nav_version = "2.5.1"
     implementation("androidx.navigation:navigation-compose:$nav_version")
     // Navigation component
-    implementation "androidx.navigation:navigation-ui-ktx:$navigation_component_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
     // Live Data
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
 
     // Billing Library Google Play
-    def billing_version = "5.0.0"
     implementation("com.android.billingclient:billing-ktx:$billing_version")
 
     // Room database
-    def roomVersion = "2.4.3"
     implementation("androidx.room:room-runtime:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
