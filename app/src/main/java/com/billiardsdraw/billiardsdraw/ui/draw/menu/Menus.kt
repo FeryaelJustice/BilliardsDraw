@@ -1,7 +1,9 @@
 package com.billiardsdraw.billiardsdraw.ui.draw.menu
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,6 +20,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -31,6 +34,8 @@ import com.billiardsdraw.billiardsdraw.ui.draw.ColorWheel
 import com.billiardsdraw.billiardsdraw.ui.draw.DrawMode
 import com.billiardsdraw.billiardsdraw.ui.theme.Blue400
 import kotlin.math.roundToInt
+
+// DRAW
 
 @Composable
 fun DrawingPropertiesMenu(
@@ -491,5 +496,150 @@ fun ExposedSelectionMenu(
                 }
             }
         }
+    }
+}
+
+// BOTTOM MENU DRAW
+@Composable
+fun BottomMenuDraw(modifier: Modifier = Modifier) {
+    var bolaEfectoState by remember { mutableStateOf(false) } // false if bola efecto lateral, true if empty
+    var tomaDeBolaState by remember { mutableStateOf(5) }
+    var showTomaDeBolaDialog by remember { mutableStateOf(false) }
+    LazyRow(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(Color.Black)
+            .height(80.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceEvenly,
+    ) {
+        item {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Image(
+                    painter = if (!bolaEfectoState) painterResource(id = R.drawable.bolaefecto_iconolateral) else painterResource(
+                        id = R.drawable.bolaefecto
+                    ),
+                    contentDescription = "Bola effect menu",
+                    modifier = Modifier.clickable {
+                        bolaEfectoState = bolaEfectoState.not()
+                    }
+                )
+                Image(
+                    painter = getTomaDeBolaImage(tomaDeBolaState),
+                    contentDescription = "Toma de bola menu",
+                    modifier = Modifier.clickable {
+                        showTomaDeBolaDialog = showTomaDeBolaDialog.not()
+                    })
+            }
+        }
+    }
+
+    if (showTomaDeBolaDialog) {
+        TomaDeBolaSelectionDialog(
+            onDismiss = { showTomaDeBolaDialog = showTomaDeBolaDialog.not() },
+            onClick = { selectedBallNumber: Int ->
+                showTomaDeBolaDialog = showTomaDeBolaDialog.not()
+                tomaDeBolaState = selectedBallNumber
+            }
+        )
+    }
+}
+
+@Composable
+fun TomaDeBolaSelectionDialog(
+    onDismiss: () -> Unit,
+    onClick: (Int) -> Unit
+) {
+    Dialog(onDismissRequest = onDismiss) {
+        BoxWithConstraints(
+            Modifier
+                .shadow(1.dp, RoundedCornerShape(8.dp))
+                .background(Color.Black)
+        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Row(modifier = Modifier.clickable { onClick(1) }) {
+                    Image(
+                        painter = painterResource(id = R.drawable.tomadebola_one),
+                        contentDescription = "Toma de bola one"
+                    )
+                    Text(text = "MUY FINA")
+                }
+                Row(modifier = Modifier.clickable { onClick(2) }) {
+                    Image(
+                        painter = painterResource(id = R.drawable.tomadebola_two),
+                        contentDescription = "Toma de bola two"
+                    )
+                    Text(text = "1/8 BOLA")
+                }
+                Row(modifier = Modifier.clickable { onClick(3) }) {
+                    Image(
+                        painter = painterResource(id = R.drawable.tomadebola_three),
+                        contentDescription = "Toma de bola three"
+                    )
+                    Text(text = "POCA BOLA")
+                }
+                Row(modifier = Modifier.clickable { onClick(4) }) {
+                    Image(
+                        painter = painterResource(id = R.drawable.tomadebola_four),
+                        contentDescription = "Toma de bola four"
+                    )
+                    Text(text = "3/8 BOLA")
+                }
+                Row(modifier = Modifier.clickable { onClick(5) }) {
+                    Image(
+                        painter = painterResource(id = R.drawable.tomadebola_halfball),
+                        contentDescription = "Toma de bola half ball"
+                    )
+                    Text(text = "MEDIA BOLA")
+                }
+                Row(modifier = Modifier.clickable { onClick(6) }) {
+                    Image(
+                        painter = painterResource(id = R.drawable.tomadebola_five),
+                        contentDescription = "Toma de bola five"
+                    )
+                    Text(text = "5/8 BOLA")
+                }
+                Row(modifier = Modifier.clickable { onClick(7) }) {
+                    Image(
+                        painter = painterResource(id = R.drawable.tomadebola_six),
+                        contentDescription = "Toma de bola six"
+                    )
+                    Text(text = "MUCHA BOLA")
+                }
+                Row(modifier = Modifier.clickable { onClick(8) }) {
+                    Image(
+                        painter = painterResource(id = R.drawable.tomadebola_seven),
+                        contentDescription = "Toma de bola seven"
+                    )
+                    Text(text = "7/8 BOLA")
+                }
+                Row(modifier = Modifier.clickable { onClick(9) }) {
+                    Image(
+                        painter = painterResource(id = R.drawable.tomadebola_eight),
+                        contentDescription = "Toma de bola eight"
+                    )
+                    Text(text = "BOLA LLENA")
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun getTomaDeBolaImage(number: Int): Painter {
+    return when (number) {
+        1 -> painterResource(id = R.drawable.tomadebola_one)
+        2 -> painterResource(id = R.drawable.tomadebola_two)
+        3 -> painterResource(id = R.drawable.tomadebola_three)
+        4 -> painterResource(id = R.drawable.tomadebola_four)
+        5 -> painterResource(id = R.drawable.tomadebola_halfball)
+        6 -> painterResource(id = R.drawable.tomadebola_five)
+        7 -> painterResource(id = R.drawable.tomadebola_six)
+        8 -> painterResource(id = R.drawable.tomadebola_seven)
+        9 -> painterResource(id = R.drawable.tomadebola_eight)
+        else -> painterResource(id = R.drawable.tomadebola_one)
     }
 }

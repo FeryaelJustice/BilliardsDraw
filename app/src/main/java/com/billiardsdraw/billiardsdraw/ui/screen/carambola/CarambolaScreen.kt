@@ -36,6 +36,7 @@ import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstac
 import com.billiardsdraw.billiardsdraw.ui.screen.pool.PoolScreenViewModel
 import com.billiardsdraw.billiardsdraw.ui.util.showToastShort
 import com.billiardsdraw.billiardsdraw.gesture.MotionEvent
+import com.billiardsdraw.billiardsdraw.ui.draw.menu.BottomMenuDraw
 import kotlinx.coroutines.CoroutineScope
 
 /***
@@ -118,7 +119,12 @@ fun CarambolaScreen(
                     .fillMaxSize()
             ) {
                 val drawModifier = Modifier
-                    .padding(start = appViewModel.windowInfo.value?.screenWidth!! / 7, top = 0.dp, end = appViewModel.windowInfo.value?.screenWidth!! / 7, bottom = 0.dp)
+                    .padding(
+                        start = appViewModel.windowInfo.value?.screenWidth!! / 7,
+                        top = 0.dp,
+                        end = appViewModel.windowInfo.value?.screenWidth!! / 7,
+                        bottom = 0.dp
+                    )
                     .fillMaxWidth()
                     .fillMaxHeight()
                     .weight(1f)
@@ -320,6 +326,13 @@ fun CarambolaScreen(
                             Toast.LENGTH_SHORT
                         ).show()
                     }
+                )
+
+                BottomMenuDraw(
+                    modifier = Modifier
+                        .padding(bottom = 8.dp, start = 8.dp, end = 8.dp)
+                        .shadow(1.dp, RoundedCornerShape(8.dp))
+                        .padding(4.dp)
                 )
             }
         }

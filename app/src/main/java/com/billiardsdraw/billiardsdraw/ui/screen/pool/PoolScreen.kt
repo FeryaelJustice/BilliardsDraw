@@ -30,6 +30,7 @@ import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.data.model.draw.PathProperties
 import com.billiardsdraw.billiardsdraw.gesture.dragMotionEvent
 import com.billiardsdraw.billiardsdraw.ui.draw.DrawMode
+import com.billiardsdraw.billiardsdraw.ui.draw.menu.BottomMenuDraw
 import com.billiardsdraw.billiardsdraw.ui.draw.menu.DrawingPropertiesMenu
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigateClearingAllBackstack
@@ -339,6 +340,13 @@ fun PoolScreen(
                             Toast.LENGTH_SHORT
                         ).show()
                     }
+                )
+
+                BottomMenuDraw(
+                    modifier = Modifier
+                        .padding(bottom = 8.dp, start = 8.dp, end = 8.dp)
+                        .shadow(1.dp, RoundedCornerShape(8.dp))
+                        .padding(4.dp)
                 )
             }
         }
