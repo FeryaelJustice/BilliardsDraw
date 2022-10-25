@@ -13,12 +13,20 @@ import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.domain.model.SignInMethod
 import com.billiardsdraw.billiardsdraw.ui.screen.splash.SplashScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.login.LoginScreen
-import com.billiardsdraw.billiardsdraw.ui.screen.carambola.CarambolaScreen
-import com.billiardsdraw.billiardsdraw.ui.screen.carambola.menu.CarambolaMenuScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.contact.ContactScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.menu.MenuScreen
+import com.billiardsdraw.billiardsdraw.ui.screen.carambola.CarambolaScreen;
+import com.billiardsdraw.billiardsdraw.ui.screen.carambola.menu.CarambolaMenuScreen
+import com.billiardsdraw.billiardsdraw.ui.screen.carambola.mypositions.CarambolaMyPositionsScreen;
+import com.billiardsdraw.billiardsdraw.ui.screen.carambola.pba.CarambolaPBAScreen
+import com.billiardsdraw.billiardsdraw.ui.screen.carambola.training.CarambolaTrainingScreen
+import com.billiardsdraw.billiardsdraw.ui.screen.carambola.weeklyposition.CarambolaWeeklyPositionScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.pool.PoolScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.pool.menu.PoolMenuScreen
+import com.billiardsdraw.billiardsdraw.ui.screen.pool.mypositions.PoolMyPositionsScreen
+import com.billiardsdraw.billiardsdraw.ui.screen.pool.pba.PoolPBAScreen
+import com.billiardsdraw.billiardsdraw.ui.screen.pool.training.PoolTrainingScreen
+import com.billiardsdraw.billiardsdraw.ui.screen.pool.weeklyposition.PoolWeeklyPositionScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.profile.CompleteProfileScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.recoveraccount.RecoverAccountScreen
 import com.billiardsdraw.billiardsdraw.ui.screen.register.RegisterScreen
@@ -39,8 +47,16 @@ sealed class Routes(val route: String) {
     object MenuScreen : Routes("MenuScreen")
     object CarambolaScreen : Routes("CarambolaScreen")
     object CarambolaMenuScreen : Routes("CarambolaMenuScreen")
+    object CarambolaMyPositionsScreen : Routes("CarambolaMyPositionsScreen")
+    object CarambolaPBAScreen : Routes("CarambolaPBAScreen")
+    object CarambolaTrainingScreen : Routes("CarambolaTrainingScreen")
+    object CarambolaWeeklyPositionScreen : Routes("CarambolaWeeklyPositionScreen")
     object PoolScreen : Routes("PoolScreen")
     object PoolMenuScreen : Routes("PoolMenuScreen")
+    object PoolMyPositionsScreen : Routes("PoolMyPositionsScreen")
+    object PoolPBAScreen : Routes("PoolPBAScreen")
+    object PoolTrainingScreen : Routes("PoolTrainingScreen")
+    object PoolWeeklyPositionScreen : Routes("PoolWeeklyPositionScreen")
     object UserProfileScreen : Routes("UserProfileScreen")
     object UserPremiumScreen : Routes("UserPremiumScreen")
     object ContactScreen : Routes("ContactScreen")
@@ -138,23 +154,71 @@ fun NavGraphBuilder.loggedApp(
             }
             CarambolaScreen(hiltViewModel(parentEntry), navController, coroutineScope, viewModel)
         }
-        composable(Routes.PoolScreen.route) { backStackEntry ->
-            val parentEntry = remember(backStackEntry) {
-                navController.getBackStackEntry(Routes.LoggedApp.route)
-            }
-            PoolScreen(hiltViewModel(parentEntry), navController, coroutineScope, viewModel)
-        }
         composable(Routes.CarambolaMenuScreen.route) { backStackEntry ->
             val parentEntry = remember(backStackEntry) {
                 navController.getBackStackEntry(Routes.LoggedApp.route)
             }
             CarambolaMenuScreen(hiltViewModel(parentEntry), navController, coroutineScope, viewModel)
         }
+        composable(Routes.CarambolaMyPositionsScreen.route) { backStackEntry ->
+            val parentEntry = remember(backStackEntry) {
+                navController.getBackStackEntry(Routes.LoggedApp.route)
+            }
+            CarambolaMyPositionsScreen(hiltViewModel(parentEntry), navController, coroutineScope, viewModel)
+        }
+        composable(Routes.CarambolaPBAScreen.route) { backStackEntry ->
+            val parentEntry = remember(backStackEntry) {
+                navController.getBackStackEntry(Routes.LoggedApp.route)
+            }
+            CarambolaPBAScreen(hiltViewModel(parentEntry), navController, coroutineScope, viewModel)
+        }
+        composable(Routes.CarambolaTrainingScreen.route) { backStackEntry ->
+            val parentEntry = remember(backStackEntry) {
+                navController.getBackStackEntry(Routes.LoggedApp.route)
+            }
+            CarambolaTrainingScreen(hiltViewModel(parentEntry), navController, coroutineScope, viewModel)
+        }
+        composable(Routes.CarambolaWeeklyPositionScreen.route) { backStackEntry ->
+            val parentEntry = remember(backStackEntry) {
+                navController.getBackStackEntry(Routes.LoggedApp.route)
+            }
+            CarambolaWeeklyPositionScreen(hiltViewModel(parentEntry), navController, coroutineScope, viewModel)
+        }
+        composable(Routes.PoolScreen.route) { backStackEntry ->
+            val parentEntry = remember(backStackEntry) {
+                navController.getBackStackEntry(Routes.LoggedApp.route)
+            }
+            PoolScreen(hiltViewModel(parentEntry), navController, coroutineScope, viewModel)
+        }
         composable(Routes.PoolMenuScreen.route) { backStackEntry ->
             val parentEntry = remember(backStackEntry) {
                 navController.getBackStackEntry(Routes.LoggedApp.route)
             }
             PoolMenuScreen(hiltViewModel(parentEntry), navController, coroutineScope, viewModel)
+        }
+        composable(Routes.PoolMyPositionsScreen.route) { backStackEntry ->
+            val parentEntry = remember(backStackEntry) {
+                navController.getBackStackEntry(Routes.LoggedApp.route)
+            }
+            PoolMyPositionsScreen(hiltViewModel(parentEntry), navController, coroutineScope, viewModel)
+        }
+        composable(Routes.PoolPBAScreen.route) { backStackEntry ->
+            val parentEntry = remember(backStackEntry) {
+                navController.getBackStackEntry(Routes.LoggedApp.route)
+            }
+            PoolPBAScreen(hiltViewModel(parentEntry), navController, coroutineScope, viewModel)
+        }
+        composable(Routes.PoolTrainingScreen.route) { backStackEntry ->
+            val parentEntry = remember(backStackEntry) {
+                navController.getBackStackEntry(Routes.LoggedApp.route)
+            }
+            PoolTrainingScreen(hiltViewModel(parentEntry), navController, coroutineScope, viewModel)
+        }
+        composable(Routes.PoolWeeklyPositionScreen.route) { backStackEntry ->
+            val parentEntry = remember(backStackEntry) {
+                navController.getBackStackEntry(Routes.LoggedApp.route)
+            }
+            PoolWeeklyPositionScreen(hiltViewModel(parentEntry), navController, coroutineScope, viewModel)
         }
         composable(Routes.UserProfileScreen.route) { backStackEntry ->
             val parentEntry = remember(backStackEntry) {

@@ -99,6 +99,7 @@ inline fun <reified T> Map<String, Any>.toDataClass(): T {
 
 // Getters
 fun buildConfig() = BuildConfig.BUILD_TYPE
+fun buildConfigFlavor() = BuildConfig.FLAVOR
 fun apiKey() = BuildConfig.API_KEY
 fun Context.findActivity(): Activity? = when (this) {
     is Activity -> this

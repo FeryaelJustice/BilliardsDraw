@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -14,6 +15,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
@@ -21,6 +24,7 @@ import com.billiardsdraw.billiardsdraw.BilliardsDrawViewModel
 import com.billiardsdraw.billiardsdraw.R
 import com.billiardsdraw.billiardsdraw.common.ads.createInterstitialAd
 import com.billiardsdraw.billiardsdraw.common.ads.enableAds
+import com.billiardsdraw.billiardsdraw.common.buildConfigFlavor
 import com.billiardsdraw.billiardsdraw.ui.components.UserProfilePicture
 import com.billiardsdraw.billiardsdraw.ui.navigation.Routes
 import com.billiardsdraw.billiardsdraw.ui.navigation.navigate
@@ -143,7 +147,7 @@ fun CarambolaMenuScreen(
                             modifier = Modifier
                                 .scale(2f)
                                 .clickable {
-                                    if (enableAds) {
+                                    if (enableAds && (buildConfigFlavor() != "premium")) {
                                         createInterstitialAd(context)
                                     }
                                     navigate(
@@ -159,12 +163,12 @@ fun CarambolaMenuScreen(
                             modifier = Modifier
                                 .scale(2f)
                                 .clickable {
-                                    if (enableAds) {
+                                    if (enableAds && (buildConfigFlavor() != "premium")) {
                                         createInterstitialAd(context)
                                     }
-                                    showToastLong(
-                                        context,
-                                        context.resources.getString(R.string.my_positions)
+                                    navigate(
+                                        navController,
+                                        Routes.CarambolaMyPositionsScreen.route
                                     )
                                 }
                         )
@@ -175,15 +179,57 @@ fun CarambolaMenuScreen(
                             modifier = Modifier
                                 .scale(2f)
                                 .clickable {
+                                    if (enableAds && (buildConfigFlavor() != "premium")) {
+                                        createInterstitialAd(context)
+                                    }
+                                    navigate(
+                                        navController,
+                                        Routes.CarambolaWeeklyPositionScreen.route
+                                    )
+                                }
+                        )
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Text(
+                            text = "SALIDA PBA",
+                            fontStyle = FontStyle.Italic,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.clickable {
+                                if (buildConfigFlavor() == "premium") {
+                                    navigate(
+                                        navController,
+                                        Routes.CarambolaPBAScreen.route
+                                    )
+                                } else {
                                     if (enableAds) {
                                         createInterstitialAd(context)
                                     }
                                     showToastLong(
-                                        context,
-                                        context.resources.getString(R.string.weekly_positions)
+                                        context.applicationContext,
+                                        "You need to be premium to unlock this feature."
                                     )
                                 }
-                        )
+                            })
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Text(
+                            text = "ENTRENAMIENTO",
+                            fontStyle = FontStyle.Italic,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.clickable {
+                                if (buildConfigFlavor() == "premium") {
+                                    navigate(
+                                        navController,
+                                        Routes.CarambolaTrainingScreen.route
+                                    )
+                                } else {
+                                    if (enableAds) {
+                                        createInterstitialAd(context)
+                                    }
+                                    showToastLong(
+                                        context.applicationContext,
+                                        "You need to be premium to unlock this feature."
+                                    )
+                                }
+                            })
                     }
                 }
             }
