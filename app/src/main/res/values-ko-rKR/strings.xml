@@ -15,7 +15,6 @@
     <string name="carambola">대포</string>
     <string name="pool">수영장</string>
     <string name="sendEmail">이메일을 보내</string>
-    <string name="emailSent">받은편지함으로 메일이 발송되었으니 확인해보세요!</string>
     <string name="sendEmailFail">계정 복구 이메일을 보내지 못했습니다.</string>
     <string name="fieldsCantBeEmpty">필드는 비워둘 수 없습니다.</string>
     <string name="internalError">내부 오류가 발생했습니다</string>
@@ -42,9 +41,7 @@
     <string name="age">age</string>
     <string name="complete_profile">Complete profile</string>
     <string name="birthdate">birth date</string>
-    <string name="txt_connect_with_facebook">페이스북으로 로그인</string>
     <string name="subscription_state">구독 상태</string>
-    <string name="user_is_not_premium">You are not a premium user</string>
     <string name="askForEditing">Edit?</string>
     <string name="google_sign_in">Sign Up with Google</string>
     <string name="coming_soon">Coming soon</string>

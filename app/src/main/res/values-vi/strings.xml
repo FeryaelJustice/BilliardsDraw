@@ -15,7 +15,6 @@
     <string name="carambola">đại bác</string>
     <string name="pool">hồ bơi</string>
     <string name="sendEmail">Gửi email</string>
-    <string name="emailSent">Email được gửi đến hộp thư đến của bạn, hãy kiểm tra nó!</string>
     <string name="sendEmailFail">Không gửi được email khôi phục tài khoản</string>
     <string name="fieldsCantBeEmpty">Các trường không được để trống</string>
     <string name="internalError">Đã xảy ra lỗi nội bộ</string>
@@ -42,9 +41,7 @@
     <string name="age">age</string>
     <string name="complete_profile">Complete profile</string>
     <string name="birthdate">birth date</string>
-    <string name="txt_connect_with_facebook">Đăng nhập bằng facebook</string>
     <string name="subscription_state">Trạng thái đăng ký</string>
-    <string name="user_is_not_premium">You are not a premium user</string>
     <string name="askForEditing">Edit?</string>
     <string name="google_sign_in">Sign Up with Google</string>
     <string name="coming_soon">Coming soon</string>

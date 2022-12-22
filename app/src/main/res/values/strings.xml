@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name" translatable="false">Billiards Draw</string>
-    <string name="default_image_description" translatable="false">Image description</string>
     <string name="google_ads_app_id" translatable="false">ca-app-pub-8873908976357821~6706532397</string>
     <string name="facebook_app_id" translatable="false">a</string>
 
@@ -19,7 +18,6 @@
     <string name="carambola">cannon</string>
     <string name="pool">pool</string>
     <string name="sendEmail">Send email</string>
-    <string name="emailSent">Email sent to your inbox, check it out!to</string>
     <string name="sendEmailFail">Failed sending the recover account email</string>
     <string name="backgroundScreenDescription" translatable="false">Background screen image</string>
     <string name="fieldsCantBeEmpty">Fields cannot be empty</string>
@@ -47,9 +45,7 @@
     <string name="age">age</string>
     <string name="complete_profile">Complete profile</string>
     <string name="birthdate">birth date</string>
-    <string name="txt_connect_with_facebook">Sign in with Facebook</string>
     <string name="subscription_state">Subscription state</string>
-    <string name="user_is_not_premium">You are not a premium user</string>
     <string name="askForEditing">Edit?</string>
     <string name="google_sign_in">Sign Up with Google</string>
     <string name="coming_soon">Coming soon</string>

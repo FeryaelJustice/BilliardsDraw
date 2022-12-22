@@ -15,7 +15,6 @@
     <string name="carambola">cannon</string>
     <string name="pool">Pool</string>
     <string name="sendEmail">Send email</string>
-    <string name="emailSent">Email sent to your inbox, check it out!</string>
     <string name="sendEmailFail">Failed sending the recover account email</string>
     <string name="fieldsCantBeEmpty">Fields cannot be empty</string>
     <string name="internalError">There has been an internal error</string>
@@ -42,9 +41,7 @@
     <string name="age">Age</string>
     <string name="complete_profile">Complete profile</string>
     <string name="birthdate">Birth date</string>
-    <string name="txt_connect_with_facebook">Sign in with Facebook</string>
     <string name="subscription_state">Subscription state</string>
-    <string name="user_is_not_premium">You are not a premium user</string>
     <string name="askForEditing">Edit?</string>
     <string name="google_sign_in">Sign Up with Google</string>
     <string name="coming_soon">Coming soon</string>
