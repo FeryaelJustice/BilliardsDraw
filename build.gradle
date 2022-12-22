@@ -1,44 +1,41 @@
 buildscript {
     ext {
-        compose_version = '1.4.0-alpha03' // 1.4.0-alpha03 incompatible, 1.4.0 compatible - 1.1.1 compatible
-        gradle_version = '7.3.1'
-        kotlin_version = '1.6.10' // 1.7.10 compatible with compose 1.4.0, 1.7.20 latest - 1.6.10 compatible
-        google_services_version = '4.3.13'
-        core_version = '1.9.0'
+        // kotlin 1.7.20 compatible with gradle 7.1.2
+        gradle_version = '7.3.1' // 7.6 latest
+        google_services_version = '4.3.14'
+        dagger_hilt_version = '2.44.2'
+        firebase_crashlytics_buildtools_version = '2.9.2'
+        firebase_perf_version = '1.4.2'
+        kotlin_version = '1.7.20' // 1.7.21 latest
+        core_ktx_version = '1.9.0'
         appcompat_version = '1.5.1'
-        compose_ui_version = '1.4.0-alpha01'
-        compose_compiler_version = '1.3.2'
-        compose_material_version = '1.3.1'
-        compose_material3_version = '1.1.0-alpha03'
+        compose_bom_version = '2022.10.00'
+        compose_kotlin_compiler_extension_version = '1.3.2'
         activity_compose_version = '1.6.1'
-        material_version = '1.7.0'
-        hilt_version = '2.42'
-        hilt_compiler_version = '1.0.0'
-        hilt_navigation_compose_version = '1.0.0'
-        hilt_viewmodel_version = '1.0.0-alpha03'
-        nav_version = '2.5.3'
-        billing_version = '5.1.0'
-        play_services_version = '1.6.0'
-        play_services_auth_version = '20.4.0'
+        google_material_version = '1.7.0'
+        androidx_hilt_navigation_compose_version = '1.0.0'
+        androidx_hilt_compiler_version = '1.0.0'
         coroutines_version = '1.6.4'
-        roomVersion = '2.4.3'
         lifecycle_version = '2.5.1'
         lifecycle_extensions_version = '2.2.0'
-        firebase_bom_version = '30.2.0'
-        firebase_crashlytics_buildtools_version = '2.9.2'
-        firebase_perf_version = '1.4.1'
-        navigation_component_version = '2.5.1'
-        google_ads_version = '21.3.0'
-        accompanist_version = '0.24.7-alpha'
-        coil_compose_version = '2.1.0'
+        firebase_bom_version = '31.1.1'
+        accompanist_navigation_animation_version = '0.28.0'
+        play_services_auth_version = '20.4.0'
+        play_services_ads_version = '21.4.0'
+        firebase_ads_version = '21.4.0'
+        nav_version = '2.5.3'
+        android_billing_ktx_version = '5.1.0'
+        roomVersion = '2.4.3'
+        colorpicker_version = '1.0.1'
+        coil_ktx_compose_version = '2.2.2'
         retrofit_version = '2.9.0'
-        colorpicker_version = '1.0.0'
     }
     dependencies {
         // To benefit from the latest Performance Monitoring plugin features,
         classpath "com.android.tools.build:gradle:$gradle_version"
+        // classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.gms:google-services:$google_services_version"
-        classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$dagger_hilt_version"
         classpath "com.google.firebase:firebase-crashlytics-gradle:$firebase_crashlytics_buildtools_version"
         classpath "com.google.firebase:perf-plugin:$firebase_perf_version"
     }
