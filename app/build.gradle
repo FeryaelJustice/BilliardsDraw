@@ -48,7 +48,7 @@ android {
             shrinkResources true
             debuggable false
             buildConfigField 'String', 'api_url', '"https:/billiardsdraw.com/api"'
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            // proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
