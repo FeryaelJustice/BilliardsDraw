@@ -86,6 +86,9 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion compose_kotlin_compiler_extension_version
     }
+    kapt{
+        correctErrorTypes true
+    }
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
