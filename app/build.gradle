@@ -23,11 +23,17 @@ android {
             useSupportLibrary true
         }
 
-        // Security for apy key
+        // Security for api key (better way is using a function, what we are using now)
+        /* Old way
+        def propFile = rootProject.file("./local.properties")
+        def properties = new Properties()
+        properties.load(new FileInputStream(propFile))
+        buildConfigField("String", "API_KEY", properties['API_KEY'])
+        */
+        // Best google recommended way
         Properties properties = new Properties()
         properties.load(project.rootProject.file("local.properties").newDataInputStream())
-
-        buildConfigField "String", "API_KEY", "\"${properties.getProperty("API_KEY")}\""
+        buildConfigField("String", "API_KEY", properties.getProperty("API_KEY")?:"\"api1234\"")
         signingConfig signingConfigs.debug
     }
     buildTypes {
