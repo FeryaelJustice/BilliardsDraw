@@ -20,7 +20,7 @@ buildscript {
         lifecycle_extensions_version = '2.2.0'
         firebase_bom_version = '31.1.1'
         accompanist_navigation_animation_version = '0.28.0'
-        play_services_auth_version = '20.4.0'
+        play_services_auth_version = '20.4.1'
         play_services_ads_version = '21.4.0'
         firebase_ads_version = '21.4.0'
         nav_version = '2.5.3'
