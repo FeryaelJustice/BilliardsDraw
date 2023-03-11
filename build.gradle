@@ -16,7 +16,7 @@ buildscript {
         androidx_hilt_navigation_compose_version = '1.0.0'
         androidx_hilt_compiler_version = '1.0.0'
         coroutines_version = '1.6.4'
-        lifecycle_version = '2.5.1'
+        lifecycle_version = '2.6.0'
         lifecycle_extensions_version = '2.2.0'
         firebase_bom_version = '31.1.1'
         accompanist_navigation_animation_version = '0.28.0'
