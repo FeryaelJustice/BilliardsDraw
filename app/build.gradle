@@ -23,11 +23,17 @@ android {
             useSupportLibrary true
         }
 
-        // Security for apy key
+        // Security for api key (better way is using a function, what we are using now)
+        /* Old way
+        def propFile = rootProject.file("./local.properties")
+        def properties = new Properties()
+        properties.load(new FileInputStream(propFile))
+        buildConfigField("String", "API_KEY", properties['API_KEY'])
+        */
+        // Best google recommended way
         Properties properties = new Properties()
         properties.load(project.rootProject.file("local.properties").newDataInputStream())
-
-        buildConfigField "String", "API_KEY", "\"${properties.getProperty("API_KEY")}\""
+        buildConfigField("String", "API_KEY", properties.getProperty("API_KEY")?:"\"api1234\"")
         signingConfig signingConfigs.debug
     }
     buildTypes {
@@ -42,7 +48,7 @@ android {
             shrinkResources true
             debuggable false
             buildConfigField 'String', 'api_url', '"https:/billiardsdraw.com/api"'
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            // proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -65,11 +71,11 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
         kotlin.sourceSets.all {
             languageSettings.optIn("kotlin.RequiresOptIn")
         }
@@ -79,6 +85,9 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion compose_kotlin_compiler_extension_version
+    }
+    kapt{
+        correctErrorTypes true
     }
     packagingOptions {
         resources {
@@ -92,6 +101,7 @@ dependencies {
     // ANDROID
     implementation "androidx.core:core-ktx:$core_ktx_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     // COMPOSE
     def composeBom = platform("androidx.compose:compose-bom:$compose_bom_version")
@@ -119,7 +129,7 @@ dependencies {
     implementation 'androidx.compose.material:material-icons-extended'
     // Compose Material 3
     implementation 'androidx.compose.material3:material3'
-    // Or skip material design and build directly on top of foundamental components
+    // Or skip material design and build directly on top of fundamental components
     implementation 'androidx.compose.foundation:foundation'
     // or only import the main APIs for the underlying toolkit systems,
     // such as input and measurement/layout
@@ -131,7 +141,7 @@ dependencies {
     // TESTING
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
-    testImplementation 'androidx.arch.core:core-testing:2.1.0'
+    testImplementation 'androidx.arch.core:core-testing:2.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
