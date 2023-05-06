@@ -23,7 +23,7 @@ android {
             useSupportLibrary true
         }
 
-        // Security for api key (better way is using a function, what we are using now)
+        // Security for api key (better way is using a function, what we are using noww)
         /* Old way
         def propFile = rootProject.file("./local.properties")
         def properties = new Properties()
